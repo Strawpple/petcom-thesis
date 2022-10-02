@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
         url1 += 'pages/index-main-page';
         res.statusCode = 200; 
     }else if(req.url == '/index-login-page'){
-        url1 += 'pages/index-login-page';
+        url1 += '/index-login-page';
         res.statusCode = 200;
         res.end();
     } 

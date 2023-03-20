@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    </header>
+    <body>
+         <div class="main-content" style="height: 10in; width: 100%;">
+            <!--Start of NavBar-->
+            <nav class="navbar navbar-expand-lg"  style="background-color: #AEECEF;">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="account-main-page">Pet Community</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <!-- Navbar - Default -->
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                  <ul class="navbar-nav ms-auto">
+                    
+                    <% for(var index = 0; index < user_account.length; index++){ %> <%
+                      if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="adoption-main-page">Adopt a pet</a>
+                    </li>
+                    <% } %><% } %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="donor-main-page">Find a Donor</a>
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){ %> <%
+                      if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="shelter-main-page">Donate to a Shelter</a>
+                    </li>
+                    <% } %><% } %>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="listapet-main-page">List a Pet for Adoption</a>
+                    </li> -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="petslist-filter-page">My Pets</a>
+                    </li>
+                    <li class="nav-item">
+                      <div class="dropdown">
+                        <% for(var index = 0; index < user_account.length; index++){ %>
+                          <% if(user_account[index]['id'] == user_id){ %>
+                            <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                          >
+                          <% } %>
+                        <% } %>
+                        <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px;"
+                  >
+                    <li><a class="dropdown-item" href="account-profile-page">My Profile</a></li>
+                          <!-- <li><a class="dropdown-item" href="account-messages-page">Messages</a></li> -->
+                          <li><a class="dropdown-item" href="account-notification-page">Adoption Records</a></li>
+                          <% for(var index = 0; index < user_account.length; index++){ %>
+                            <% if(user_account[index]['id'] == user_id){ %>
+                              <% if(user_account[index]['user_type'] == "Shelter"){ %>
+                                <li><a class="dropdown-item" href="account-reports-page">Inventory</a></li>
+                              <% } %>
+                            <% } %>
+                          <% } %>
+                          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    
+                  </ul>
+                </div>
+                <!-- -->
+
+
+
+              </div>
+            </nav>
+            <!--End of NavBar-->
+
+            <!--Container-->
+            <div >
+              <div class="card-body p-md-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                        
+                      <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="font-family: 'Times New Roman', Times, serif; font-size: 30px;">User Profile</p>
+                      <!-- <img src="" class="rounded" alt="..." style="width: 2in; height: 2in;"> -->
+                      
+                      <a class="btn btn-primary btn-lg" style="margin-left: 385px; margin-top: -45px; width: 107px; height: 40px; font-size: 15px;" href="account-edit-page">Edit Profile</a>
+                      <div style="margin-top: -50px; margin-left: 80px;">
+                        <% for (var index = 0; index < user_account.length; index++){ %>
+                          <% if(user_account[index]['id'] == user_id){ %>
+                            <label style="
+                            font-size: 2ch; margin-bottom: 1.5ch;">Name : <%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name']    %></label><br>
+                            <label style="
+                            font-size: 2ch;  margin-bottom: 1.5ch;">Address : <%= user_account[index]['user_address']  %></label><br>
+                            <label style="
+                            font-size: 2ch;  margin-bottom: 1.5ch;">Contact : <%= user_account[index]['user_contact']  %></label><br>
+                            <label style="
+                            font-size: 2ch;  margin-bottom: 1.5ch;">Email : <%= user_account[index]['user_email']  %></label><br>
+                            
+                            <label style="font-size: 2ch;  margin-bottom: 1.8ch;">Categories : 
+                              <div class="row" style="width: 300px;">
+                                <% for(var index2 = 0; index2 < categories.length; index2++){ %>
+                                  <% if(categories[index2]['session_id'] == user_account[index]['id']){ %>
+                                    <div class="col">
+                                    <div>
+                                      <form method="post" action="/removecategory">
+                                        <label class="form-label" for="category" style="width: 120px; height: 35px; color: rgb(0, 0, 0); border-radius: 12px; background-color: rgb(4, 142, 255);  ">
+                                          <h5 style="font-size: 18px; margin-top: -10px; margin-left: 8px; ">
+                                            <input type="text" name="category" style="display: none;" value="<%= categories[index2]['id'] %>">
+                                            <%= categories[index2]['category'] %>
+                                            <button style="margin-left: 10px; margin-top: 10px; border: none; background-color: rgb(4, 142, 255); ">
+                                              <span  type="submit" class="material-symbols-outlined"> close</span>
+                                            </button>
+                                          </h5>
+                                        </label>
+                                      </form>
+                                    </div>
+                                  </div>
+                                    <% } %>
+                                <% } %>
+
+
+
+                              </div> 
+                            </label><br>
+                            <!-- Shelter -->
+                            <% if(user_account[index]['user_type'] == "Shelter"){ %>
+                              <form method="post" action="/addcategory">
+                                <div id="shelter">
+                                  <select 
+                                    class="form-select"
+                                    aria-label="Default select example"
+                                    id="add_category"
+                                    name="add_category"
+                                    style="width: 95px;"
+                                  >
+    
+                                    <option value="Dogs">Dogs</option>
+                                    <option value="Cats">Cats</option>
+                                  </select>
+
+                                  <input onclick="checkCategory()" type="submit" class="btn btn-primary" style="margin-top: 15px;" value="Add">
+                                  
+                                </div>
+                              </form>
+                              
+
+                              
+                            <% } %>
+
+                            <!-- Personal -->
+                            <% if(user_account[index]['user_type'] == "Personal"){ %>
+                              <form method="post" action="/addcategory">
+                              <div id="personal">
+                                <select 
+                                  class="form-select"
+                                  aria-label="Default select example"
+                                  id="add_category"
+                                  name="add_category"
+                                  style="width: 100px;"
+                                >
+  
+                                  <option value="Dogs">Dogs</option>
+                                  <option value="Cats">Cats</option>
+                                  <option value="Birds">Birds</option>
+                                  <option value="Exotics">Exotics</option>
+                                </select>
+
+                                <input onclick="checkCategory()" type="submit" class="btn btn-primary" style="margin-top: 15px;" value="Add">
+                              </div>
+                            </form>
+
+                              
+                            <% } %>
+
+                            
+                            <!-- <form method="post" action="/addcategory">
+                              <select 
+                              class="form-select"
+                              aria-label="Default select example"
+                              id="shelter_type"
+                              name="shelter_type"
+                              style="width: 180px;"
+                              >
+                              
+                                <option value="Domestic animals">Domestic Animals</option>
+                                <option value="Birds">Birds</option>
+                                <option value="Farm animals">Farm Animals</option>
+                                <option value="Exotics">Exotics</option>
+                              </select>
+                              
+                              <input type="submit" style="margin-top: 15px; margin-bottom: 20px;" class="btn btn-primary btn-sm" value="Shelter Category">
+                            </form> -->
+
+                          
+                            <label style="font-size: 2ch;  margin-bottom: 1.5ch;">About: <%= user_account[index]['user_about']  %></label>
+                            
+                            <div style="margin-left: 105px; ">
+                              <form method="POST" action="/Aboutme"> 
+                                <textarea  name="aboutme" id="exampleFormControlTextarea1" rows="3" style="width: 420px; margin-left: -1.1in; height: 60px; "></textarea>
+                                <input type="submit" class="btn btn-primary btn-sm" style="width: 15%; height: 14%; margin-top: 50px; margin-left: -68px; " value="Update">
+                              </form>
+
+                            </div>
+
+                          <% } %>
+                        <% } %>
+                        
+
+                      </div>
+                      <div style="background-color: rgba(231, 231, 231, 0.932); height: 400px; width: 420px; margin-left: 80px; margin-top: 20px;">
+                        <div>
+                          <h4 style="text-align: center;">Recent Activities</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+
+            </div>
+            
+
+
+
+         </div>
+
+
+         
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+         
+         <script>
+          // Functions
+
+         </script>
+
+    </body>
+</html>

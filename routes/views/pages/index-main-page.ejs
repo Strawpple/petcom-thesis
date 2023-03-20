@@ -1,112 +1,145 @@
-<%- include('../partials/header') %>
-
+<%- include("partials/header.ejs") %>
+<%- include("partials/styles.ejs") %>
 <!DOCTYPE html>
 <html>
-    <body>
-         <div class="main-content">
-            <!--Start of NavBar-->
+  <header>
+  </header>
+  <body>
+    <div class="main-content" >
+      <!--Start of NavBar-->
+      <div class="col" id="bg-puppy">
+        <img
+          src="https://i.pinimg.com/originals/8b/f0/02/8bf00210013f04adde00af95d8603808.jpg"
+        />
+      </div>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Pet Community</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarColor01" >
+            <ul class="navbar-nav" style="margin-left: 10ch;">
+              
+              <li class="nav-item active">
+                <a class="nav-link" href="#container_foradoption">Adoption</a>
+              </li>
+              
+              <li class="nav-item active">
+                <a class="nav-link" href="#events">Blood Donors</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#events">Events</a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="#aboutus">About Us</a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="#trainingseminar"
+                  >Trainings/Seminars</a
+                >
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <!--Container-->
+      <div id="main-div">
+        <div class="container">
+          <div class="row" >
+            <div class="animate__animated animate__fadeInRightBig"><h2>
+              "A Dog is the only thing on earth that loves you more than you love
+              yourself"
+            </h2>
+            <h3 style="font-family: Courier">-Josh Billings</h3>
+            <a class="btn btnadoption" href="index-login-page" >Adopt now</a>
+            </div>
+          </div>
+
+        </div>
+        <div id="container_foradoption">
           
-
-
-
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="index-main-page">Pet Community</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-            
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                  <ul class="navbar-nav ms-auto">
-                    
-                    <li class="nav-item active">
-                      <a class="nav-link" href="index-login-page">Adoption</a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="index-login-page">Blood Donation</a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="event-main-page">Events</a>
-                    </li>
-
-                    <li class="nav-item active">
-                      <a class="nav-link" href="aboutus-main-page">About Us</a>
-                    </li>
-                    
-                    <li class="nav-item active">
-                      <a class="nav-link" href="trainingseminar-main-page">Trainings/Seminars</a>
-                    </li>
-
-                    <li class="nav-item active">
-                      <a class="nav-link" href="index-login-page">Account</a>
-                    </li>
-
-                    <!-- <li class="nav-item">
-                      <button type="button" class="btn btn-light" data-toggle="modal" data-target="#account">Create Account</button>
-                    </li> -->
-                    
-                  </ul>
-                </div>
-              </div>
-            </nav>
-            <!--End of NavBar-->
-
-            <!--Modal Logged in-->
-            <div>
-              <div class="modal fade" id="account" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Create Account</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+          <h2 id="adoption_header">For Adoptions</h2>
+          <div class="adoption_container" id="for_adoption">
+            <div
+              class="row"
+            >
+            <% for(var index = 0; index < pets_id.length; index++){ %>
+              <% if(pets_id[index]['pet_label'] == "Adoption"){ %>
+              <div
+                    class="card"
+                    style="
+                    margin-top: 20px;
+                    width: 250px;
+                    margin-left: 5px;
+                    margin-bottom: 100px;height: 6.3in"
+                  >
+                    <img
+                      src="<%= pets_id[index]['pet_image'] %>"
+                      class="card-img-top"
+                      style="height: 200px; width: auto"
+                      alt="..."
+                    />
+                    <div class="card-body" style="align-items: center; height:60%;">
+                      <p class="card-text">
+                        Name: <%= pets_id[index]['pet_name'] %>
+                      </p>
+                      <p class="card-text">
+                        Age: <%= pets_id[index]['pet_age'] %>
+                      </p>
+                      <p class="card-text">
+                        Address: <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p class="card-text" >
+                        Contact: <%= pets_id[index]['pet_contact'] %>
+                      </p>
+                      <p class="card-text">
+                        Temperament: <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p class="card-text">
+                        Pet type: <%= pets_id[index]['pet_type'] %>
+                      </p>
+                      <p class="card-text">
+                        Description: <%= pets_id[index]['pet_description'] %>
+                      </p>
                     </div>
-                    <div class="modal-body">  
-                      <form>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Email address</label>
-                          <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Password</label>
-                          <input type="password" class="form-control" id="nputPassword" placeholder="Password">
-                        </div>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-primary">Submit</button>
-                    </div>
-                  </div>
-                </div>
+                    <a
+                      class="btn btn-primary btn-lg"
+                      id="main_btnadoption"
+                      href="index-login-page"
+                    >Apply to Adopt</a>
+                    
               </div>
+              <% } %>
+            <% } %>
             </div>
-            <!--Modal Logged in-->
+          </div>
+        </div>
+        <!-- End of Adoption Container -->
+        
+        <!-- Blood Donation Container -->
+        <div class="blooddonation_container">
+          <h2>Featured Blood Donors</h2>
+        </div>
+        <!-- End of Blood Donation Container -->
+    
+    </div>
 
 
-            <!--Container-->
-            <div>
-              <div style="margin-top: 5%; margin-left: 5%; width: 400px;">
-                <h2 style="font-family: Courier New ;">"A Dog is the only thing on earth that loves you more than you love yourself"</h2>
-                <h3 style="font-family: Courier ;"> -Josh Billings</h3>
-
-                <div style="color: #AAD3DC; height: 800px; width: 70%;" >
-                  <div style="margin-top: 50%;">
-                    <img src="https://www.businessinsider.in/photo/81878541/5-reasons-why-your-dog-is-constantly-scratching-themself.jpg?imgsize=180883" style="height: 400px; width: 700px; margin-left: 500px; margin-top: -400px;">
-                  </div>
-                </div>
-              </div>
-              
-
-            </div>
-            <div class="container" >
-              <!-- Content here -->
-              
-            </div>
-
-
-
-         </div>
-    </body>
+  </body>
+  <%- include("partials/footer.ejs") %>
 </html>

@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="height: 15in"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %> <% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+
+              <% } %> <% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown-center">
+                  <% for(var index = 0; index < user_account.length; index++){
+                  %> <% if(user_account[index]['id'] == user_id){ %>
+                  <a
+                    class="nav-link"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    ><%= user_account[index]['user_first_name'] %> <%=
+                    user_account[index]['user_last_name'] %></a
+                  >
+                  <% } %> <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-messages-page"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-reports-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <!-- Transaction div -->
+      <div>
+        <div style="height: 7in; width: 15in; margin-left: 5ch">
+          <h2 style="margin-top: 3ch; margin-left: 2ch">Pet Adoption</h2>
+
+          <% for(var index = 0; index < user_account.length; index++){ %> <%
+          if(user_account[index]['id'] == user_id){ %> <%
+          if(user_account[index]['user_type'] == "Personal"){ %>
+          <select
+            class="form-select form-select-sm"
+            name="Typeoftransaction"
+            id="Typeoftransaction"
+            aria-label="Default select example"
+            style="width: 190px; margin-top: 20px; margin-left: 5ch"
+            onchange="Typeoftransaction()"
+          >
+            <option value="MyAdoptions">My Adoptions</option>
+            <option value="MyDonations">My Donations</option>
+            <option value="Schedule for Interview">
+              Schedule for Interview
+            </option>
+            <option value="Approve Adoption">Approved Adoption</option>
+            <option value="Declined Adoption">Declined Adoption</option>
+          </select>
+
+          <% } if(user_account[index]['user_type'] == "Shelter" ||
+          user_account[index]['user_type'] == "Veterinary"){ %>
+          <select
+            class="form-select form-select-sm"
+            name="Typeoftransaction"
+            id="Typeoftransaction"
+            aria-label="Default select example"
+            style="width: 190px; margin-top: 20px; margin-left: 5ch"
+            onchange="Typeoftransaction()"
+          >
+            <option value="AdoptionRequest">Adoption Forms</option>
+            <!-- <option value="ReceivedDonations">Received Donations</option> -->
+            <option value="Schedule for Interview">
+              Schedule for Interview
+            </option>
+            <option value="Approve Adoption">Approved Adoption</option>
+          </select>
+
+          <% } %> <% } %> <% } %>
+
+          <!-- myadoption -->
+          <div
+            id="my_adoptions"
+            style="margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            for(var index2 = 0; index2 < pets_id.length; index2++){ %> <%
+            if(trans_id[index]['pet_id'] == pets_id[index2]['id'] &&
+            trans_id[index]['form_status'] == "Pending"){ %> <%
+            if(trans_id[index]['form_id'] == user_id){ %> <%
+            if(pets_id[index2]['pet_label'] == "Adoption"){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    Adoption Form of <%= pets_id[index2]['pet_name'] %>
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <small>Status: <%= trans_id[index]['form_status'] %></small
+                ><br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewadoptionforms"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 100px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %> <% } %> <% } %> <% } %>
+          </div>
+          <!-- Adoption Request -->
+          <div
+            id="adoptions_request"
+            style="margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            for(var index2 = 0; index2 < pets_id.length; index2++){ %> <%
+            if(trans_id[index]['pet_id'] == pets_id[index2]['id'] &&
+            trans_id[index]['form_status'] == "Pending"){ %> <%
+            if(pets_id[index2]['session_id'] == user_id &&
+            pets_id[index2]['pet_label'] == "Adoption"){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    Adoption Form of <%= pets_id[index2]['pet_name'] %>
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <small>Status: <%= trans_id[index]['form_status'] %></small
+                ><br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewadoptionforms"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: -15px;
+                        width: 100px;
+                        height: 100px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+
+                  <form
+                    action="/adoptsuccess"
+                    method="POST"
+                  >
+                    <input
+                      type="text"
+                      style="display: none"
+                      value="<%= trans_id[index]['pet_id'] %>"
+                      name="petid"
+                    />
+                    <input
+                      type="text"
+                      style="display: none"
+                      value="<%= trans_id[index]['form_id'] %>"
+                      name="session_id"
+                    />
+                    <input
+                      type="text"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                      name="formid"
+                    />
+
+                    <div style="margin-left: 5in; margin-top: -9ch">
+                      <input
+                        class="btn btn-primary"
+                        type="submit"
+                        value="Approve"
+                        name="buttonin"
+                        style="
+                          margin-left: 0.7in;
+                          margin-right: 2ch;
+                          background-color: #6d9dc5;
+                        "
+                      />
+                      <input
+                        class="btn btn-primary"
+                        type="submit"
+                        value="Decline"
+                        name="buttonin"
+                        style="background-color: #6d9dc5"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %> <% } %> <% } %>
+          </div>
+          <!-- My Donations -->
+          <div
+            id="my_donations"
+            style="display: none; margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            if(trans_id[index]['session_id'] == user_id){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <% for(var indexshelter = 0; indexshelter <
+                    user_account.length; indexshelter++){ %> <%
+                    if(trans_id[index]['shelter_id'] ==
+                    user_account[indexshelter]['id']){ %> My Donations to <%=
+                    user_account[indexshelter]['user_first_name'] %> <%=
+                    user_account[indexshelter]['user_last_name'] %> <% } %> <% }
+                    %>
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewdonation"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 100px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %>
+          </div>
+          <!-- Received Donations -->
+          <div
+            id="received_donations"
+            style="display: none; margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            if(trans_id[index]['shelter_id'] == user_id){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <% for(var indexshelter = 0; indexshelter <
+                    user_account.length; indexshelter++){ %> <%
+                    if(trans_id[index]['session_id'] ==
+                    user_account[indexshelter]['id']){ %>Received Donations from
+                    <%= user_account[indexshelter]['user_first_name'] %> <%=
+                    user_account[indexshelter]['user_last_name'] %> <% } %> <% }
+                    %>
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewdonation"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 130px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Donation"
+                    />
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %>
+          </div>
+          <!-- Scheduled Interview -->
+          <div
+            id="schedule"
+            style="display: none; margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            for(var index2 = 0; index2 < pets_id.length; index2++){ %> <%
+            if(trans_id[index]['pet_id'] == pets_id[index2]['id'] &&
+            trans_id[index]['form_status'] == "Schedule for Interview"){ %> <%
+            if(pets_id[index2]['session_id'] == user_id ||
+            trans_id[index]['form_id'] == user_id &&
+            pets_id[index2]['pet_label'] == "Adoption"){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    Adoption Form of <%= pets_id[index2]['pet_name'] %>
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <small>Status: <%= trans_id[index]['form_status'] %></small
+                ><br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewadoptionforms"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: -15px;
+                        width: 100px;
+                        height: 100px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                  <!-- Schedule Interview -->
+                  <!-- <form
+                      action="/scheduleinterview"
+                      method="POST"
+                    >
+                      <input
+                        type="text"
+                        style="display: none"
+                        value="<%= trans_id[index]['id'] %>"
+                        name="id"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-link"
+                        style="margin-left: 1.3in; margin-top: -9ch"
+                        value="Schedule Interview"
+                      />
+                    </form> -->
+
+                  <% if(pets_id[index2]['id'] == trans_id[index]['pet_id'] &&
+                  pets_id[index2]['session_id'] == user_id){ %>
+                  <form
+                    action="/adoptsuccess"
+                    method="POST"
+                  >
+                    <input
+                      type="text"
+                      style="display: none"
+                      value="<%= trans_id[index]['pet_id'] %>"
+                      name="petid"
+                    />
+                    <input
+                      type="text"
+                      style="display: none"
+                      value="<%= trans_id[index]['form_id'] %>"
+                      name="session_id"
+                    />
+                    <input
+                      style="display: none"
+                      type="text"
+                      value="<%= trans_id[index]['id'] %>"
+                      name="formid"
+                    />
+
+                    <div style="margin-left: 5in; margin-top: -9ch">
+                      <input
+                        class="btn btn-primary"
+                        type="submit"
+                        value="Approve"
+                        name="buttonin"
+                        style="
+                          margin-left: 0.7in;
+                          margin-right: 2ch;
+                          background-color: #6d9dc5;
+                        "
+                      />
+                      <input
+                        class="btn btn-primary"
+                        type="submit"
+                        value="Decline"
+                        name="buttonin"
+                        style="background-color: #6d9dc5"
+                      />
+                    </div>
+                  </form>
+                  <% } %>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %> <% } %> <% } %>
+          </div>
+
+          <!-- Scheduled Interview -->
+
+          <div
+            id="approve"
+            style="display: none; margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            for(var index2 = 0; index2 < pets_id.length; index2++){ %> <%
+            if(trans_id[index]['pet_id'] == pets_id[index2]['id'] &&
+            trans_id[index]['form_status'] == "Already Adopted"){ %> <%
+            if(pets_id[index2]['session_id'] == user_id ||
+            trans_id[index]['form_id'] == user_id &&
+            pets_id[index2]['pet_label'] == "Already Adopted" ){ %> <% var date
+            = trans_id[index]['timestamp'] %> <% var dateObject = new
+            Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+            var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= pets_id[index2]['pet_name'] %> found its forever home!
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <small>Status: <%= trans_id[index]['form_status'] %></small
+                ><br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewadoptionforms"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: -15px;
+                        width: 100px;
+                        height: 100px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %> <% } %> <% } %>
+          </div>
+          <!-- End Scheduled Interview -->
+
+          <!-- Declined Adoption -->
+          <div
+            id="decline"
+            style="display: none; margin-left: 4.1ch; margin-top: 2ch"
+          >
+            <% for(var index = 0; index < trans_id.length; index++){ %> <%
+            for(var index2 = 0; index2 < pets_id.length; index2++){ %> <%
+            if(pets_id[index2]['id'] == trans_id[index]['pet_id'] &&
+            trans_id[index]['form_id'] == user_id &&
+            trans_id[index]['form_status'] == "Declined"){ %> <% var date =
+            trans_id[index]['timestamp'] %> <% var dateObject = new Date(date);
+            %> <% var yearFromTS = dateObject.getFullYear(); %> <% var
+            monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS =
+            dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %> <%
+            var mins = dateObject.getMinutes(); %> <% var sec =
+            dateObject.getSeconds(); %>
+            <div
+              class="list-group"
+              style="width: 8in"
+            >
+              <a
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    Your Adoption for <%= pets_id[index2]['pet_name'] %> was
+                    declined
+                  </h5>
+
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="monthSorter"
+                  >
+                    <%= monthFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="dateSorter"
+                  >
+                    <%= dateFromTS %>
+                  </th>
+                  /
+                  <th
+                    data-field="modified"
+                    data-sortable="true"
+                    data-sorter="yearSorter"
+                  >
+                    <%= yearFromTS %>
+                  </th>
+                </div>
+                <small>Status: <%= trans_id[index]['form_status'] %></small
+                ><br />
+                <div>
+                  <form
+                    method="POST"
+                    action="/viewadoptionforms"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= trans_id[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: -15px;
+                        width: 100px;
+                        height: 100px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                </div>
+              </a>
+            </div>
+            <% } %> <% } %> <% } %>
+          </div>
+          <!-- End Declined Adoption -->
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function Typeoftransaction() {
+        var x = document.getElementById("Typeoftransaction").value;
+
+        if (x == "AdoptionRequest") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "block";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "MyAdoptions") {
+          document.getElementById("my_adoptions").style.display = "block";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "MyDonations") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "block";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "ReceivedDonations") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "block";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "Schedule for Interview") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "block";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "Approve Adoption") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("approve").style.display = "block";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "ScheduleforInterview") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "block";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "none";
+        }
+        if (x == "Declined Adoption") {
+          document.getElementById("my_adoptions").style.display = "none";
+          document.getElementById("adoptions_request").style.display = "none";
+          document.getElementById("my_donations").style.display = "none";
+          document.getElementById("received_donations").style.display = "none";
+          document.getElementById("schedule").style.display = "none";
+          document.getElementById("approve").style.display = "none";
+          document.getElementById("decline").style.display = "block";
+        }
+        x.reset();
+      }
+    </script>
+  </body>
+</html>

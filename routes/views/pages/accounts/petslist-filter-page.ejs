@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <script src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations-v1.0.0.js"></script>
+  </header>
+
+  <body>
+    <!-- Donate to a Shelter main page-->
+    <div
+      class="main-content"
+      style="width: 100%"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %> <% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %> <% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px;"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-messages-page"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-reports-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <!--Container-->
+
+      <div
+        class="container"
+        style="margin-left: 20px;"
+      >
+        <select
+          class="form-select form-select-sm"
+          name="pet_label"
+          id="pet_label"
+          aria-label="Default select example"
+          style="width: 150px; margin-top: 50px"
+          onchange="category()"
+        >
+          <option value="All">All</option>
+          <option value="Donor">Blood Donors</option>
+          <option value="Adoption">Pets for Adoption</option>
+          <option value="Owner">Adopted Pets</option>
+          <option value="Already Adopted">Already Adopted</option>
+          <option value="Died">Died due to Illness</option>
+          <option value="Pending Blood Donation">Pending Blood Donation</option>
+          <option value="Schedule for Donation">Schedule for Donation</option>
+          <option value="Approved Blood Donation">Approved Blood Donation</option>
+        </select>
+        
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpet" style="height: 35px; width: 100px; margin-top: 15px;">
+          Add pet
+        </button>
+
+
+          <div id="all"
+          >
+            
+            <div class="row">
+              <% for(var index = 0; index < pets_id.length; index++){ %> <%
+              if(pets_id[index]['session_id'] == user_id || pets_id[index]['new_session_id'] == user_id){ %>
+              <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+              <% } %> <% } %>
+            </div>
+          </div>
+          <!-- End of ALL -->
+
+          <!-- pending -->
+
+          <div id="pendingdonation" style="display: none;">
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_status'] == "In need of Blood Donation"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+          <!-- end of pending -->
+
+          <div id="approveddonation" style="display: none;">
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_status'] == "Approved"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+          <div id="scheduledonation" style="display: none;">
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_status'] == "Scheduled for Donation"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+
+          <div
+            id="donors" style="display: none;"
+          >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_label'] == "Donor"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+    
+          <div
+            id="adoptions" style="display: none;"
+          >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %> <%
+              if(pets_id[index]['session_id'] == user_id){ %> <%
+              if(pets_id[index]['pet_label'] == "Adoption" && pets_id[index]['pet_status'] == "For Adoption"){ %>
+                <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+              <% } %> <% } %> <% } %>
+            </div>
+          
+          </div>
+    
+          <div
+            id="owners" style="display: none;"
+          >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %> <%
+              if(pets_id[index]['new_session_id'] == user_id){ %> <%
+              if(pets_id[index]['pet_label'] == "Already Adopted" && pets_id[index]['pet_status'] == "Already Adopted"){ %>
+                <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+              <% } %> <% } %> <% } %>
+            </div>
+          </div>
+    
+          <!-- Already Adopted -->
+          <div id="alreadyadopted" style="display: none;" >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_status'] == "Already Adopted"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+          <!-- End of Already Adopted -->
+          
+          <!-- Died Pet -->
+          <div id="died" style="display: none;">
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %>
+                <% if(pets_id[index]['session_id'] == user_id){ %> 
+                  <% if(pets_id[index]['pet_status'] == "Died due to Illness"){ %>
+                    <div
+                class="col"
+                style="max-width: 32%; "
+              >
+                <div
+                  class="card"
+                  style="
+                  margin-top: 20px;
+                  width: 350px;
+                  height: 690px;
+                  margin-bottom: 100px;
+                  margin-right: 15px;"
+                >
+                  <img
+                    src="<%= pets_id[index]['pet_image'] %>"
+                    class="card-img-top"
+                    style="height: 260px; width: auto"
+                    alt="..."
+                  />
+
+                  <div class="card-body">
+                    <p class="card-text">Name: <%= pets_id[index]['pet_name'] %></p>
+                    <p class="card-text">Age: <%= pets_id[index]['pet_age'] %></p>
+                    <% if(pets_id[index]['pet_label'] == "dogpatient"){ %>
+                      <h5 style="margin-top: 20px;">Veterinary Information</h5>
+                      <p style="margin-left: 5px;" class="card-text">Vet Name :  <%= pets_id[index]['vet_name'] %> </p>
+                      <p style="margin-left: 5px;" class="card-text">Vet Address : <%= pets_id[index]['vet_city'] %></p>
+                      <p style="margin-left: 5px;" class="card-text">Pet Diagnosis : <%= pets_id[index]['pet_diagnosis'] %></p>
+                    <% }else{ %>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Address : <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Province : <%= pets_id[index]['pet_city'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Temperament : <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p style="margin-left: 5px;" class="card-text">
+                        Immunization : <%= pets_id[index]['pet_immunization'] %>
+                      </p>
+                    <% } %>
+
+                  </div>
+                  
+                  <form
+                  method="POST"
+                  action="/viewpetprofile"
+                >
+                  <div style="margin-left: 8ch">
+                    <input
+                      type="text"
+                      value="<%= pets_id[index]['id'] %>"
+                      name="petid"
+                      style="display: none"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      value="View Pet Information"
+                    />
+                  </div>
+                </form>
+                </div>
+              </div>
+                <% } %> <% } %> <% } %>
+            </div>
+          </div>
+          <!-- End of Died Pet -->
+
+
+        
+      
+
+
+      </div>
+
+
+      <!-- Modal Add Pet -->
+      <div class="modal fade" id="addpet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel" style="
+              font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman',
+                serif;
+              margin-left: 25px;
+            ">List a pet</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div 
+              style="width: 100%; height: 40%;">
+                <form
+                  action="/petlistingform"
+                  method="POST"
+                  onsubmit="update()"
+                  class="mx-1 mx-md-4"
+                  enctype="multipart/form-data"
+                >
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      
+                      <select
+                        class="form-select"
+                        name="data_selected"
+                        id="data_selected"
+                        aria-label="Default select example"
+                        onchange="petlabel()"
+                        required
+                      >
+                        <option value="Donor">Donor</option>
+                        <option value="Adoption">Adoption</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="d-flex flex-row align-items-center mb-3">
+                        <div class="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="petname"
+                            name="petname"
+                            class="form-control"
+                            required
+                          />
+                          <label
+                            class="form-label"
+                            for="Pet_name"
+                            >Name of Pet</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <div class="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="petcontact"
+                            name="petcontact"
+                            class="form-control"
+                            maxlength="11"
+                            required
+                          />
+                          <label
+                            class="form-label"
+                            for="contact"
+                            >Contact</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+        
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        id="petaddress"
+                        name="petaddress"
+                        class="form-control"
+                        required
+                      />
+                      <label
+                        class="form-label"
+                        for="address"
+                        >Complete Address</label
+                      >
+                    </div>
+                  </div>
+        
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      name="petcity"
+                      required
+                    >
+                      <% for(var index = 0; index < listofprovinces.length; index++){ %> 
+                        <option value="<%= listofprovinces[index]['name'] %>"><%= listofprovinces[index]['name'] %></option>
+                      <% } %>
+
+                    </select>
+                      <br>
+                      <label
+                        class="form-label"
+                        for="address"
+                        >City or Province</label
+                      >
+                    </div>
+                  </div>
+        
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        id="petage"
+                        name="petage"
+                        class="form-control"
+                        required
+                      />
+                      <label
+                        class="form-label"
+                        for="email"
+                        >Age</label
+                      >
+                    </div>
+                  </div>
+        
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        id="pettemper"
+                        name="pettemper"
+                        class="form-control"
+                        required
+                      />
+                      <label
+                        class="form-label"
+                        for="Temperament"
+                        >Temperament</label
+                      >
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        id="petdescription"
+                        name="petimmunization"
+                        class="form-control"
+                        required
+                      />
+                      <label
+                        class="form-label"
+                        for="Description"
+                        >Immunization</label
+                      >
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <% for(var index = 0; index < user_account.length; index++){ %>
+                        <% if(user_account[index]['user_type'] == "Shelter" && user_account[index]['id'] == user_id){ %>
+                          <div>
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="pettype_selected"
+                              required
+                            >
+                              <option value="Dog">Dog</option>
+                              <option value="Cat">Cat</option>
+                            </select>
+                          </div>
+                        <% } %>
+                        <% if(user_account[index]['user_type'] == "Personal" && user_account[index]['id'] == user_id){ %>
+                          <div>
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="pettype_selected"
+                              required
+                            >
+                              <option value="Dog">Dog</option>
+                              <option value="Cat">Cat</option>
+                              <option value="Bird">Bird</option>
+                              <option value="Exotic">Exotic</option>
+                            </select>
+                          </div>
+
+                        <% } %>
+                      <% } %>
+                    </div>
+                  </div>
+                    
+                    <!-- Donation -->
+                      <div id="donation">
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <div class="form-outline flex-fill mb-0">
+                            
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="historyofdonating"
+                              id="donationhistory"
+                              style="margin-bottom: 15px;"
+                              onchange="donatinghistory()"
+                              required
+                            >
+                              <option selected value="No Answer">First Time Donor?</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </select>
+
+                            <div id="no" style="display: none;">
+                              <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="numofdonate"
+                              id="numofdonate"
+                              required
+                              >
+                                <option selected value="No Answer">How many times your pet donated</option>
+                                <option value="once">once</option>
+                                <option value="twice">twice</option>
+                                <option value="three or more">three or more</option>
+                              </select>
+
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    <!-- End of Donation -->
+
+                    <!-- Adoption -->
+                    <div id="adoption" style="display: none;">
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <div class="form-outline flex-fill mb-0">
+                          
+                          <textarea style="height: 200px;" name="petstory" class="form-control" aria-label="With textarea"></textarea>
+                          <label
+                            class="form-label"
+                            for="Description"
+                            >Pet Story</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End of Adoption -->
+        
+                  <div class="mb-3">
+                    <input
+                      class="form-control"
+                      type="file"
+                      name="pet_image"
+                      id="input-file-now"
+                    />
+                    <label
+                      for="formFile"
+                      class="form-label"
+                      >Pet Image</label
+                    >
+                  </div>
+        
+                  <div class="form-check d-flex justify-content-center mb-5">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      value=""
+                      id="form2Example3c"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="form2Example3"
+                    >
+                      I agree all statements on listing a pet in
+                      <a href="#!">Terms of service</a>
+                    </label>
+                  </div>
+        
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <input
+                      type="submit"
+                      class="btn btn-primary btn-lg"
+                      value="Add Pet"
+                    />
+                    <a
+                      type="button"
+                      class="btn btn-primary btn-lg"
+                      style="margin-left: 40px"
+                      data-bs-dismiss="modal"
+                      >Close</a
+                    >
+                  </div>
+            </div>
+          </form>
+        </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+      
+
+      
+
+    </div>
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function category(){
+        var val = document.getElementById("pet_label").value;
+        // *All *Donors *Adoptions *Owner *Already Adopted *Died 
+          
+        console.log(val)
+        if(val == "All"){
+          document.getElementById("all").style.display = "block";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+        }if(val == "Donor"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "block";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }if(val == "Adoption"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "block";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }if(val == "Owner"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "block";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }if(val == "Already Adopted"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "block";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }if(val == "Died"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "block";
+          document.getElementById("pendingdonation").style.display = "none";;
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }
+        if(val == "Pending Blood Donation"){
+          
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "block";
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }
+        if(val == "Schedule for Donation"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";
+          document.getElementById("scheduledonation").style.display = "block";
+          document.getElementById("approveddonation").style.display = "none";
+
+        }if(val == "Approved Blood Donation"){
+          document.getElementById("all").style.display = "none";
+          document.getElementById("donors").style.display = "none";
+          document.getElementById("adoptions").style.display = "none";
+          document.getElementById("owners").style.display = "none";
+          document.getElementById("alreadyadopted").style.display = "none";
+          document.getElementById("died").style.display = "none";
+          document.getElementById("pendingdonation").style.display = "none";
+          document.getElementById("scheduledonation").style.display = "none";
+          document.getElementById("approveddonation").style.display = "block";
+
+        }
+      }
+      // function for pet_label
+      function petlabel(){
+        var val = document.getElementById("data_selected").value;
+        // console.log(val);
+        if(val == "Adoption"){
+          document.getElementById("adoption").style.display = "block";
+          document.getElementById("donation").style.display = "none";
+        }else{
+          document.getElementById("adoption").style.display = "none";
+          document.getElementById("donation").style.display = "block";
+        }
+      }
+
+      // history of donating
+      function donatinghistory(){
+        var val = document.getElementById("donationhistory").value;
+        // console.log(val)
+
+        if(val == "No"){
+          document.getElementById("no").style.display = "block";
+        }else{
+          document.getElementById("no").style.display = "none";
+        }
+
+      }
+
+    </script>
+
+    
+    <script>
+      function update() {
+        // console.log("test");
+
+        // fetch("/upload", {
+        //   method: "POST",
+        //   headers: {'Content-Type': 'application/json'},
+        //   body: JSON.stringify({
+        //     pet_description: data.value,
+        //   })
+        // });
+        try {
+          var imageinput = document.getElementsByName("pet_image")[0];
+
+          var file = imageinput.files[0];
+
+          const formData = new FormData();
+
+          formData.append("petimage", file);
+
+          fetch("/upload", {
+            method: "POST",
+            // headers: { "Content-Type": "multipart/form-data" },
+            body: formData,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    </script>
+  </body>
+</html>

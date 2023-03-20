@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="height: 20in"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %><% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %><% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        >Messages</a
+                      >
+                    </li> -->
+
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-reports-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+      <div style="margin-top: 30px; margin-left: 10%">
+        <a
+          href="adoption-petslist-page"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          >Back to Adoption</a
+        >
+
+        <div>
+          <div
+            class="row"
+            style="
+              background-color: #acdbfc;
+              width: 90%;
+              height: 7in;
+              border: none;
+              margin-top: 5px;
+              margin-left: 2px;
+            "
+          >
+            <h2
+              style="
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 5.5ch;
+                margin-left: 200px;
+                margin-bottom: 5%;
+                margin-top: 3%;
+                max-width: fit-content;
+              "
+            >
+              Pet Profile
+            </h2>
+            <% for(var index=0; index < pets_id.length; index++){ %> <%
+            if(pets_id[index]['id'] == petprofile){ %>
+            <div
+              class="col"
+              style="margin-left: -300px; margin-top: 140px;"
+            >
+              <div
+                class="card-body"
+                style="
+                  height: 400px;
+                  background-color: whitesmoke;
+                  width: 11cm;
+                "
+              >
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Name: <%= pets_id[index]['pet_name'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Age: <%= pets_id[index]['pet_age'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Address: <%= pets_id[index]['pet_address'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Contact: <%= pets_id[index]['pet_contact'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Temperament: <%= pets_id[index]['pet_temper'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Pet type: <%= pets_id[index]['pet_type'] %>
+                </p>
+                <p
+                  class="card-text"
+                  style="
+                    margin-left: 5%;
+                    font-size: 3ch;
+                    font-family: 'Times New Roman', Times, serif;
+                  "
+                >
+                  Description: <%= pets_id[index]['pet_description'] %>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col"
+              style="margin-left: -250px; margin-top: 140px;"
+            >
+              <div class="text-center">
+                <img
+                  src="<%= pets_id[index]['pet_image'] %>"
+                  class="rounded"
+                  style="height: 400px; width: 500px"
+                  alt="..."
+                />
+              </div>
+              <% if(pets_id[index]['session_id'] != user_id){ %>
+              <a
+                style="font-size: 1.7em; margin-left: -350px; margin-top: 40px; "
+                href="adoption-form-page"
+                class="btn btn-link"
+                >Apply for Adoption</a
+              >
+              <% } %>
+            </div>
+            <% } %> <% } %>
+          </div>
+
+          <div style="margin-top: 2%; margin-bottom: 2%">
+            <h2
+              style="
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 5.5ch;
+                margin-left: 35%;
+                margin-bottom: 5%;
+              "
+            >
+              Adoption Process
+            </h2>
+            <div style="margin-left: 20%">
+              <p class="card-text">1. Submit application</p>
+              <p class="card-text">2. Interview</p>
+              <p class="card-text">3. Meet the pet</p>
+            </div>
+          </div>
+          <div
+            style="
+              margin-top: 20%;
+              background-color: #acdbfc;
+              width: 90%;
+              height: 7in;
+              border: none;
+              margin-top: 5px;
+              margin-left: 2px;
+            "
+          >
+            <h2
+              style="
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 5.5ch;
+                margin-left: 40%;
+                margin-bottom: 5%;
+              "
+            >
+              My Story
+            </h2>
+            <% for(var index = 0; index < pets_id.length; index++){ %>
+              <% if(pets_id[index]['id'] == petprofile){ %>
+                <h2 style="margin-left: 25px;"><%= pets_id[index]['pet_story'] %></h2>
+              <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

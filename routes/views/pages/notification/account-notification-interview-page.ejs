@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div class="main-content">
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %> <% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %> <% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown-center">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-messages-page"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-activities-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <div
+        style="
+          width: 8in;
+          height: 5in;
+          margin-left: 26%;
+          margin-top: 1.2in;
+          background-color: aliceblue;
+        "
+      >
+        <div style="margin-left: 5ch">
+          <br />
+          <!-- if interview exist = Display Schedule if not Display Schedule Interview-->
+          <% for(var index = 0; index < trans_id.length; index++){ %> 
+            <% for(var index2 = 0; index2 < pets_id.length; index2++){ %> 
+                <% if(trans_id[index]['id'] == form){ %> 
+                  <% if(trans_id[index]['pet_id'] == pets_id[index2]['id'] ){ %>
+                    <h2 style="font-size: 20px;">Pet's name: <%= pets_id[index2]['pet_name']%></h2>
+                    <h2 style="font-size: 20px;">Status: <%=trans_id[index]['form_status'] %></h2>
+                  <% } %>
+                  
+                <% } %>
+            <% } %> 
+          <% } %>
+          
+          <% for(var index = 0; index < dbinterview.length; index++){ %> 
+            <% if(dbinterview[index]['adoptapet_data_record_ID'] == form){ %> 
+            <% } %>
+          <% } %>
+
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">Update </button>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add </button>
+          
+
+        </div>
+        <a
+          href="account-notification-page"
+          class="btn btn-primary"
+          style="margin-left: 5%; margin-top: 300px"
+        >
+          Back to Notification</a
+        >
+      </div>
+    </div>
+
+    <!-- Add Schedule -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Schedule -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function displaydate() {
+        var selectedmonth = document.getElementById("select_month").value;
+        if (selectedmonth == "") {
+          document.getElementById("date").style.display = "none";
+        } else {
+          document.getElementById("date").style.display = "block";
+        }
+      }
+      function displayyear() {
+        var selecteddate = document.getElementById("select_date").value;
+        if (selecteddate != "") {
+          document.getElementById("year").style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>

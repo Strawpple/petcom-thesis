@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div class="main-content">
+      <!--Start of NavBar-->
+      <nav class="navbar navbar-expand-lg"  style="background-color: #AEECEF;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="account-main-page">Pet Community</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="donor-main-page">Find a Donor</a>
+              </li>
+              
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %><% } %>
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="listapet-main-page">List a Pet for Adoption</a>
+              </li> -->
+              <li class="nav-item">
+                <a class="nav-link" href="petslist-filter-page">My Pets</a>
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px;"
+                  >
+                    
+                    <li>
+                      <a class="dropdown-item" href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
+                    
+                    <li><a class="dropdown-item" href="account-notification-page">Adoption Records</a></li>
+                    <% for(var index = 0; index < user_account.length; index++){ %>
+                      <% if(user_account[index]['id'] == user_id){ %>
+                        <% if(user_account[index]['user_type'] == "Shelter"){ %>
+                          <li><a class="dropdown-item" href="account-activities-page">Inventory</a></li>
+                        <% } %>
+                      <% } %>
+                    <% } %>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      
+      <h2
+      style="
+        margin-top: 20px;
+        margin-left: 15px;
+        font-family: 'Times New Roman', Times, serif;
+      "
+    >
+      List of Pets for Adoption
+    </h2>
+      <select
+      class="form-select"
+      aria-label="Default select example"
+      id="filter_id"
+      name="filter_id"
+      onchange="filteradoption()"
+      style="width: 110px; margin-left: 15px;"
+    >
+      <option value="All">All</option>
+      <option value="Dogs">Dogs</option>
+      <option value="Cats">Cats</option>
+      <option value="Birds">Birds</option>
+      <option value="Exotics">Exotics</option>
+    </select>
+
+    <!-- All -->
+          <div
+            id="all"
+          >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %> <%
+              if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption"){ %>
+              <div class="col" style="max-width: 32%;">
+                  <div
+                    class="card"
+                    style="
+                    margin-top: 20px;
+                    width: 350px;
+                    height: 650px;
+                    margin-bottom: 100px;
+                    margin-left: 2ch;"
+                    
+                  >
+                    <img
+                      src="<%= pets_id[index]['pet_image'] %>"
+                      class="card-img-top"
+                      style="height: 240px; width: auto"
+                      alt="..."
+                    />
+                    <div class="card-body" style="align-items: center; height:60%;">
+                      <p class="card-text">
+                        Name: <%= pets_id[index]['pet_name'] %>
+                      </p>
+                      <p class="card-text">
+                        Age: <%= pets_id[index]['pet_age'] %>
+                      </p>
+                      <p class="card-text">
+                        Address: <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p class="card-text" >
+                        Contact: <%= pets_id[index]['pet_contact'] %>
+                      </p>
+                      <p class="card-text">
+                        Temperament: <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p class="card-text">
+                        Pet type: <%= pets_id[index]['pet_type'] %>
+                      </p>
+                      <p class="card-text">
+                        Description: <%= pets_id[index]['pet_description'] %>
+                      </p>
+                    </div>
+                    <form action="/petprofile" method="POST">
+                      <input name="pet_id" style="display: none;" value="<%= pets_id[index].id %>">
+                      <input name="adoption_id" style="display: none;" value="<%= pets_id[index]['session_id'] %>" >
+
+                      <input
+                        type="submit"
+                        class="btn btn-primary btn-lg"
+                        style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                        value="Apply to Adopt"
+                      />
+                    </form>
+                  </div>
+              </div>
+              <% } %> <% } %>
+            </div>
+          </div>
+
+            <!-- dogs -->
+            <div
+              id="cont_dogs"
+              style="display: none;"
+            >
+            <div class="row">
+              <% for(var index=0; index < pets_id.length; index++){ %> <%
+              if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Dog"){ %> 
+                  <div class="col" style="max-width: 32%;">
+                    <div
+                      class="card"
+                      style="
+                      margin-top: 20px;
+                      width: 350px;
+                      height: 700px;
+                      margin-bottom: 100px;
+                      margin-left: 2ch;"
+                    >
+                      <img
+                        src="<%= pets_id[index]['pet_image'] %>"
+                        class="card-img-top"
+                        style="height: 200px; width: auto"
+                        alt="..."
+                      />
+                      <div class="card-body" style="align-items: center; height:60%;">
+                        <p class="card-text">
+                          Name: <%= pets_id[index]['pet_name'] %>
+                        </p>
+                        <p class="card-text">
+                          Age: <%= pets_id[index]['pet_age'] %>
+                        </p>
+                        <p class="card-text">
+                          Address: <%= pets_id[index]['pet_address'] %>
+                        </p>
+                        <p class="card-text" >
+                          Contact: <%= pets_id[index]['pet_contact'] %>
+                        </p>
+                        <p class="card-text">
+                          Temperament: <%= pets_id[index]['pet_temper'] %>
+                        </p>
+                        <p class="card-text">
+                          Pet type: <%= pets_id[index]['pet_type'] %>
+                        </p>
+                        <p class="card-text">
+                          Description: <%= pets_id[index]['pet_description'] %>
+                        </p>
+                      </div>
+                      <form action="/petprofile" method="POST">
+                        <input name="pet_id" style="display: none;" value="<%= pets_id[index].id %>">
+                        <input
+                          type="submit"
+                          class="btn btn-primary btn-lg"
+                          style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                          value="Apply to Adopt"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                <% } %> <% } %>
+              </div>
+            </div>
+            
+              <!-- Cats -->
+            <div
+              id="cont_cats"
+              class="row"
+              style="display: none;"
+            >
+              <div class="row">  
+                <% for(var index=0; index < pets_id.length; index++){ %> <%
+                if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Cat"){ %> 
+                <div class="col">
+                  <div
+                    class="card"
+                    style="
+                    margin-top: 20px;
+                    width: 250px;
+                    margin-left: 5px;
+                    margin-bottom: 100px;height: 87%;"
+                  >
+                    <img
+                      src="<%= pets_id[index]['pet_image'] %>"
+                      class="card-img-top"
+                      style="height: 200px; width: auto"
+                      alt="..."
+                    />
+                    <div class="card-body" style="align-items: center; height:60%;">
+                      <p class="card-text">
+                        Name: <%= pets_id[index]['pet_name'] %>
+                      </p>
+                      <p class="card-text">
+                        Age: <%= pets_id[index]['pet_age'] %>
+                      </p>
+                      <p class="card-text">
+                        Address: <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p class="card-text" >
+                        Contact: <%= pets_id[index]['pet_contact'] %>
+                      </p>
+                      <p class="card-text">
+                        Temperament: <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p class="card-text">
+                        Pet type: <%= pets_id[index]['pet_type'] %>
+                      </p>
+                      <p class="card-text">
+                        Description: <%= pets_id[index]['pet_description'] %>
+                      </p>
+                    </div>
+                    <form action="/petprofile" method="POST">
+                      <input name="pet_id" style="display: none;" value="<%= pets_id[index].id %>">
+                      <input
+                        type="submit"
+                        class="btn btn-primary btn-lg"
+                        style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                        value="Apply to Adopt"
+                      />
+                    </form>
+                  </div>
+                </div>
+                <% } %> <% } %> 
+
+              </div>
+            </div>
+            
+
+              
+            <!-- birds -->
+            <div
+              id="cont_birds"
+              style="display: none;"
+            >
+              <div class="row">
+                <% for(var index=0; index < pets_id.length; index++){ %> <%
+                if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Bird"){ %>
+                  <div class="col">
+                    <div
+                      class="card"
+                      style="
+                      margin-top: 20px;
+                      width: 250px;
+                      margin-left: 5px;
+                      margin-bottom: 100px;height: 87%;"
+                    >
+                      <img
+                        src="<%= pets_id[index]['pet_image'] %>"
+                        class="card-img-top"
+                        style="height: 200px; width: auto"
+                        alt="..."
+                      />
+                      <div class="card-body" style="align-items: center; height:60%;">
+                        <p class="card-text">
+                          Name: <%= pets_id[index]['pet_name'] %>
+                        </p>
+                        <p class="card-text">
+                          Age: <%= pets_id[index]['pet_age'] %>
+                        </p>
+                        <p class="card-text">
+                          Address: <%= pets_id[index]['pet_address'] %>
+                        </p>
+                        <p class="card-text" >
+                          Contact: <%= pets_id[index]['pet_contact'] %>
+                        </p>
+                        <p class="card-text">
+                          Temperament: <%= pets_id[index]['pet_temper'] %>
+                        </p>
+                        <p class="card-text">
+                          Pet type: <%= pets_id[index]['pet_type'] %>
+                        </p>
+                        <p class="card-text">
+                          Description: <%= pets_id[index]['pet_description'] %>
+                        </p>
+                      </div>
+                      <form action="/petprofile" method="POST">
+                        <input name="pet_id" style="display: none;" value="<%= pets_id[index].id %>">
+                        <input
+                          type="submit"
+                          class="btn btn-primary btn-lg"
+                          style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                          value="Apply to Adopt"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                <% } %> <% } %> 
+              </div> 
+            </div>
+        
+           <!-- exotics -->
+            <div
+              id="cont_exotics"
+              style="display: none;"
+            >
+              <div class="row">
+                <% for(var index=0; index < pets_id.length; index++){ %> <%
+                if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Exotic"){ %>
+                <div class="col">
+                  <div
+                    class="card"
+                    style="
+                    margin-top: 20px;
+                    width: 250px;
+                    margin-bottom: 100px;height: 87%;"
+                  >
+                    <img
+                      src="<%= pets_id[index]['pet_image'] %>"
+                      class="card-img-top"
+                      style="height: 200px; width: auto"
+                      alt="..."
+                    />
+                    <div class="card-body" style="align-items: center; height:60%;">
+                      <p class="card-text">
+                        Name: <%= pets_id[index]['pet_name'] %>
+                      </p>
+                      <p class="card-text">
+                        Age: <%= pets_id[index]['pet_age'] %>
+                      </p>
+                      <p class="card-text">
+                        Address: <%= pets_id[index]['pet_address'] %>
+                      </p>
+                      <p class="card-text" >
+                        Contact: <%= pets_id[index]['pet_contact'] %>
+                      </p>
+                      <p class="card-text">
+                        Temperament: <%= pets_id[index]['pet_temper'] %>
+                      </p>
+                      <p class="card-text">
+                        Pet type: <%= pets_id[index]['pet_type'] %>
+                      </p>
+                      <p class="card-text">
+                        Description: <%= pets_id[index]['pet_description'] %>
+                      </p>
+                    </div>
+                    <form action="/petprofile" method="POST">
+                      <input name="pet_id" style="display: none;" value="<%= pets_id[index].id %>">
+                      <input
+                        type="submit"
+                        class="btn btn-primary btn-lg"
+                        style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                        value="Apply to Adopt"
+                      />
+                    </form>
+                  </div>
+                </div>
+                <% } %> <% } %> 
+        
+              </div>
+            </div>
+        </div>
+      </div>
+
+
+          
+
+          
+
+          
+
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+
+    <script>
+      function filteradoption(){
+        var val = document.getElementById("filter_id").value;
+        console.log(val)
+        if(val == "Dogs"){
+          document.getElementById("cont_dogs").style.display = "block";
+          document.getElementById("all").style.display = "none";
+          document.getElementById("cont_cats").style.display = "none";
+          document.getElementById("cont_birds").style.display = "none";
+          document.getElementById("cont_exotics").style.display = "none";
+        }else if(val == "Cats"){
+          document.getElementById("cont_cats").style.display = "block";
+          document.getElementById("cont_dogs").style.display = "none";
+          document.getElementById("all").style.display = "none";
+          document.getElementById("cont_birds").style.display = "none";
+          document.getElementById("cont_exotics").style.display = "none";
+
+        }else if(val == "Birds"){
+          document.getElementById("cont_birds").style.display = "block";
+          document.getElementById("cont_dogs").style.display = "none";
+          document.getElementById("all").style.display = "none";
+          document.getElementById("cont_cats").style.display = "none";
+          document.getElementById("cont_exotics").style.display = "none";
+
+        }else if(val == "Exotics"){
+          document.getElementById("cont_exotics").style.display = "block";
+          document.getElementById("cont_dogs").style.display = "none";
+          document.getElementById("all").style.display = "none";
+          document.getElementById("cont_cats").style.display = "none";
+          document.getElementById("cont_birds").style.display = "none";
+
+        }else{
+          document.getElementById("all").style.display = "block";
+          document.getElementById("cont_exotics").style.display = "none";
+          document.getElementById("cont_dogs").style.display = "none";
+          document.getElementById("cont_cats").style.display = "none";
+          document.getElementById("cont_birds").style.display = "none";
+          
+        }
+      }
+    </script>
+  </body>
+</html>

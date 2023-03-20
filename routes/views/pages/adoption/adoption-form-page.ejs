@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="height: 23in"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %><% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %><% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-activities-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+      <div>
+        <a
+          href="adoption-petslist-petprofile-page"
+          class="btn btn-primary"
+          style="margin-left: 20%; margin-top: 5%"
+          >Back to Pet Profile</a
+        >
+      </div>
+      <div
+        style="
+          text-align: center;
+          background-color: aliceblue;
+          height: 19.5in;
+          width: 10in;
+          margin-left: 20%;
+          margin-top: 5px;
+        "
+      >
+        <div id="form-id">
+          <form
+            action="/adoptionform"
+            method="POST"
+          >
+            <% for(var index = 0; index < user_account.length; index++){ %> <%
+            if(user_account[index].id == user_id){ %>
+            <div style="margin-left: -2.7in">
+              <input
+                type="text"
+                style="display: none"
+                value="<%= user_account[index]['id']%>"
+                name="form_id"
+              /><br />
+              <h2
+                style="
+                  font-family: 'Times New Roman', Times, serif;
+                  margin-left: -1.6in;
+                "
+              >
+                My Profile
+              </h2>
+              <br />
+              <input
+                type="text"
+                style="
+                  border: none;
+                  margin-left: -0.5in;
+                  margin-bottom: 1.5ch;
+                  font-size: 2.5ch;
+                  background-color: aliceblue;
+                "
+                value="<%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %>"
+                name="form_contact"
+              /><br />
+              <input
+                type="text"
+                style="
+                  border: none;
+                  margin-left: -0.5in;
+                  margin-bottom: 1.5ch;
+                  font-size: 2.5ch;
+                  background-color: aliceblue;
+                "
+                value="<%= user_account[index]['user_contact'] %>"
+                name="form_contact"
+              /><br />
+              <input
+                type="text"
+                style="
+                  border: none;
+                  margin-left: -0.5in;
+                  margin-bottom: 1.5ch;
+                  font-size: 2.5ch;
+                  background-color: aliceblue;
+                "
+                value="<%= user_account[index]['user_email']%>"
+                name="form_email"
+              /><br />
+            </div>
+
+            <% } %> <% } %>
+            <!-- session account info : id :: name, contact, email, facebooklink -->
+            <h2
+              style="
+                margin-top: 0.5cm;
+                font-family: 'Times New Roman', Times, serif;
+                margin-left: -3.8in;
+              "
+            >
+              Adoption Form
+            </h2>
+            <label
+              style="margin-left: -3.1in; margin-bottom: 2ch; margin-top: -2in"
+              >Occupation (include Hours and Offs)</label
+            ><br />
+            <input
+              style="margin-left: -1.6in; width: 400px"
+              type="text"
+              name="form_occupation"
+            /><br />
+            <label style="margin-left: -4in; margin-top: 2ch"
+              >Monthly Income Range</label
+            ><br />
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              style="width: 20%; margin-left: 21%; margin-top: 2ch"
+              name="form_income"
+            >
+              <option value="under 15,000">Below 15,000</option>
+              <option value="under 30,000">15,000 - 30,000</option>
+              <option value="under 50,000">30,000 - 50,000</option>
+              <option value="above 50,000">50,000 - Above</option>
+            </select>
+            <label style="margin-top: 2ch; margin-left: -1.9in"
+              >Are you willing to adopt a rescue with special needs?</label
+            ><br />
+            <label style="margin-top: 1ch; margin-left: -1.5in">
+              (example: Leg Paralysis, Blind, Amputated, Aggression,
+              etc.)</label
+            ><br />
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%; margin-top: 2ch"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_rescue_yes"
+                id="flexRadioDefault1"
+                value="Yes"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault1"
+              >
+                Yes
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_rescue_no"
+                id="flexRadioDefault2"
+                value="No"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault2"
+              >
+                No
+              </label>
+            </div>
+            <label style="margin-left: -3.6in; margin-top: 2ch">
+              Are you allowed to keep pets?</label
+            ><br />
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_allowed_yes"
+                id="flexRadioDefault1"
+                value="Yes"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault1"
+              >
+                Yes
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_allowed_no"
+                id="flexRadioDefault2"
+                value="No"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault2"
+              >
+                No
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_rescue_notapplicable"
+                id="flexRadioDefault2"
+                value="Not Applicable"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault2"
+              >
+                Not Applicable
+              </label>
+            </div>
+            <label style="margin-top: 2ch; margin-left: -1.1in"
+              >How many pets do you have at home? (include Gender and
+              Size)</label
+            ><br />
+            <input
+              type="text"
+              style="margin-left: -1.7in; margin-top: 1ch; width: 400px"
+              name="form_pet_count"
+            /><br />
+            <label style="margin-top: 2ch; margin-left: 0.1in"
+              >How many people are there in the household? (include Oldest and
+              Youngest Age)</label
+            ><br />
+            <input
+              type="text"
+              style="margin-left: -1.7in; margin-top: 1ch; width: 400px"
+              name="form_people_count"
+            /><br />
+            <label style="margin-top: 2ch; margin-left: 0.65in"
+              >If you have children, have they been taught how to interact and
+              handle pets respectfully?</label
+            ><br />
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_children_pet_interaction_yes"
+                id="flexRadioDefault1"
+                value="Yes"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault1"
+              >
+                Yes
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_children_pet_interaction_no"
+                id="flexRadioDefault2"
+                value="No"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault2"
+              >
+                No
+              </label>
+            </div>
+            <label style="margin-left: -2.8in; margin-top: 2ch"
+              >Have you had previous foster experience?</label
+            ><br />
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_experience_yes"
+                id="flexRadioDefault1"
+                value="Yes"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault1"
+              >
+                Yes
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="form_experience_yes"
+                id="flexRadioDefault2"
+                value="No"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDefault2"
+              >
+                No
+              </label>
+            </div>
+
+            <label style="margin-left: -2in; margin-top: 2ch"
+              >Level of experience with animals: Check all that apply</label
+            >
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_never"
+                id="flexCheckDefault"
+                value="Never had a pet"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+                style="width: 200px; margin-left: 30px"
+              >
+                Never had a pet
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_childhood"
+                id="flexCheckChecked"
+                value="Had a childhood pet"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 46px; width: 200px"
+              >
+                Had a childhood pet
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_more"
+                id="flexCheckChecked"
+                value="Had two or more as an adult"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 48px; width: 250px"
+              >
+                Had two or more as an adult
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_boardingkennel"
+                id="flexCheckChecked"
+                value="Have experience working at a boarding kennel/pet sitting service etc."
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 64px; width: 500px"
+              >
+                Have experience working at a boarding kennel/pet sitting service
+                etc.
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_behavioral"
+                id="flexCheckChecked"
+                value="Have experience with behavioral problems of a pet"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 50px; width: 400px"
+              >
+                Have experience with behavioral problems of a pet
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_veterinary"
+                id="flexCheckChecked"
+                value="Have experience working in a veterinary hospital"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 42px; width: 400px"
+              >
+                Have experience working in a veterinary hospital
+              </label>
+            </div>
+            <div
+              class="form-check"
+              style="width: 20%; margin-left: 21%"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="form_trainer"
+                id="flexCheckChecked"
+                value="I'm a professional trainer"
+              />
+              <label
+                class="form-check-label"
+                for="flexCheckChecked"
+                style="margin-left: 60px; width: 200px"
+              >
+                I'm a professional trainer
+              </label>
+            </div>
+
+            <div id="type-fostering">
+              <label style="margin-left: -0.6in; margin-top: 2ch"
+                >What types of pets are you interested in fostering? Check all
+                that apply</label
+              >
+
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_elderly"
+                  id="flexCheckChecked"
+                  value="Elderly pet"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 43px"
+                >
+                  Elderly pet
+                </label>
+              </div>
+
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_adult"
+                  id="flexCheckChecked"
+                  value="Adult pet"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 38px"
+                >
+                  Adult pet
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_nursing"
+                  id="flexCheckChecked"
+                  value="Nursing mother"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 52px; width: 150px"
+                >
+                  Nursing mother
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_unweaned"
+                  id="flexCheckChecked"
+                  value="Unweaned puppies/kittens"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 40px; width: 250px"
+                >
+                  Unweaned puppies/kittens
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_injured"
+                  id="flexCheckChecked"
+                  value="Injured dog/cat"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 52px; width: 150px"
+                >
+                  Injured dog/cat
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_behavioral_issues"
+                  id="flexCheckChecked"
+                  value="Dog/Cat with behavioral issues"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 52px; width: 250px"
+                >
+                  Dog/Cat with behavioral issues
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_sick"
+                  id="flexCheckChecked"
+                  value="Sick puppies/kittens"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 62px; width: 150px"
+                >
+                  Sick puppies/kittens
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_hospice"
+                  id="flexCheckChecked"
+                  value="Long-term hospice care"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 27px; width: 250px"
+                >
+                  Long-term hospice care
+                </label>
+              </div>
+            </div>
+            <div id="foster-time">
+              <label style="margin-top: 2ch; margin-left: -0.8in"
+                >Please indicate how much time you can commit to fostering
+                rescue/s</label
+              ><br />
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_2months"
+                  id="flexCheckChecked"
+                  value="2 months"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 32px"
+                >
+                  2 months
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_4months"
+                  id="flexCheckChecked"
+                  value="4 months"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 32px"
+                >
+                  4 months
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_6months"
+                  id="flexCheckChecked"
+                  value="More than 6 months"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 60px; width: 150px"
+                >
+                  More than 6 months
+                </label>
+              </div>
+              <div
+                class="form-check"
+                style="width: 20%; margin-left: 21%"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="form_regularly"
+                  value="Would like to do so regularly, especially during the busy seasons"
+                  id="flexCheckChecked"
+                />
+                <label
+                  class="form-check-label"
+                  for="flexCheckChecked"
+                  style="margin-left: 42px; width: 500px"
+                >
+                  Would like to do so regularly, especially during the busy
+                  seasons
+                </label>
+              </div>
+
+              <input
+                type="submit"
+                value="Submit Form"
+                style="
+                  margin-top: 0.5in;
+                  height: 50px;
+                  width: 200px;
+                  font-size: 2.5ch;
+                  font-family: 'Courier New', Courier, monospace;
+                "
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

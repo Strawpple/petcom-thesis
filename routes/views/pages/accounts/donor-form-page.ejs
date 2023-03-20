@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    
+    <script src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations-v1.0.0.js"></script>
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="height: 15in"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+
+              <% } %> <% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-messages-page"
+                        >Messages</a
+                      >
+                    </li> -->
+
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-reports-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+      <div class="container text-left">
+        <div style="margin-top: 20px; ">
+            <div>
+              <h4 style="margin-left: 25%;">Pet Patient Profile</h4>
+              <% for(var index = 0; index < fetchallpatient.length; index++){ %>
+                <% if(fetchallpatient[index]['id'] == patientid){ %>
+                <div class="card" style="width: 40rem; margin-left: 25%;">
+                  <img src="<%= fetchallpatient[index]['pet_image'] %>" style="width: 40rem; height: 20rem;" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Pet Name : <%= fetchallpatient[index]['pet_name'] %></h5>
+                    <p class="card-text">Age : <%= fetchallpatient[index]['pet_age'] %></p>
+                    <p class="card-text">Breed : <%= fetchallpatient[index]['petbreed'] %></p>
+                    <p class="card-text">Weight : <%= fetchallpatient[index]['petweight'] %></p>
+                    <p class="card-text">Veterinary Name : <%= fetchallpatient[index]['vet_name'] %></p>
+                    <p class="card-text">Veterinary Address : <%= fetchallpatient[index]['vetaddress'] %></p>
+                    <p class="card-text">Diagnosis : <%= fetchallpatient[index]['pet_diagnosis'] %></p>
+                    <p class="card-text">Donation History : <%= fetchallpatient[index]['history'] %></p>
+                    <p class="card-text">Cross Matching : <%= fetchallpatient[index]['pet_crossmatch'] %></p>
+                    
+                    <% if(fetchallpatient[index]['session_id'] != user_id){ %>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blooddonor">
+                      Volunteer my Pet
+                    </button>
+                    <% } %>
+                    <a class="btn btn-light" href="donor-main-page">Back to Donors</a>
+                  </div>
+                </div>
+                <% } %>
+              <% } %>
+                
+              
+                <div class="footer">
+                </div>
+
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="blooddonor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pet Donor Information</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="/donorform" method="post">
+                    <div class="modal-body">
+                      <div class="container">
+                        <div class="form-outline flex-fill mb-0" style="margin-top: 10px;">
+                          <label
+                            class="form-label"
+                            for="first_name"
+                            >Choose a Dog</label
+                          >
+                          <select 
+                            class="form-select"
+                            aria-label="Default select example"
+                            name="petname"
+                            style="width: 150px;"
+                  
+                          required>
+                            <% for(var index = 0; index < fetchpets.length; index++){ %>
+                              <option value="<%= fetchpets[index]['id'] %>"><%= fetchpets[index]['pet_name'] %></option>
+                            <% } %>
+                          </select>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <div class="form-outline flex-fill mb-0" style="margin-top: 10px;">
+                            <label
+                              class="form-label"
+                              for="first_name"
+                              >Current Weight</label
+                            >
+                            <input
+                              type="text"
+                              id="currentweight"
+                              name="currentweight"
+                              class="form-control"
+                              style="width: 120px;"
+                              placeholder="Kg/s"
+                              required
+                            />
+                          </div>
+                          <div class="form-outline flex-fill mb-0" style="margin-top: 10px;">
+                            <label
+                              class="form-label"
+                              for="first_name"
+                              >Contact Number</label
+                            >
+                            <input
+                              type="text"
+                              id="contact"
+                              name="contact"
+                              class="form-control"
+                              style="width: 200px;"
+                              required
+                            />
+                          </div>
+                          
+                        </div>
+                        
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <div class="form-outline flex-fill mb-0" style="margin-top: 10px;">
+                            <label
+                              class="form-label"
+                              for="first_name"
+                              >Available Time</label
+                            >
+                            <input
+                              type="text"
+                              id="time"
+                              name="time"
+                              class="form-control"
+                              style="width: 100px;"
+                              placeholder="12:00"
+                              required
+                            />
+                            
+
+                          </div>
+                          
+                          <div class="form-outline flex-fill mb-0" style="margin-left: -240px; margin-top: 40px;">
+                            <select name="date" class="form-select" style="width: 80px;">
+                              <option value="AM">AM</option>
+                              <option value="PM">PM</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-outline flex-fill mb-0" style="margin-top: 10px;">
+                          <label
+                              class="form-label"
+                              for="first_name"
+                              >Conditions</label
+                            >
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="Transportation" value="Transportation" id="defaultCheck1">
+                              <label class="form-check-label" for="defaultCheck1">
+                                Transportation
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="DogFood"  value="Dog Food" id="defaultCheck1">
+                              <label class="form-check-label" for="defaultCheck1">
+                                Dog Food
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="Vitamins" value="Vitamins" id="defaultCheck1">
+                              <label class="form-check-label" for="defaultCheck1">
+                                Vitamins (Sangobion and Neurobion)
+                              </label>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Apply</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 40px;">
+              <h4>Donors</h4>
+
+              <div class="form-outline flex-fill mb-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name of Donor</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Conditions</th>
+                      <th scope="col">Contact</th>
+                      <th scope="col">Status</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <% for(var index = 0; index < donors.length; index++){ %>
+                      <% if(donors[index]['patient_id'] == patientid){ %>
+                      <tr>
+                        <% for(var index2 =0; index2 < pet_id.length; index2++){ %>
+                          <% if(pet_id[index2]['id'] == donors[index]['donor_id']){ %>
+                            
+                            <td><%= pet_id[index2]['pet_name'] %></td>
+                          <% } %>
+                        <% } %>
+                        <td><%= donors[index]['currentweight'] %> Kg's</td>
+                        <td><%= donors[index]['available_time'] %></td>
+                        <td><%= donors[index]['transportation'] %><br><%= donors[index]['vitamins'] %><br><%= donors[index]['dogfood'] %></td>
+                        <td><%= donors[index]['contact'] %></td>
+                        <td><%= donors[index]['label'] %></td>
+                        <td>
+                          <form action="/approvedonor" method="post">
+                            <input type="text" style="display: none;" value="<%= donors[index]['id'] %>" name="donorid">
+                            <input type="text" style="display: none;" value="<%= donors[index]['patient_id'] %>" name="patientid">
+                            <% for(var index2 = 0; index2 < fetchallpatient.length; index2++){ %>
+                              <% if(fetchallpatient[index2]['id'] == patientid && fetchallpatient[index2]['session_id'] == user_id){ %>
+                                <% if(donors[index]['label'] != "Incompatible"){ %>
+                                  <button type="submit" class="btn btn-primary">Schedule Donor</button>
+                                <% } %>
+                              <% } %>
+                            <% } %>
+                          </form>
+                        </td>
+                      </tr>
+                    
+                      <% } %>
+                    <% } %>
+                  </tbody>
+                </table>
+                
+              </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function sortDonor(){
+        var index = document.getElementById("sortData").value;
+        
+        if(index == "Provinces"){
+          document.getElementById("provinces").style.display = "block";
+          document.getElementById("veterinary").style.display = "none";
+        }if(index == "Veterinary"){
+          document.getElementById("provinces").style.display = "none";
+          document.getElementById("veterinary").style.display = "block";
+        }if(index == " "){
+          document.getElementById("provinces").style.display = "none";
+          document.getElementById("veterinary").style.display = "none";
+
+        }
+      }
+      function viewProvince(){
+        var index = document.getElementById("sortProvinces").value;
+        // console.log(index)
+
+        
+      }
+    </script>
+    <script>
+      function update() {
+        // console.log("test");
+
+        // fetch("/upload", {
+        //   method: "POST",
+        //   headers: {'Content-Type': 'application/json'},
+        //   body: JSON.stringify({
+        //     pet_description: data.value,
+        //   })
+        // });
+        try {
+          var imageinput = document.getElementsByName("pet_image")[0];
+
+          var file = imageinput.files[0];
+
+          const formData = new FormData();
+
+          formData.append("petimage", file);
+
+          fetch("/upload", {
+            method: "POST",
+            // headers: { "Content-Type": "multipart/form-data" },
+            body: formData,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    </script>
+  </body>
+</html>

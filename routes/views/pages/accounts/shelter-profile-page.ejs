@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="height: 8in"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="adoption-main-page"
+                  >Adopt a pet</a
+                >
+              </li>
+              <% } %> <% } %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %> <% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px;"
+                  >
+                    
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-messages-page"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li><a class="dropdown-item" href="account-notification-page">Adoption Records</a></li>
+                    <% for(var index = 0; index < user_account.length; index++){ %>
+                      <% if(user_account[index]['id'] == user_id){ %>
+                        <% if(user_account[index]['user_type'] == "Shelter"){ %>
+                          <li><a class="dropdown-item" href="account-reports-page">Inventory</a></li>
+                        <% } %>
+                      <% } %>
+                    <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <!--Container-->
+      <div>
+        <div class="row justify-content-center">
+          <div
+            class="card"
+            style="width: 800px; height: 6in; margin-top: 60px"
+          >
+            <h5 class="card-header" style="background-color: rgb(247, 243, 243); width: 8.3in; margin-left: -11px;font-size: 20px;">Shelter Profile</h5>
+            <% for (var index = 0; index < user_account.length; index++){ %> <%
+            if(user_account[index]['id'] == view_profile){ %>
+            <div class="card-body">
+              <h5 class="card-title" style="font-size: 25px;"><%= user_account[index]['user_first_name'] %></h5>
+              <p class="card-text">
+                Address : <%= user_account[index]['user_address'] %>
+              </p>
+              <p class="card-text">
+                Contact : <%= user_account[index]['user_contact'] %>
+              </p>
+              <p class="card-text">
+                Address : <%= user_account[index]['user_email'] %>
+              </p>
+              <p class="card-text">
+                Shelter Category: <%= user_account[index]['user_category'] %>
+              </p>
+              <div
+                class="mb-3"
+                style="width: 400px; margin-top: 20px"
+              >
+                <label
+                  for="exampleFormControlTextarea1"
+                  class="form-label"
+                  >About me : <%= user_account[index]['user_about'] %></label
+                ><br />
+              </div>
+
+              <div style="text-align: right; margin-top: 210px;">
+                <% if(view_profile != user_id){ %>
+                  <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#donate"
+                    class="btn btn-secondary"
+                    >Donate</a
+                  >
+                  <a
+                    href="shelter-main-page"
+                    class="btn btn-primary"
+                    >Back</a
+                  >
+                <% }else{ %>
+                  <a
+                    href="shelter-main-page"
+                    class="btn btn-primary"
+                    >Back</a
+                  >
+                <% } %>
+  
+              </div>
+
+              
+            </div>
+            <% } %> <% } %>
+
+              
+              
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="donate"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1
+              class="modal-title fs-5"
+              id="exampleModalLabel"
+            >
+              Donation Form
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form
+            method="POST"
+            action="/donationform"
+            class="mx-1 mx-md-4"
+          >
+            <% for (var index = 0; index < user_account.length; index++){ %> <%
+            if(user_account[index]['id'] == user_id){ %>
+            <div class="modal-body">
+              <div class="container" style="margin-left: -30px;">
+                <div class="row">
+                  <div class="col">
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <label
+                          class="form-label"
+                          for="first_name"
+                          style="font-size: 20px;"
+                          >Name : <%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %>
+                        </label>
+                      </div>
+                    </div>
+      
+                    <label
+                      class="form-label"
+                      for="typeofdonation"
+                      >Type of Donation :
+                    </label>
+
+
+
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      id="data_selected"
+                      name="data_selected"
+                      style="margin-bottom: 20px; width: 2in;"
+                      onchange="selectData()"
+                    >
+                      <!-- shelter == domestic animals -->
+                      <!-- shelter == birds -->
+                      <!-- shelter == farm animals -->
+                      <!-- shelter == exotics-->
+                      <option value="Dog Food">Dog Food</option>
+                      <option value="Cat Food">Cat Food</option>
+                      <option value="Vitamins">Vitamins</option>
+                      <option value="Dewormer">Dewormer</option>
+                      <!-- <option value="Vaccines">Vaccines</option> -->
+                      <option value="Cash Donation">Cash</option>
+                      <option value="Other Donation">Others</option>
+                    </select>
+      
+                    <div
+                      class="dropdown"
+                      id="otherdonation"
+                      style="display: none;"
+                    >
+                      <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style="width: 15ch;"
+                      >
+                        Variety
+                      </button>
+                      <ul class="dropdown-menu" style=" width: 4in;">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            style="margin-left: 2px"
+                            type="checkbox"
+                            name="Cage"
+                            id="flexCheckDefault"
+                            value="Cage"
+                          />
+                          <label
+                            class="form-check-label"
+                            style="margin-left: 5px"
+                            for="flexCheckDefault"
+                            >Cage</label
+                          >
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            style="margin-left: 2px"
+                            type="checkbox"
+                            name="Leash"
+                            id="flexCheckDefault"
+                            value="Leash"
+                          />
+                          <label
+                            class="form-check-label"
+                            style="margin-left: 5px"
+                            for="flexCheckDefault"
+                            >Leash</label
+                          >
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            style="margin-left: 2px"
+                            type="checkbox"
+                            name="ChewToys"
+                            id="flexCheckDefault"
+                            value="Chew Toys"
+                          />
+                          <label
+                            class="form-check-label"
+                            style="margin-left: 5px"
+                            for="flexCheckDefault"
+                            >Chew Toys</label
+                          >
+                        </div>
+                      </ul>
+                    </div>
+
+                    <!-- Dog Food -->
+                    <div id="dogfood">
+                      <label
+                        class="form-label"
+                        for="typeofdonation"
+                        >Brand of Dog food
+                      </label><br>
+
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      id="select_Dogfood"
+                      name="select_Dogfood"
+                      onchange="selectDogFood()"
+                    >
+
+                        <option value=""selected>Open this select menu</option>
+                        <option value="Aozi Lamb Adult">Aozi Lamb Adult</option>
+                        <option value="Aozi Lamb Puppy">Aozi Lamb Puppy</option>
+                        <option value="Beef Pro Breeders Pack">Beef Pro Breeder's Pack</option>
+                        <option value="Bow Wow Adult">Bow Wow Adult</option>
+                        <option value="Derby Prime Chunks Adult">Derby Prime Chunks Adult</option>
+                        <option value="Good Boy Original">Good Boy Original</option>
+                        <option value="Holistic Recipe Lamb">Holistic Recipe Lamb</option>
+                        <option value="Maxime Dry Adult Dry">Maxime Dry Adult Dry</option>
+                        <option value="Natures Gift Lamb Recipe Vegetables and Pasta">Nature's Gift Lamb Recipe Vegetables and Pasta</option>
+                        <option value="Nutrichunks Hi-Protein Puppy">Nutrichunks Hi-Protein Puppy</option>
+                        <option value="Nutrichunks Hi-Protein Adult">Nutrichunks Hi-Protein Adult</option>
+                        <option value="Optima Beef Meal High Protein">Optima Beef Meal High Protein</option>
+                        <option value="Pedigree Adult">Pedigree Adult</option>
+                        <option value="Pet One PureLuxe Grain Free Elite Nutrition">Pet One PureLuxe Grain Free Elite Nutrition</option>
+                        <option value="Royal Canin Beagle">Royal Canin Beagle</option>
+                        <option value="Royal Canin Golden Retriever">Royal Canin Golden Retriever</option>
+                        <option value="Royal Canin Hypoallergenic">Royal Canin Hypoallergenic</option>
+                        <option value="Royal Canin Labrador">Royal Canin Labrador</option>
+                        <option value="Vitality Valuemeal Puppy">Vitality Valuemeal Puppy</option>
+                        <option value="None of the Above Dogfood">None of the Above</option>
+
+
+
+                    </select>
+                      <!-- Add Dog Food -->
+                      <div id="add_dogfood" style="display: none; margin-top: 15px;">
+                        <label
+                          class="form-label"
+                          for="typeofdonation"
+                        >Dog Food Brand</label><br>
+                        <input type="text" 
+                        id="new_dogfood"
+                        name="new_dogfood"
+                        style="width: 200px">
+                      </div>
+
+                      <!--Dog QTY -->
+
+                      <div id="dogqty" style="display: none;">
+                        <label
+                        class="form-label"
+                        for="typeofdonation"
+                        ></label>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          id="dogdata_selected_qty"
+                          name="dogdata_selected_qty"
+                          style="margin-bottom: 10px; width: 15ch"
+                          onchange="dogqtyData()"
+                        >
+                          <option value=""selected> </option>
+                          <option value="Kilo">Kilo</option>
+                          <option value="Sack">Sack</option>
+                        </select>
+      
+                        <div id="dogkilos">
+                          <label
+                            class="form-label"
+                            for="kiloqty"
+                            style="margin-top: 10px"
+                            >How many Kilos
+                          </label><br>
+                          <input
+                            type="text"
+                            id="kiloqty"
+                            name="add_kiloqty"
+                            style="width: 70px"
+                          />
+                        </div>
+                        <div
+                          id="dogsacks"
+                          style="display: none"
+                        >
+                          <label
+                            class="form-label"
+                            for="qty"
+                            style="margin-top: 20px"
+                            >How many Sacks
+                          </label><br>
+                          <input
+                            type="text"
+                            id="sackqty"
+                            name="add_sackqty"
+                            style="width: 50px"
+                          /><br>
+                          
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                    <!-- Cat Food -->
+                    <div id="catfood" style="display: none;">
+                      <label
+                        class="form-label"
+                        for="typeofdonation"
+                        >Brand of Cat food
+                      </label><br>
+
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        id="select_Catfood"
+                        name="select_Catfood"
+                        onchange="selectCatFood()"
+                      >
+                        <option value=""selected>Open this select menu</option>
+                        <option value="Acana Wild Prairie Kitten">Acana Wild Prairie Kitten</option>
+                        <option value="Aozi Organic">Aozi Organic</option>
+                        <option value="Cuties Catz Dry">Cuties Catz Dry</option>
+                        <option value="Goodest Cat Chicken Chomp">Goodest Cat Chicken Chomp</option>
+                        <option value="Go! Solutions Carnivore Grain Free Salmon and Cod Recipe">Go! Solutions Carnivore Grain Free Salmon and Cod Recipe</option>
+                        <option value="Hills Science Diet">Hill's Science Diet</option>
+                        <option value="Monge Special Chicken and Turkey All Life Stages">Monge Special Chicken and Turkey All Life Stages</option>
+                        <option value="Morando Professional">Morando Professional</option>
+                        <option value="Orijen Six Fish">Orijen Six Fish</option>
+                        <option value="Purina Fancy Feast Adult">Purina Fancy Feast Adult</option>
+                        <option value="Royal Canin Hair and Skin">Royal Canin Hair and Skin</option>
+                        <option value="Royal Canin Indoor Adult 7+">Royal Canin Indoor Adult 7+</option>
+                        <option value="Sheba Wet Tuna and Salmon in Gravy">Sheba Wet Tuna and Salmon in Gravy</option>
+                        <option value="Whiskas Kitten Wet Tuna">Whiskas Kitten Wet Tuna</option>
+                        <option value="None of the Above Catfood">None of the Above</option>
+
+
+                      </select>
+
+
+                      <!-- Add Cat Food -->
+
+                      <div id="add_catfood" style="display: none; margin-top: 15px;">
+                        <label
+                          class="form-label"
+                          for="typeofdonation"
+                        >Cat Food Brand</label><br>
+                        <input type="text" 
+                        id="new_catfood"
+                        name="new_catfood"
+                        style="width: 200px">
+                      </div>
+
+                      <!-- Cat QTY -->
+                      <div id="catqty" style="display: none;" >
+                        <label
+                        class="form-label"
+                        for="typeofdonation"
+                        ></label>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          id="catdata_selected_qty"
+                          name="catdata_selected_qty"
+                          style="margin-bottom: 10px; width: 15ch"
+                          onchange="catqtyData()"
+                        >
+                          <option value=""selected> </option>
+                          <option value="Kilo">Kilo</option>
+                          <option value="Sack">Sack</option>
+                        </select>
+        
+                        <div id="catkilos">
+                          <label
+                            class="form-label"
+                            for="kiloqty"
+                            style="margin-top: 10px"
+                            >How many Kilos
+                          </label><br>
+                          <input
+                            type="text"
+                            id="add_kiloqty"
+                            name="add_catkiloqty"
+                            style="width: 70px"
+                          />
+                        </div>
+                        <div
+                          id="catsacks"
+                          style="display: none"
+                        >
+                          <label
+                            class="form-label"
+                            for="qty"
+                            style="margin-top: 20px"
+                            >How many Sacks
+                          </label><br>
+                          <input
+                            type="text"
+                            id="sackqty"
+                            name="add_catsackqty"
+                            style="width: 50px"
+                          /><br>
+                          
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    <!-- Cash -->
+
+                    <div
+                      id="cashdonation"
+                      style="display: none"
+                    >
+                      <label
+                        class="form-label"
+                        for="qty"
+                        style="margin-top: 20px"
+                        >Amount 
+                      </label><br>
+                      <input
+                        type="text"
+                        id="amount"
+                        name="add_amount"
+                        style="width: 80px"
+                      />
+
+                      <!-- <button 
+                          type="submit" 
+                          class="btn-list"
+                          id="addtodonation">
+                          Add to donation
+                      </button> -->
+                    </div>
+
+                    <!-- Vitamins -->
+                    <div id="vitamins" style="display: none;">
+                      <label
+                        class="form-label"
+                        for="typeofdonation"
+                        >Brand of Vitamins
+                      </label><br>
+
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        id="select_vitamins"
+                        name="select_vitamins"
+                        onchange="selectVitamins()"
+                      >
+
+                        <option value=""selected>Open this select menu</option>
+                        <option value="LC-Vit Plus Multivitamins for Dogs">LC-Vit Plus Multivitamins for Dogs</option>
+                        <option value="LC-Vit Plus Multivitamins for Cats">LC-Vit Plus Multivitamins for Cats</option>
+                        <option value="Petliv Flavor Tablet Appetite Stimulant for Dogs">Petliv Flavor Tablet Appetite Stimulant for Dogs</option>
+                        <option value="Growth Advance Multivitamins with Chlorella">Growth Advance Multivitamins with Chlorella</option>
+                        <option value="Virbac Nutriplus Gel - Pet Multivitamins for Dogs">Virbac Nutriplus Gel - Pet Multivitamins for Dogs</option>
+                        <option value="Nutri-Vet Puppy-vite Chewables">Nutri-Vet Puppy-vite Chewables</option>
+                        <option value="All Natural Probiotics x Moringa">All Natural Probiotics x Moringa</option>
+                        <option value="Papi MVP Multivitamins for Dogs">Papi MVP Multivitamins for Dogs</option>
+                        <option value="Papi Enmalac Milk Enhancer for Dogs">Papi Enmalac Milk Enhancer for Dogs</option>
+                        <option value="Canicee Immune Booster Vitamin C for Dogs">Canicee Immune Booster Vitamin C for Dogs</option>
+                        <option value="Nutratech Coatshine syrup">Nutratech Coatshine syrup</option>
+                        <option value="Papi OB Vitamins for Dogs">Papi OB Vitamins for Dogs</option>
+                        <option value="NaturVet VitaPet Senior Daily Vitamins for Dogs">NaturVet VitaPet Senior Daily Vitamins for Dogs</option>
+                        <option value="Mutant Lab Pets Probiotics Vitamins for Dogs">Mutant Lab Pets Probiotics Vitamins for Dogs</option>
+                        <option value="Natures Vet Organic Dog Superfood Vitamins">Nature's Vet Organic Dog Superfood Vitamins</option>
+                        <option value="Bioline Cat Multivitamin Paste">Bioline Cat Multivitamin Paste</option>
+                        <option value="Pet Nutrition Gel Vitamins">Pet Nutrition Gel Vitamins</option>
+                        <option value="Cat Hairball Solution Multivitamins Supplement">Cat Hairball Solution Multivitamins Supplement</option>
+                        <option value="Forza Animale DS Blue">Forza Animale DS Blue</option>
+                        <option value="Forza Animale AGB Red">Forza Animale AGB Red</option>
+                        <option value="None of the Above Vitamins">None of the Above</option>
+
+                      </select>
+
+                      
+                      <!-- Add Vitamins -->
+
+                      <div id="add_vitamins" style="display: none; margin-top: 15px;">
+                        <label
+                          class="form-label"
+                          for="typeofdonation"
+                        >Brand Name</label><br>
+                        <input type="text" 
+                        id="new_vitamins"
+                        name="new_vitamins"
+                        style="width: 200px">
+                      </div>
+                      <!-- Qty -->
+                      <div id="vitaQty" style="display: none;">
+                        <label
+                          class="form-label"
+                          for="qty"
+                          style="margin-top: 20px"
+                          >Number of Pieces
+                        </label><br>
+                        <input type="text" 
+                          id="vitaqty"
+                          name="vitaqty"
+                          style="width: 100px">
+                      </div>
+
+
+
+                    </div>
+                    <!-- Dewormer -->
+                    <div id="dewormer" style="display: none;">
+                      <label
+                        class="form-label"
+                        for="typeofdonation"
+                        >Brand of Dewormer
+                      </label><br>
+
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        id="select_dewormer"
+                        name="select_dewormer"
+                        onchange="selectDewormer()"
+                      >
+
+                        <option value=""selected>Open this select menu</option>
+                        <option value="Drontal Oral Suspension for Puppy Dewormer">Drontal Oral Suspension for Puppy Dewormer</option>
+                        <option value="Drontal Plus Tasty Bone Tablet Dog Dewormer">Drontal Plus Tasty Bone Tablet Dog Dewormer</option>
+                        <option value="NexGard Spectra Chewable Tablet Dog Ectoparasiticide">NexGard Spectra Chewable Tablet Dog Ectoparasiticide</option>
+                        <option value="Pyrantel Embonate Nematocide Anthelmintic for Dogs and Cats">Pyrantel Embonate Nematocide Anthelmintic for Dogs and Cats</option>
+                        <option value="Heartgard Plus Chewables (Ivermectin, Pyrantel) Up to 11 kgs">Heartgard Plus Chewables (Ivermectin, Pyrantel) Up to 11 kgs</option>
+                        <option value="Heartgard Plus Chewables (Ivermectin) 11 - 22 kgs">Heartgard Plus Chewables (Ivermectin) 11 - 22 kgs </option>
+                        <option value="Heartgard Plus Chewables for Dogs (Ivermectin, Pyrantel) 23 - 45 kgs">Heartgard Plus Chewables for Dogs (Ivermectin, Pyrantel) 23 - 45 kgs</option>
+                        <option value="Heartgard Chewable for Cats (Ivermectin) Up to 2 kgs">Heartgard Chewable for Cats (Ivermectin) Up to 2 kgs </option>
+                        <option value="Heartgard Chewable for Cats (Ivermectin) 2 to 6 kgs">Heartgard Chewable for Cats (Ivermectin) 2 to 6 kgs </option>
+                        <option value="Trifexis (Spinosad + milbemycin oxime) 4 to 9 kgs">Trifexis (Spinosad + milbemycin oxime) 4 to 9 kgs </option>
+                        <option value="Trifexis (Spinosad + milbemycin oxime) 9 to 18 kgs">Trifexis (Spinosad + milbemycin oxime) 9 to 18 kgs</option>
+                        <option value="Trifexis (Spinosad + milbemycin oxime) 18 to 27 kgs">Trifexis (Spinosad + milbemycin oxime) 18 to 27 kgs</option>
+                        <option value="Trifexis (Spinosad + milbemycin oxime) 27 to 54 kgs">Trifexis (Spinosad + milbemycin oxime) 27 to 54 kgs</option>
+                        <option value="None of the Above Dewormer">None of the Above</option>
+
+                      </select>
+
+                      
+                      <!-- Add dewormer -->
+
+                      <div id="add_dewormer" style="display: none; margin-top: 15px;">
+                        <label
+                          class="form-label"
+                          for="typeofdonation"
+                        >Brand Name</label><br>
+                        <input type="text" 
+                        id="new_dewormer"
+                        name="new_dewormer"
+                        style="width: 200px">
+                      </div>
+                      <!-- Qty -->
+                      <div id="dewQty" style="display: none;">
+                        <label
+                          class="form-label"
+                          for="qty"
+                          style="margin-top: 20px"
+                          >Number of Pieces
+                        </label><br>
+                        <input type="text" 
+                          id="dewormerqty"
+                          name="dewormerqty"
+                          style="width: 200px">
+                      </div>
+
+                    </div>
+                    <!-- Vaccines -->
+                    <div id="vaccines" style="display: none;">
+                      <label
+                        class="form-label"
+                        for="typeofdonation"
+                        >Brand of Vaccines
+                      </label><br>
+
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        id="select_vaccine"
+                        name="select_vaccine"
+                        onchange="selectVaccine()"
+                      >
+
+                        <option value=""selected>Open this select menu</option>
+                        <option value="DHPP 4 in 1 Distemper, Hepatitis Parvovirus, Parainfluenza">DHPP (4 in 1 Distemper, Hepatitis Parvovirus, Parainfluenza) for Dogs</option>
+                        <option value="FVRCP Vaccine (Feline Viral Rhinotracheitis Calicivirus and Panleukopenia)">FVRCP Vaccine (Feline Viral Rhinotracheitis Calicivirus and Panleukopenia)</option>
+                        <option value="None of the Above">None of the Above</option>
+
+                      </select>
+
+                      
+                      <!-- Add vaccine -->
+
+                      <div id="add_vaccine" style="display: none; margin-top: 15px;">
+                        <label
+                          class="form-label"
+                          for="typeofdonation"
+                        >Brand Name</label><br>
+                        <input type="text" 
+                        id="new_vaccine"
+                        name="new_vaccine"
+                        style="width: 200px">
+                      </div>
+                      <!-- Qty -->
+                      <div id="vaccineQty" style="display: none;">
+                        <label
+                          class="form-label"
+                          for="qty"
+                          style="margin-top: 20px"
+                          >Number of Pieces
+                      </label><br>
+                      <input type="text" 
+                        id="vaccineqty"
+                        name="vaccineqty"
+                        style="width: 200px">
+                      </div>
+                    </div>
+
+
+                    
+                  </div>
+                  <!-- <div class="col">
+                    <div class="container" style="background-color: #6D9DC5; height: 4in;"> -->
+                      <!-- Content here -->
+                      <!-- <h3 style="font-family: Arial, Helvetica, sans-serif;">List of Donation</h3>
+                      <div>
+                        
+                      </div>
+
+                      <div class="container-cash">
+                        <ul class="list-group" >
+                          <li class="list-group-item"><span>x</span></li>
+                        </ul>
+
+                      </div>
+
+                      
+                    </div>
+                  </div> -->
+                  <label
+                      class="form-label"
+                      for="qty"
+                      style="margin-top: 20px"
+                      >Description 
+                    </label>
+                    <textarea
+                      class="form-control"
+                      name="add_desc"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                    ></textarea>
+                </div>
+              </div>
+              
+              
+            <% } %> <% } %>
+            <div class="modal-footer">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                  >
+                    Send Donation
+                  </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
+
+    <script>
+      function selectData() {
+        var x = document.getElementById("data_selected").value;
+
+
+        console.log(x);
+        if(x == "Dog Food"){
+          document.getElementById("dogfood").style.display = "block";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+        }
+        if (x == "Cat Food") {
+          document.getElementById("catfood").style.display = "block";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+        }
+        if (x == "Other Donation") {
+          document.getElementById("otherdonation").style.display = "block";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+        }
+        if (x == "Cash Donation") {
+          document.getElementById("cashdonation").style.display = "block";
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+        }
+        if(x == "Vitamins"){
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "block";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+
+        }
+        if(x == "Dewormer"){
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "block";
+          document.getElementById("vaccines").style.display = "none";
+          document.getElementById("antirabbies").style.display = "none";
+
+        }
+        if(x == "Vaccines"){
+          document.getElementById("dogfood").style.display = "none";
+          document.getElementById("otherdonation").style.display = "none";
+          document.getElementById("catfood").style.display = "none";
+          document.getElementById("cashdonation").style.display = "none";
+          document.getElementById("vitamins").style.display = "none";
+          document.getElementById("dewormer").style.display = "none";
+          document.getElementById("vaccines").style.display = "block";
+          document.getElementById("antirabbies").style.display = "none";
+
+        }
+      }
+
+
+      // Brand of DogFood
+      function selectDogFood(){
+        var d = document.getElementById("select_Dogfood").value;
+        //console.log(d);
+
+        if(d == "None of the Above Dogfood"){
+          document.getElementById("add_dogfood").style.display = "block";
+          document.getElementById("dogqty").style.display = "block";
+        }else{
+          document.getElementById("add_dogfood").style.display = "none";
+          document.getElementById("dogqty").style.display = "block";
+        }
+
+      }
+      // Brand of CatFood
+      function selectCatFood(){
+        var c = document.getElementById("select_Catfood").value;
+        //console.log(c);
+
+        if(c == "None of the Above Catfood"){
+          document.getElementById("add_catfood").style.display = "block";
+          document.getElementById("catqty").style.display = "block";
+        }else{
+          document.getElementById("add_catfood").style.display = "none";
+          document.getElementById("catqty").style.display = "block";
+        }
+      }
+
+
+
+
+      function dogqtyData() {
+        var y = document.getElementById("dogdata_selected_qty").value;
+
+        console.log(y);
+        if (y == "Sack") {
+          document.getElementById("dogsacks").style.display = "block";
+          document.getElementById("dogkilos").style.display = "none";
+        } else {
+          document.getElementById("dogsacks").style.display = "none";
+          document.getElementById("dogkilos").style.display = "block";
+        }
+      }
+
+      function catqtyData() {
+        var y = document.getElementById("catdata_selected_qty").value;
+
+        console.log(y);
+        if (y == "Sack") {
+          document.getElementById("catsacks").style.display = "block";
+          document.getElementById("catkilos").style.display = "none";
+        } else {
+          document.getElementById("catsacks").style.display = "none";
+          document.getElementById("catkilos").style.display = "block";
+        }
+      }
+
+      // Vitamins
+
+      function selectVitamins() {
+        var x = document.getElementById("select_vitamins").value;
+        console.log(x);
+
+        if(x == "None of the Above Vitamins"){
+          document.getElementById("add_vitamins").style.display = "block";
+          document.getElementById("vitaQty").style.display = "block";
+        }else{
+          document.getElementById("add_vitamins").style.display = "none";
+          document.getElementById("vitaQty").style.display = "block";
+        }
+      }
+      
+
+      // Dewormer
+
+      function selectDewormer() {
+        var x = document.getElementById("select_dewormer").value;
+
+        if(x == "None of the Above Dewormer"){
+          document.getElementById("add_dewormer").style.display = "block";
+          document.getElementById("dewQty").style.display = "block";
+        }else{
+          document.getElementById("add_dewormer").style.display = "none";
+          document.getElementById("dewQty").style.display = "block";
+        }
+
+      }
+
+     
+
+
+
+      // function addtolist(){
+      //   var inputCashArray = [];
+      //   var amount = document.getElementById("amount").value;
+      //   var divlist = document.getElementById("listofdonation");
+        
+      //   inputCashArray.push(amount);
+      //   divlist.innerHTML = amount;
+
+        
+
+      // }
+      //   divlist.innerHTML = inputCashArray;
+      // const inputamount = document.querySelector("#amount");
+      // const addbutton = document.querySelector(".btn-list");
+      // const cashlist = document.querySelector(".container-cash ul");
+
+      // addbutton.addEventListener('click', (e) => {
+      //   if(inputamount.value != ""){
+      //     e.preventDefault();
+
+      //     const mylist = document.createElement('li');
+      //     mylist.innerHTML = inputamount.value;
+      //     cashlist.appendChild(mylist);
+      //   }
+      // })
+
+      // $('#select_Dogfood').prop('selectedIndex', 0);
+      // $('#select_Catfood').prop('selectedIndex', 0);
+      // $('#select_vitamins').prop('selectedIndex', 0);
+      // $('#select_dewormer').prop('selectedIndex', 0);
+    </script>
+
+
+    <style>
+      ul li span{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        text-align: center;
+        background-color: #e00;
+      }
+    </style>
+  </body>
+</html>

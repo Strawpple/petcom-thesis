@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+  </header>
+  <body>
+    <div
+      class="main-content"
+      style="position: absolute; width: 100%"
+    >
+      <!--Start of NavBar-->
+      <nav
+        class="navbar navbar-expand-lg"
+        style="background-color: #aeecef"
+      >
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            href="account-main-page"
+            >Pet Community</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar - Default -->
+          <div
+            class="collapse navbar-collapse"
+            id="navbarColor01"
+          >
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="donor-main-page"
+                  >Find a Donor</a
+                >
+              </li>
+              
+              <% for(var index = 0; index < user_account.length; index++){ %> <%
+                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="shelter-main-page"
+                  >Donate to a Shelter</a
+                >
+              </li>
+              <% } %><% } %>
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="listapet-main-page"
+                  >List a Pet for Adoption</a
+                >
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="petslist-filter-page"
+                  >My Pets</a
+                >
+              </li>
+              <li class="nav-item">
+                <div class="dropdown">
+                  <% for(var index = 0; index < user_account.length; index++){ %>
+                    <% if(user_account[index]['id'] == user_id){ %>
+                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
+                    >
+                    <% } %>
+                  <% } %>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                    style="margin-left: -1px"
+                  >
+                    
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-profile-page"
+                        >My Profile</a
+                      >
+                    </li>
+                    <!-- <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-message-page"
+                        >Messages</a
+                      >
+                    </li> -->
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-notification-page"
+                        >Adoption Records</a
+                      >
+                    </li>
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
+                    if(user_account[index]['user_type'] == "Shelter"){ %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="account-activities-page"
+                        >Inventory</a
+                      >
+                    </li>
+                    <% } %> <% } %> <% } %>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="/logout"
+                        >Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- -->
+        </div>
+      </nav>
+      <!--End of NavBar-->
+
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide"
+        data-bs-ride="true"
+        style="
+          width: 40%;
+          margin-top: 20px;
+          margin-left: 30%;
+          margin-bottom: 20px;
+        "
+      >
+        <div>
+          <h1
+            style="
+              margin-left: 95px;
+              font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman',
+                serif;
+            "
+          >
+            Featured Pets
+          </h1>
+        </div>
+        <div
+          class="carousel-inner"
+          style="height: auto; width: 70%; margin-left: 100px"
+        >
+          <% for(var index=0; index < pets_id.length; index++){ %> <%
+          if(pets_id[index]["pet_label"] == "Adoption"){ %> <%
+          if(pets_id[index]["pet_status"] == "For Adoption"){ %>
+          <div class="carousel-item active">
+            <img
+              style="height: 400px; width: 380px"
+              src="<%= pets_id[index]['pet_image'] %>"
+              class="d-block w-100"
+              alt="..."
+            />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Name: <%= pets_id[index]['pet_name'] %></h5>
+              <p><%= pets_id[index]['pet_description'] %></p>
+            </div>
+          </div>
+          <% } %><% } %><% } %>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span
+            class="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div>
+        <a
+          style="margin-left: 36%"
+          href="adoption-petslist-page"
+          >Adopt now</a
+        >
+      </div>
+      <div style="margin-left: 30px">
+        <h2
+          style="
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman',
+              serif;
+          "
+        >
+          News and tools for adoption
+        </h2>
+
+        <div
+          class="card"
+          style="width: 18rem"
+        >
+          <img
+            src="https://img.freepik.com/free-vector/adopt-pet-concept_23-2148523582.jpg?w=2000"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5
+              class="card-title"
+              style="font-family: Verdana, Geneva, Tahoma, sans-serif"
+            >
+              How adoption works
+            </h5>
+            <p class="card-text">get the breakdown on how to use Adopt a Pet</p>
+            <a
+              href="#"
+              class="btn btn-primary"
+              >Learn more</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

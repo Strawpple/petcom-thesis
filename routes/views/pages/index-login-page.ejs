@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <body>
+      <header>
+        <%- include('partials/header') %>
+      </header>
+
+         <div class="main-content" id="desklogin">
+            <!--Start of NavBar-->
+            <nav class="navbar navbar-expand-lg" style="background-color: #AEECEF;">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="/">Pet Community</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                  <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav ms-auto">
+                      
+                      <li class="nav-item active">
+                        <a class="nav-link" href="index-login-page">Adoption</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="index-login-page">Blood Donation</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="event-main-page">Events</a>
+                      </li>
+  
+                      <li class="nav-item active">
+                        <a class="nav-link" href="aboutus-main-page">About Us</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="trainingseminar-main-page">Trainings/Seminars</a>
+                      </li>
+  
+                      
+                      
+                      
+                    </ul>
+                  </div>
+
+
+                    
+                  </ul>
+                </div>
+            </nav>
+            <!--End of NavBar -->
+
+            <div id="">
+              <section class="vh-100">
+                  <div class="container-fluid h-custom">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                      <div class="col-md-9 col-lg-6 col-xl-5">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                          class="img-fluid" alt="Sample image">
+                      </div>
+                      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                          <% if(message.length > 0){ %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= message %>
+                              </div>
+                          <% } %>
+                          
+                        <form action="/loginform" method="POST">
+
+                          <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="emailinput" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                          </div>
+                          <div class="form-floating">
+                            <input type="password" class="form-control" name="passwordinput" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                          </div>
+                
+                
+                          <div class="d-flex justify-content-between align-items-center">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                              <input class="form-check-input me-2" type="checkbox" value="" id="rememberme" />
+                              <label class="form-check-label" for="rememberme">
+                                Remember me
+                              </label>
+                            </div>
+                            <a href="update-password-page" class="text-body">Forgot password?</a>
+                          </div>
+  
+                          <div class="text-center text-lg-start mt-4 pt-2">
+                            
+                            
+                            <!-- <input type="submit" id="loginbtn" name="loginBtn" class="btn btn-primary btn-lg" value="Login"> -->
+                            <input type="submit" class="btn btn-primary btn-lg" style="background-color: #6D9DC5;" value="Login"></input>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="index-registration-page"
+                                class="link-danger">Register</a></p>
+                          </div>
+                
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </section>
+           </div>
+  
+
+
+         </div>
+
+
+
+         <%- include("partials/footer.ejs") %>
+
+  </body>
+
+</html>

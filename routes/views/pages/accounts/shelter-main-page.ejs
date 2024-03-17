@@ -100,13 +100,8 @@
                       >
                     </li> -->
 
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                   
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -143,27 +138,27 @@
           id="filter_id"
           name="filter_id"
           onchange="filterShelters()"
-          style="width: 190px"
+          style="width: 190px; margin-bottom: 15px;"
         >
           <option value="All Shelters">All Shelters</option>
           <option value="Dog Shelters">Dog Shelters</option>
           <option value="Cat Shelters">Cat Shelters</option>
         </select>
-      </div>
 
-      <div class="container">
+        
+
+      <div class="container" style="margin-left: -12px;">
         <!-- Display All Shelters -->
         <div
           id="all"
-          style="margin-left: -70px; margin-top: 20px"
         >
           <div class="row">
             <% for(var index = 0; index < user_account.length; index++){ %> <%
             if(user_account[index]['user_type'] == "Shelter"){ %>
-            <div class="col">
+            <div class="col" style="max-width: 24%;">
               <div
                 class="card"
-                style="width: 300px; height: 330px"
+                style="width: 300px; height: 330px; margin-bottom: 15px;"
               >
                 <form
                   method="POST"
@@ -230,7 +225,7 @@
         <!-- Display Dog Shelter -->
         <div
           id="dogs"
-          style="display: none; margin-left: -70px; margin-top: 20px"
+          style="display: none; width: 300px; height: 330px; margin-bottom: 15px;"
         >
           <div class="row">
             <% for(var index = 0; index < user_account.length; index++){ %> <%
@@ -304,7 +299,7 @@
         <!-- Display Cat Shelters -->
         <div
           id="cats"
-          style="display: none; margin-left: -70px; margin-top: 20px"
+          style="display: none; width: 300px; height: 330px; margin-bottom: 15px;"
         >
           <div class="row">
             <% for(var index = 0; index < user_account.length; index++){ %> <%
@@ -374,6 +369,8 @@
           </div>
         </div>
       </div>
+      
+    </div>
     </div>
 
     <script

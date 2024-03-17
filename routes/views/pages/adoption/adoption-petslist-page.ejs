@@ -68,7 +68,7 @@
                     </li>
                     <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
                     
-                    <li><a class="dropdown-item" href="account-notification-page">Adoption Records</a></li>
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){ %>
                       <% if(user_account[index]['id'] == user_id){ %>
                         <% if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -119,24 +119,23 @@
             <div class="row">
               <% for(var index=0; index < pets_id.length; index++){ %> <%
               if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption"){ %>
-              <div class="col" style="max-width: 32%;">
+              <div class="col" style="max-width: 24%;">
                   <div
                     class="card"
                     style="
                     margin-top: 20px;
                     width: 350px;
-                    height: 650px;
+                    height: 690px;
                     margin-bottom: 100px;
                     margin-left: 2ch;"
-                    
                   >
                     <img
                       src="<%= pets_id[index]['pet_image'] %>"
                       class="card-img-top"
-                      style="height: 240px; width: auto"
+                      style="height: 260px; width: auto"
                       alt="..."
                     />
-                    <div class="card-body" style="align-items: center; height:60%;">
+                    <div class="card-body">
                       <p class="card-text">
                         Name: <%= pets_id[index]['pet_name'] %>
                       </p>
@@ -166,7 +165,7 @@
                       <input
                         type="submit"
                         class="btn btn-primary btn-lg"
-                        style="font-family: 'Times New Roman', Times, serif; margin-left: 28px; margin-top: -50px;"
+                        style="font-family: 'Times New Roman', Times, serif; margin-left: 8ch"
                         value="Apply to Adopt"
                       />
                     </form>
@@ -184,7 +183,7 @@
             <div class="row">
               <% for(var index=0; index < pets_id.length; index++){ %> <%
               if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Dog"){ %> 
-                  <div class="col" style="max-width: 32%;">
+                  <div class="col" style="max-width: 24%;">
                     <div
                       class="card"
                       style="
@@ -247,7 +246,7 @@
               <div class="row">  
                 <% for(var index=0; index < pets_id.length; index++){ %> <%
                 if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Cat"){ %> 
-                <div class="col">
+                <div class="col"style="max-width: 24%;" >
                   <div
                     class="card"
                     style="
@@ -311,7 +310,7 @@
               <div class="row">
                 <% for(var index=0; index < pets_id.length; index++){ %> <%
                 if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Bird"){ %>
-                  <div class="col">
+                  <div class="col"style="max-width: 24%;">
                     <div
                       class="card"
                       style="
@@ -372,7 +371,7 @@
               <div class="row">
                 <% for(var index=0; index < pets_id.length; index++){ %> <%
                 if(pets_id[index]["pet_label"] == "Adoption" && pets_id[index]["pet_status"] == "For Adoption" && pets_id[index]["pet_type"] == "Exotic"){ %>
-                <div class="col">
+                <div class="col"style="max-width: 24%;">
                   <div
                     class="card"
                     style="

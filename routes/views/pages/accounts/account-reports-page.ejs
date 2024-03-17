@@ -124,13 +124,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -210,7 +205,7 @@
                 <div class="container text-left">
                   <div class="row">
                     <div class="col" style="margin-right: 100px;">
-                      <h5>Today's Donations </h5>
+                      <h6>Today's Donations </h6>
                       <table class="table">
                         <thead>
                           <tr>
@@ -222,7 +217,17 @@
                           </tr>
                         </thead>
                         <tbody id="dashboard_ascending">
-                          <% for(var index = 0; index < dashboarddata.length; index++){ %>
+                          <% if(dashboarddata.length == 0){ %>
+                            <tr>
+                              <td></td>
+                              <td>
+                                <h6>No received donations found!</h6></td>
+                                <td></td>
+                            </tr>
+                            
+                            <% }else{ %>
+                            <% for(var index = 0; index < dashboarddata.length; index++){ %>
+                            
                             <% if(dashboarddata[index]['shelter_id'] == user_id && dashboarddata[index]['newtime'] == date){ %>
                               <tr>
                                 <td><%= dashboarddata[index]['donor_type'] %></td>
@@ -236,7 +241,7 @@
                                     <%= dashboarddata[index]['donor_chewtoy'] %>
                                      
                                     <% if(dashboarddata[index]['donor_type'] == "Cash Donation"){ %> 
-                                      <%= dashboarddata[index]['donor_amount'] %> 
+                                      Php <%= dashboarddata[index]['donor_amount'] %> 
                                     <% } %>
                                 </td>
                                 <% for(var index2 = 0; index2 < user_account.length;
@@ -249,6 +254,10 @@
                                 <% } %> <% } %>
                               </tr>
                             <% } %>
+                            
+
+                            <% } %>
+                            
                           <% } %>
                         </tbody>
                       </table>
@@ -279,11 +288,27 @@
                             <th scope="col">Quantity</th>
                             <th scope="col">Description</th>
                             <th scope="col">Name of Donor</th>
+                            <th></th>
+                            <th></th>
                             <th scope="col">Date</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
+                          <% if(dashboarddata.length == 0){ %>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <h6>No donation found!</h6></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <% }else{ %>
                           <% for(var index = 0; index < dashboarddata.length; index++){ %>
+                                
                             <% var date = dashboarddata[index]['timestamp'] %> <% var dateObject = new
                             Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %>
                             <% var monthFromTS = dateObject.getMonth() + 1; %> <% var
@@ -299,7 +324,7 @@
                                 dashboarddata[index]['donor_typeofdewormer'] %> <%=
                                 dashboarddata[index]['donor_leash'] %> <%= dashboarddata[index]['donor_cage']
                                 %> <%= dashboarddata[index]['donor_chewtoy'] %> <%
-                                if(dashboarddata[index]['donor_type'] == "Cash Donation"){ %> <%=
+                                if(dashboarddata[index]['donor_type'] == "Cash Donation"){ %> Php <%=
                                 dashboarddata[index]['donor_amount'] %> <% } %>
                               </td>
 
@@ -343,12 +368,41 @@
                               </td>
                               <% } %> <% } %>
                               <td>
-                                <label
-                                  ><%= yearFromTS %>-<%= monthFromTS %>-<%= dateFromTS
-                                  %></label
-                                >
+                  <td></td>
+                  <td>
+                    <% if(monthFromTS == 1){ %>
+                      January
+                    <% }if(monthFromTS == 2){ %>
+                      February
+                    <% }if(monthFromTS == 3){ %>
+                      March
+                    <% }if(monthFromTS == 4){ %>
+                      April
+                    <% }if(monthFromTS == 5){ %>
+                      May
+                    <% }if(monthFromTS == 6){ %>
+                      June
+                    <% }if(monthFromTS == 7){ %>
+                      July
+                    <% }if(monthFromTS == 8){ %>
+                      August
+                    <% }if(monthFromTS == 9){ %>
+                      September
+                    <% }if(monthFromTS == 10){ %>
+                      October
+                    <% }if(monthFromTS == 11){ %>
+                      November
+                    <% }if(monthFromTS == 12){ %>
+                      December
+                    <% } %>
+
+                    <%= dateFromTS %>
+                    ,
+                     <%= yearFromTS %>
+                  </td>
                               </td>
                             </tr>
+                            <% } %>
                           <% } %>
                         </tbody>
                       </table>
@@ -1532,14 +1586,14 @@
                             <tr>
                               <td>Cash</td>
                               <td>
-                                <%= cash[index]['donor_amount'] %>
+                               Php <%= cash[index]['donor_amount'] %>
                               </td>
                             </tr> 
                           <% } %>
                           </tbody>
                         </table>
                         <div>
-                          <label>Total Cash Received : <%= total %></label>
+                          <label>Total Cash Received : Php <%= total %></label>
                         </div>
                       </div>
                       <div id="others" hidden>
@@ -1588,7 +1642,7 @@
                 
               </div>
               <!-- <div class="col" style="max-width: 30%;">
-                <h5>Summary for Today</h5>
+                <h6>Summary for Today</h6>
 
 
                 
@@ -1625,6 +1679,8 @@
                 </th>
                 <th scope="col">Item Name</th>
                 <th scope="col">Name of Donor</th>
+                <th></th>
+                <th></th>
                 <th scope="col">
                   Date
                   <button
@@ -1639,6 +1695,7 @@
                     </span>
                   </button>
                 </th>
+                <th></th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -1646,6 +1703,14 @@
             <!-- Start of Ascending Time -->
             <div>
               <tbody id="ascending">
+                <% if(sort.length == 0){ %>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td><h6>No received donations found!</h6></td>
+                    <td></td>
+                  </tr>
+                <% }else{ %>
                 <% for(var index = 0; index < sort.length;index++){ %> <% var
                 date = sort[index]['timestamp'] %> <% var dateObject = new
                 Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %>
@@ -1662,7 +1727,7 @@
                     sort[index]['donor_typeofdewormer'] %> <%=
                     sort[index]['donor_leash'] %> <%= sort[index]['donor_cage']
                     %> <%= sort[index]['donor_chewtoy'] %> <%
-                    if(sort[index]['donor_type'] == "Cash Donation"){ %> <%=
+                    if(sort[index]['donor_type'] == "Cash Donation"){ %> Php <%=
                     sort[index]['donor_amount'] %> <% } %>
                   </td>
                   <% for(var index2 = 0; index2 < user_account.length;
@@ -1673,12 +1738,40 @@
                     user_account[index2]['user_last_name'] %>
                   </td>
                   <% } %> <% } %>
+                  <td></td>
+                  <td></td>
                   <td>
-                    <label
-                      ><%= yearFromTS %>-<%= monthFromTS %>-<%= dateFromTS
-                      %></label
-                    >
+                    <% if(monthFromTS == 1){ %>
+                      January
+                    <% }if(monthFromTS == 2){ %>
+                      February
+                    <% }if(monthFromTS == 3){ %>
+                      March
+                    <% }if(monthFromTS == 4){ %>
+                      April
+                    <% }if(monthFromTS == 5){ %>
+                      May
+                    <% }if(monthFromTS == 6){ %>
+                      June
+                    <% }if(monthFromTS == 7){ %>
+                      July
+                    <% }if(monthFromTS == 8){ %>
+                      August
+                    <% }if(monthFromTS == 9){ %>
+                      September
+                    <% }if(monthFromTS == 10){ %>
+                      October
+                    <% }if(monthFromTS == 11){ %>
+                      November
+                    <% }if(monthFromTS == 12){ %>
+                      December
+                    <% } %>
+
+                    <%= dateFromTS %>
+                    ,
+                     <%= yearFromTS %>
                   </td>
+                   
                   <td>
                     <form
                       action="/viewdonation"
@@ -1701,7 +1794,7 @@
                     </form>
                   </td>
                 </tr>
-                <% } %>
+                <% } %><% } %>
               </tbody>
             </div>
             <!-- End of Ascending Time Table -->
@@ -1728,7 +1821,7 @@
                     desc[index]['donor_typeofdewormer'] %> <%=
                     desc[index]['donor_leash'] %> <%= desc[index]['donor_cage']
                     %> <%= desc[index]['donor_chewtoy'] %> <%
-                    if(desc[index]['donor_type'] == "Cash Donation"){ %> <%=
+                    if(desc[index]['donor_type'] == "Cash Donation"){ %> Php <%=
                     desc[index]['donor_amount'] %> <% } %>
                   </td>
                   <% for(var index2 = 0; index2 < user_account.length;
@@ -1739,11 +1832,38 @@
                     user_account[index2]['user_last_name'] %>
                   </td>
                   <% } %> <% } %>
+                  <td></td>
+                  <td></td>
                   <td>
-                    <label
-                      ><%= yearFromTS %>-<%= monthFromTS %>-<%= dateFromTS
-                      %></label
-                    >
+                    <% if(monthFromTS == 1){ %>
+                      January
+                    <% }if(monthFromTS == 2){ %>
+                      February
+                    <% }if(monthFromTS == 3){ %>
+                      March
+                    <% }if(monthFromTS == 4){ %>
+                      April
+                    <% }if(monthFromTS == 5){ %>
+                      May
+                    <% }if(monthFromTS == 6){ %>
+                      June
+                    <% }if(monthFromTS == 7){ %>
+                      July
+                    <% }if(monthFromTS == 8){ %>
+                      August
+                    <% }if(monthFromTS == 9){ %>
+                      September
+                    <% }if(monthFromTS == 10){ %>
+                      October
+                    <% }if(monthFromTS == 11){ %>
+                      November
+                    <% }if(monthFromTS == 12){ %>
+                      December
+                    <% } %>
+
+                    <%= dateFromTS %>
+                    ,
+                     <%= yearFromTS %>
                   </td>
                   <td>
                     <form
@@ -1795,7 +1915,7 @@
                     ascdonor_type[index]['donor_typeofdewormer'] %>  <%=
                     ascdonor_type[index]['donor_leash'] %> <%= ascdonor_type[index]['donor_cage']
                     %> <%= ascdonor_type[index]['donor_chewtoy'] %> <%
-                    if(ascdonor_type[index]['donor_type'] == "Cash Donation"){ %> <%=
+                    if(ascdonor_type[index]['donor_type'] == "Cash Donation"){ %> Php <%=
                     ascdonor_type[index]['donor_amount'] %> <% } %>
                   </td>
                   <% for(var index2 = 0; index2 < user_account.length;
@@ -1963,7 +2083,7 @@
                           <% var totalkilo1 = 0; %>
                           <% var totalsack1 = 0; %>
                           <% if(dogfoodtype['Aozi Lamb Adult'] != undefined){ %>
-                            <% for(var index = 0; index < dogfoodtype['Aozi Lamb Adult'].length; index++){ %>
+                            <% for(var index = 0; index < dogfoodtype['Aozi Lamb Adult'].length; index++){ %>5
                               <% if(dogfoodtype['Aozi Lamb Adult'][index]['donor_dogfoodqty'] == "Kilo"){ %>
                                 <% totalkilo1 += +dogfoodtype['Aozi Lamb Adult'][index]['donor_dogkilo']; %>
                               <% } else { %>
@@ -1972,9 +2092,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Aozi Lamb Adult </h6>
-                            <h6>Kilo: <%= totalkilo1 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack1 %> sack/s </h5>  
+                            <h6>Aozi Lamb Adult </h6>
+                            <h6>Kilo: <%= totalkilo1 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack1 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2012,9 +2132,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Aozi Lamb Puppy </h6>
-                            <h6>Kilo: <%= totalkilo2 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack2 %> sack/s </h5>  
+                            <h6>Aozi Lamb Puppy </h6>
+                            <h6>Kilo: <%= totalkilo2 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack2 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2054,9 +2174,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Beef Pro Breeder's Pack </h6>
-                            <h6>Kilo: <%= totalkilo3 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack3 %> sack/s </h5>  
+                            <h6>Beef Pro Breeder's Pack </h6>
+                            <h6>Kilo: <%= totalkilo3 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack3 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2094,9 +2214,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Bow Wow Adult </h6>
-                            <h6>Kilo: <%= totalkilo4 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack4 %> sack/s </h5>  
+                            <h6>Bow Wow Adult </h6>
+                            <h6>Kilo: <%= totalkilo4 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack4 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2134,9 +2254,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Derby Prime Chunks Adult </h6>
-                            <h6>Kilo: <%= totalkilo5 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack5 %> sack/s </h5>  
+                            <h6>Derby Prime Chunks Adult </h6>
+                            <h6>Kilo: <%= totalkilo5 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack5 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2173,9 +2293,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Good Boy Original </h6>
-                            <h6>Kilo: <%= totalkilo6 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack6 %> sack/s </h5>  
+                            <h6>Good Boy Original </h6>
+                            <h6>Kilo: <%= totalkilo6 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack6 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2213,9 +2333,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Holistic Recipe Lamb </h6>
-                            <h6>Kilo: <%= totalkilo7 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack7 %> sack/s </h5>  
+                            <h6>Holistic Recipe Lamb </h6>
+                            <h6>Kilo: <%= totalkilo7 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack7 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2255,9 +2375,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Maxime Dry Adult Dry</h6>
-                            <h6>Kilo: <%= totalkilo8 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack8 %> sack/s </h5>  
+                            <h6>Maxime Dry Adult Dry</h6>
+                            <h6>Kilo: <%= totalkilo8 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack8 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2296,9 +2416,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nature's Gift Lamb Recipe Vegetables and Pasta</h6>
-                            <h6>Kilo: <%= totalkilo9 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack9 %> sack/s </h5>  
+                            <h6>Nature's Gift Lamb Recipe Vegetables and Pasta</h6>
+                            <h6>Kilo: <%= totalkilo9 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack9 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2335,9 +2455,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nutrichunks Hi-Protein Puppy </h6>
-                            <h6>Kilo: <%= totalkilo10 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack10 %> sack/s </h5>  
+                            <h6>Nutrichunks Hi-Protein Puppy </h6>
+                            <h6>Kilo: <%= totalkilo10 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack10 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2375,9 +2495,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nutrichunks Hi-Protein Adult</h6>
-                            <h6>Kilo: <%= totalkilo11 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack11 %> sack/s </h5>  
+                            <h6>Nutrichunks Hi-Protein Adult</h6>
+                            <h6>Kilo: <%= totalkilo11 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack11 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2416,9 +2536,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Optima Beef Meal High Protein</h6>
-                            <h6>Kilo: <%= totalkilo12 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack12 %> sack/s </h5>  
+                            <h6>Optima Beef Meal High Protein</h6>
+                            <h6>Kilo: <%= totalkilo12 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack12 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2456,9 +2576,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Pedigree Adult</h6>
-                            <h6>Kilo: <%= totalkilo13 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack13 %> sack/s </h5>  
+                            <h6>Pedigree Adult</h6>
+                            <h6>Kilo: <%= totalkilo13 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack13 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2495,9 +2615,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Pet One PureLuxe Grain Free Elite Nutrition</h6>
-                            <h6>Kilo: <%= totalkilo14 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack14 %> sack/s </h5>  
+                            <h6>Pet One PureLuxe Grain Free Elite Nutrition</h6>
+                            <h6>Kilo: <%= totalkilo14 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack14 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2536,9 +2656,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Royal Canin Beagle</h6>
-                            <h6>Kilo: <%= totalkilo15 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack15 %> sack/s </h5>  
+                            <h6>Royal Canin Beagle</h6>
+                            <h6>Kilo: <%= totalkilo15 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack15 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2576,9 +2696,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Royal Canin Golden Retriever</h6>
-                            <h6>Kilo: <%= totalkilo16 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack16 %> sack/s </h5>  
+                            <h6>Royal Canin Golden Retriever</h6>
+                            <h6>Kilo: <%= totalkilo16 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack16 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2616,9 +2736,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Royal Canin Hypoallergenic</h6>
-                            <h6>Kilo: <%= totalkilo17 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack17 %> sack/s </h5>  
+                            <h6>Royal Canin Hypoallergenic</h6>
+                            <h6>Kilo: <%= totalkilo17 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack17 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2656,9 +2776,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Royal Canin Labrador</h6>
-                            <h6>Kilo: <%= totalkilo18 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack18 %> sack/s </h5>  
+                            <h6>Royal Canin Labrador</h6>
+                            <h6>Kilo: <%= totalkilo18 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack18 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2697,9 +2817,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Vitality Valuemeal Puppy</h6>
-                            <h6>Kilo: <%= totalkilo19 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack19 %> sack/s </h5>  
+                            <h6>Vitality Valuemeal Puppy</h6>
+                            <h6>Kilo: <%= totalkilo19 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack19 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2742,9 +2862,9 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Other Donation</h6>
-                            <h6>Kilo: <%= totalkilo20 %> kilo/s</h5>
-                            <h6>Sack: <%= totalsack20 %> sack/s </h5>  
+                            <h6>Other Donation</h6>
+                            <h6>Kilo: <%= totalkilo20 %> kilo/s</h6>
+                            <h6>Sack: <%= totalsack20 %> sack/s </h6>  
                           </div>
                         </div>
                       </div>
@@ -2789,9 +2909,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Acana Wild Prairie Kitten</h6>
-                              <h6>Kilo: <%= totalkilo21 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack21 %> sack/s </h5>  
+                              <h6>Acana Wild Prairie Kitten</h6>
+                              <h6>Kilo: <%= totalkilo21 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack21 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -2828,9 +2948,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Aozi Organic</h6>
-                              <h6>Kilo: <%= totalkilo22 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack22 %> sack/s </h5>  
+                              <h6>Aozi Organic</h6>
+                              <h6>Kilo: <%= totalkilo22 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack22 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -2867,9 +2987,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Cuties Catz Dry</h6>
-                              <h6>Kilo: <%= totalkilo23 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack23 %> sack/s </h5>  
+                              <h6>Cuties Catz Dry</h6>
+                              <h6>Kilo: <%= totalkilo23 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack23 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -2907,9 +3027,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Goodest Cat Chicken Chomp</h6>
-                              <h6>Kilo: <%= totalkilo24 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack24 %> sack/s </h5>  
+                              <h6>Goodest Cat Chicken Chomp</h6>
+                              <h6>Kilo: <%= totalkilo24 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack24 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -2947,9 +3067,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Go! Solutions Carnivore Grain Free Salmon and Cod Recipe</h6>
-                              <h6>Kilo: <%= totalkilo25 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack25 %> sack/s </h5>  
+                              <h6>Go! Solutions Carnivore Grain Free Salmon and Cod Recipe</h6>
+                              <h6>Kilo: <%= totalkilo25 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack25 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -2987,9 +3107,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Hill's Science Diet</h6>
-                              <h6>Kilo: <%= totalkilo26 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack26 %> sack/s </h5>  
+                              <h6>Hill's Science Diet</h6>
+                              <h6>Kilo: <%= totalkilo26 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack26 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3027,9 +3147,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Monge Special Chicken and Turkey All Life Stages</h6>
-                              <h6>Kilo: <%= totalkilo27 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack27 %> sack/s </h5>  
+                              <h6>Monge Special Chicken and Turkey All Life Stages</h6>
+                              <h6>Kilo: <%= totalkilo27 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack27 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3067,9 +3187,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Morando Professional</h6>
-                              <h6>Kilo: <%= totalkilo28 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack28 %> sack/s </h5>  
+                              <h6>Morando Professional</h6>
+                              <h6>Kilo: <%= totalkilo28 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack28 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3107,9 +3227,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Orijen Six Fish</h6>
-                              <h6>Kilo: <%= totalkilo29 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack29 %> sack/s </h5>  
+                              <h6>Orijen Six Fish</h6>
+                              <h6>Kilo: <%= totalkilo29 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack29 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3147,9 +3267,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Purina Fancy Feast Adult</h6>
-                              <h6>Kilo: <%= totalkilo30 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack30 %> sack/s </h5>  
+                              <h6>Purina Fancy Feast Adult</h6>
+                              <h6>Kilo: <%= totalkilo30 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack30 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3187,9 +3307,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Royal Canin Hair and Skin</h6>
-                              <h6>Kilo: <%= totalkilo31 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack31 %> sack/s </h5>  
+                              <h6>Royal Canin Hair and Skin</h6>
+                              <h6>Kilo: <%= totalkilo31 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack31 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3227,9 +3347,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Royal Canin Indoor Adult 7+</h6>
-                              <h6>Kilo: <%= totalkilo32 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack32 %> sack/s </h5>  
+                              <h6>Royal Canin Indoor Adult 7+</h6>
+                              <h6>Kilo: <%= totalkilo32 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack32 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3267,9 +3387,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Sheba Wet Tuna and Salmon in Gravy</h6>
-                              <h6>Kilo: <%= totalkilo33 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack33 %> sack/s </h5>  
+                              <h6>Sheba Wet Tuna and Salmon in Gravy</h6>
+                              <h6>Kilo: <%= totalkilo33 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack33 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3307,9 +3427,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Whiskas Kitten Wet Tuna</h6>
-                              <h6>Kilo: <%= totalkilo34 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack34 %> sack/s </h5>  
+                              <h6>Whiskas Kitten Wet Tuna</h6>
+                              <h6>Kilo: <%= totalkilo34 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack34 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3347,9 +3467,9 @@
                               <% } %>
                             <% } %>
                             <div>
-                              <h5>Other Donation: </h6>
-                              <h6>Kilo: <%= totalkilo35 %> kilo/s</h5>
-                              <h6>Sack: <%= totalsack35 %> sack/s </h5>  
+                              <h6>Other Donation: </h6>
+                              <h6>Kilo: <%= totalkilo35 %> kilo/s</h6>
+                              <h6>Sack: <%= totalsack35 %> sack/s </h6>  
                             </div>
                           </div>
                         </div>
@@ -3359,7 +3479,6 @@
                       
                     </td>
                   </tr>
-                </tr>
                 
               </tbody>
             </div>
@@ -3390,8 +3509,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>LC-Vit Plus Multivitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs1 %></h5>
+                            <h6>LC-Vit Plus Multivitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs1 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3423,8 +3542,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>LC-Vit Plus Multivitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs2 %></h5>
+                            <h6>LC-Vit Plus Multivitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs2 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3456,8 +3575,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Petliv Flavor Tablet Appetite Stimulant for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs3 %></h5>
+                            <h6>Petliv Flavor Tablet Appetite Stimulant for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs3 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3489,8 +3608,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Growth Advance Multivitamins with Chlorella</h6>
-                            <h6>Pieces: <%= totalpcs4 %></h5>
+                            <h6>Growth Advance Multivitamins with Chlorella</h6>
+                            <h6>Pieces: <%= totalpcs4 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3523,8 +3642,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Virbac Nutriplus Gel - Pet Multivitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs5 %></h5>
+                            <h6>Virbac Nutriplus Gel - Pet Multivitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs5 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3557,8 +3676,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nutri-Vet Puppy-vite Chewables</h6>
-                            <h6>Pieces: <%= totalpcs6 %></h5>
+                            <h6>Nutri-Vet Puppy-vite Chewables</h6>
+                            <h6>Pieces: <%= totalpcs6 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3590,8 +3709,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>All Natural Probiotics x Moringa</h6>
-                            <h6>Pieces: <%= totalpcs7 %></h5>
+                            <h6>All Natural Probiotics x Moringa</h6>
+                            <h6>Pieces: <%= totalpcs7 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3623,8 +3742,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Papi MVP Multivitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs8 %></h5>
+                            <h6>Papi MVP Multivitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs8 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3656,8 +3775,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Papi Enmalac Milk Enhancer for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs9 %></h5>
+                            <h6>Papi Enmalac Milk Enhancer for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs9 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3689,8 +3808,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Canicee Immune Booster Vitamin C for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs10 %></h5>
+                            <h6>Canicee Immune Booster Vitamin C for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs10 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3722,8 +3841,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nutratech Coatshine syrup</h6>
-                            <h6>Pieces: <%= totalpcs11 %></h5>
+                            <h6>Nutratech Coatshine syrup</h6>
+                            <h6>Pieces: <%= totalpcs11 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3756,8 +3875,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Papi OB Vitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs12 %></h5>
+                            <h6>Papi OB Vitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs12 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3790,8 +3909,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>NaturVet VitaPet Senior Daily Vitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs13 %></h5>
+                            <h6>NaturVet VitaPet Senior Daily Vitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs13 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3824,8 +3943,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Mutant Lab Pets Probiotics Vitamins for Dogs</h6>
-                            <h6>Pieces: <%= totalpcs14 %></h5>
+                            <h6>Mutant Lab Pets Probiotics Vitamins for Dogs</h6>
+                            <h6>Pieces: <%= totalpcs14 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3857,8 +3976,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Nature's Vet Organic Dog Superfood Vitamins</h6>
-                            <h6>Pieces: <%= totalpcs15 %></h5>
+                            <h6>Nature's Vet Organic Dog Superfood Vitamins</h6>
+                            <h6>Pieces: <%= totalpcs15 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3891,8 +4010,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Bioline Cat Multivitamin Paste</h6>
-                            <h6>Pieces: <%= totalpcs16 %></h5>
+                            <h6>Bioline Cat Multivitamin Paste</h6>
+                            <h6>Pieces: <%= totalpcs16 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3925,8 +4044,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Pet Nutrition Gel Vitamins</h6>
-                            <h6>Pieces: <%= totalpcs17 %></h5>
+                            <h6>Pet Nutrition Gel Vitamins</h6>
+                            <h6>Pieces: <%= totalpcs17 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3958,8 +4077,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Cat Hairball Solution Multivitamins Supplement</h6>
-                            <h6>Pieces: <%= totalpcs18 %></h5>
+                            <h6>Cat Hairball Solution Multivitamins Supplement</h6>
+                            <h6>Pieces: <%= totalpcs18 %></h6>
                           </div>
                         </div>
                       </div>
@@ -3992,8 +4111,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Forza Animale DS Blue</h6>
-                            <h6>Pieces: <%= totalpcs19 %></h5>
+                            <h6>Forza Animale DS Blue</h6>
+                            <h6>Pieces: <%= totalpcs19 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4026,8 +4145,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Forza Animale AGB Red</h6>
-                            <h6>Pieces: <%= totalpcs20 %></h5>
+                            <h6>Forza Animale AGB Red</h6>
+                            <h6>Pieces: <%= totalpcs20 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4060,8 +4179,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Other Donations</h6>
-                            <h6>Pieces: <%= totalpcs21 %></h5>
+                            <h6>Other Donations</h6>
+                            <h6>Pieces: <%= totalpcs21 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4100,8 +4219,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Drontal Oral Suspension for Puppy Dewormer</h6>
-                            <h6>Pieces: <%= totalpcs22 %></h5>
+                            <h6>Drontal Oral Suspension for Puppy Dewormer</h6>
+                            <h6>Pieces: <%= totalpcs22 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4133,8 +4252,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Drontal Plus Tasty Bone Tablet Dog Dewormer</h6>
-                            <h6>Pieces: <%= totalpcs23 %></h5>
+                            <h6>Drontal Plus Tasty Bone Tablet Dog Dewormer</h6>
+                            <h6>Pieces: <%= totalpcs23 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4166,8 +4285,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>NexGard Spectra Chewable Tablet Dog Ectoparasiticide</h6>
-                            <h6>Pieces: <%= totalpcs24 %></h5>
+                            <h6>NexGard Spectra Chewable Tablet Dog Ectoparasiticide</h6>
+                            <h6>Pieces: <%= totalpcs24 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4199,8 +4318,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Pyrantel Embonate Nematocide Anthelmintic for Dogs and Cats</h6>
-                            <h6>Pieces: <%= totalpcs25 %></h5>
+                            <h6>Pyrantel Embonate Nematocide Anthelmintic for Dogs and Cats</h6>
+                            <h6>Pieces: <%= totalpcs25 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4233,8 +4352,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Heartgard Plus Chewables (Ivermectin, Pyrantel) Up to 11 kgs</h6>
-                            <h6>Pieces: <%= totalpcs26 %></h5>
+                            <h6>Heartgard Plus Chewables (Ivermectin, Pyrantel) Up to 11 kgs</h6>
+                            <h6>Pieces: <%= totalpcs26 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4266,8 +4385,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Heartgard Plus Chewables (Ivermectin) 11 - 22 kgs</h6>
-                            <h6>Pieces: <%= totalpcs27 %></h5>
+                            <h6>Heartgard Plus Chewables (Ivermectin) 11 - 22 kgs</h6>
+                            <h6>Pieces: <%= totalpcs27 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4300,8 +4419,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Heartgard Plus Chewables for Dogs (Ivermectin, Pyrantel) 23 - 45 kgs</h6>
-                            <h6>Pieces: <%= totalpcs28 %></h5>
+                            <h6>Heartgard Plus Chewables for Dogs (Ivermectin, Pyrantel) 23 - 45 kgs</h6>
+                            <h6>Pieces: <%= totalpcs28 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4334,8 +4453,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Heartgard Chewable for Cats (Ivermectin) Up to 2 kgs</h6>
-                            <h6>Pieces: <%= totalpcs29 %></h5>
+                            <h6>Heartgard Chewable for Cats (Ivermectin) Up to 2 kgs</h6>
+                            <h6>Pieces: <%= totalpcs29 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4367,8 +4486,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Heartgard Chewable for Cats (Ivermectin) 2 to 6 kgs</h6>
-                            <h6>Pieces: <%= totalpcs30 %></h5>
+                            <h6>Heartgard Chewable for Cats (Ivermectin) 2 to 6 kgs</h6>
+                            <h6>Pieces: <%= totalpcs30 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4402,8 +4521,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Trifexis (Spinosad + milbemycin oxime) 4 to 9 kgs</h6>
-                            <h6>Pieces: <%= totalpcs31 %></h5>
+                            <h6>Trifexis (Spinosad + milbemycin oxime) 4 to 9 kgs</h6>
+                            <h6>Pieces: <%= totalpcs31 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4436,8 +4555,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Trifexis (Spinosad + milbemycin oxime) 9 to 18 kgs</h6>
-                            <h6>Pieces: <%= totalpcs32 %></h5>
+                            <h6>Trifexis (Spinosad + milbemycin oxime) 9 to 18 kgs</h6>
+                            <h6>Pieces: <%= totalpcs32 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4470,8 +4589,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Trifexis (Spinosad + milbemycin oxime) 18 to 27 kgs</h6>
-                            <h6>Pieces: <%= totalpcs33 %></h5>
+                            <h6>Trifexis (Spinosad + milbemycin oxime) 18 to 27 kgs</h6>
+                            <h6>Pieces: <%= totalpcs33 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4504,8 +4623,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Trifexis (Spinosad + milbemycin oxime) 27 to 54 kgs</h6>
-                            <h6>Pieces: <%= totalpcs34 %></h5>
+                            <h6>Trifexis (Spinosad + milbemycin oxime) 27 to 54 kgs</h6>
+                            <h6>Pieces: <%= totalpcs34 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4537,8 +4656,8 @@
                             <% } %>
                           <% } %>
                           <div>
-                            <h5>Other Donations</h6>
-                            <h6>Pieces: <%= totalpcs35 %></h5>
+                            <h6>Other Donations</h6>
+                            <h6>Pieces: <%= totalpcs35 %></h6>
                           </div>
                         </div>
                       </div>
@@ -4593,7 +4712,7 @@
                   <tr>
                     <td>Cash</td>
                       <td>
-                        <%= cash[index]['donor_amount'] %>
+                        Php <%= cash[index]['donor_amount'] %>
                       </td>
                   </tr> 
                 <% } %>
@@ -4603,7 +4722,7 @@
           </table>
 
           <div id="cash_total" style="margin-top: 20px;" hidden>
-            <h4>Total Received Donation : <%= total %></h4>
+            <h4>Total Received Donation : Php <%= total %></h4>
           </div>
             
         </div>

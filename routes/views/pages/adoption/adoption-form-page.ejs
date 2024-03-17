@@ -110,13 +110,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -271,7 +266,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_rescue_yes"
+                name="form_rescue"
                 id="flexRadioDefault1"
                 value="Yes"
               />
@@ -289,8 +284,8 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_rescue_no"
-                id="flexRadioDefault2"
+                name="form_rescue"
+                id="flexRadioDefault1"
                 value="No"
               />
               <label
@@ -310,7 +305,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_allowed_yes"
+                name="form_allowed"
                 id="flexRadioDefault1"
                 value="Yes"
               />
@@ -328,7 +323,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_allowed_no"
+                name="form_allowed"
                 id="flexRadioDefault2"
                 value="No"
               />
@@ -346,7 +341,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_rescue_notapplicable"
+                name="form_allowed"
                 id="flexRadioDefault2"
                 value="Not Applicable"
               />
@@ -386,7 +381,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_children_pet_interaction_yes"
+                name="form_children_pet_interaction"
                 id="flexRadioDefault1"
                 value="Yes"
               />
@@ -404,7 +399,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_children_pet_interaction_no"
+                name="form_children_pet_interaction"
                 id="flexRadioDefault2"
                 value="No"
               />
@@ -425,7 +420,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_experience_yes"
+                name="form_experience"
                 id="flexRadioDefault1"
                 value="Yes"
               />
@@ -443,7 +438,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="form_experience_yes"
+                name="form_experience"
                 id="flexRadioDefault2"
                 value="No"
               />

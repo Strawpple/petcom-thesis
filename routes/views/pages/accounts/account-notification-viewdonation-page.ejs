@@ -117,13 +117,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -599,7 +594,7 @@
               <div style="height: 2in; width: 5in">
                 <div style="margin-left: 2ch">
                   <div class="row">
-                    <h4><%= trans_id[index]['donor_amount'] %></h4>
+                    <h4>Php <%= trans_id[index]['donor_amount'] %></h4>
                   </div>
                 </div>
               </div>
@@ -744,7 +739,7 @@
             
           <% } %><% } %> <% } %> <% } %>
           <a
-            href="account-notification-page"
+            href="account-main-page"
             class="btn btn-link"
             style="margin-left: 25px; margin-top: 0.5in"
           >

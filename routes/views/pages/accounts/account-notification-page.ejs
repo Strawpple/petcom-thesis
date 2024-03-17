@@ -119,13 +119,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -157,7 +152,7 @@
       <!-- Transaction div -->
       <div>
         <div style="height: 7in; width: 15in; margin-left: 5ch">
-          <h2 style="margin-top: 3ch; margin-left: 2ch">Pet Adoption</h2>
+          <h2 style="margin-top: 3ch; margin-left: 2ch">Notifications</h2>
 
           <% for(var index = 0; index < user_account.length; index++){ %> <%
           if(user_account[index]['id'] == user_id){ %> <%
@@ -230,13 +225,37 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -244,7 +263,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -314,13 +333,37 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -328,7 +371,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -445,13 +488,36 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -459,7 +525,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -530,13 +596,37 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -544,7 +634,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -614,13 +704,36 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -628,7 +741,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -765,15 +878,38 @@
                   <h5 class="mb-1">
                     <%= pets_id[index2]['pet_name'] %> found its forever home!
                   </h5>
-
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                  data-field="modified"
+                  data-sortable="true"
+                  data-sorter="monthSorter"
+                >
+                <% if(monthFromTS == 1){ %>
+                  January
+                <% }if(monthFromTS == 2){ %>
+                  February
+                <% }if(monthFromTS == 3){ %>
+                  March
+                <% }if(monthFromTS == 4){ %>
+                  April
+                <% }if(monthFromTS == 5){ %>
+                  May
+                <% }if(monthFromTS == 6){ %>
+                  June
+                <% }if(monthFromTS == 7){ %>
+                  July
+                <% }if(monthFromTS == 8){ %>
+                  August
+                <% }if(monthFromTS == 9){ %>
+                  September
+                <% }if(monthFromTS == 10){ %>
+                  October
+                <% }if(monthFromTS == 11){ %>
+                  November
+                <% }if(monthFromTS == 12){ %>
+                  December
+                <% } %>
+                </th>
+
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -781,7 +917,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -853,13 +989,37 @@
                   </h5>
 
                   <th
-                    data-field="modified"
-                    data-sortable="true"
-                    data-sorter="monthSorter"
-                  >
-                    <%= monthFromTS %>
-                  </th>
-                  /
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+
                   <th
                     data-field="modified"
                     data-sortable="true"
@@ -867,7 +1027,7 @@
                   >
                     <%= dateFromTS %>
                   </th>
-                  /
+                  ,
                   <th
                     data-field="modified"
                     data-sortable="true"

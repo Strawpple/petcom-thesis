@@ -39,9 +39,9 @@
             id="navbarColor01"
           >
             <ul class="navbar-nav ms-auto">
-              
               <% for(var index = 0; index < user_account.length; index++){ %> <%
-                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
               <li class="nav-item">
                 <a
                   class="nav-link"
@@ -49,8 +49,7 @@
                   >Adopt a pet</a
                 >
               </li>
-                <% } %>
-              <% } %>
+              <% } %> <% } %>
               <li class="nav-item">
                 <a
                   class="nav-link"
@@ -59,7 +58,8 @@
                 >
               </li>
               <% for(var index = 0; index < user_account.length; index++){ %> <%
-                if(user_account[index]['id'] == user_id && user_account[index]['user_type'] != "Shelter"){ %>
+              if(user_account[index]['id'] == user_id &&
+              user_account[index]['user_type'] != "Shelter"){ %>
               <li class="nav-item">
                 <a
                   class="nav-link"
@@ -67,8 +67,7 @@
                   >Donate to a Shelter</a
                 >
               </li>
-              <% } %>
-            <% } %>
+              <% } %> <% } %>
               <!-- <li class="nav-item">
                 <a
                   class="nav-link"
@@ -84,19 +83,26 @@
                 >
               </li>
               <li class="nav-item">
-                <div class="dropdown" style="margin-left: 10px;">
-                  <% for(var index = 0; index < user_account.length; index++){ %>
-                    <% if(user_account[index]['id'] == user_id){ %>
-                      <a class="nav-link" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><%= user_account[index]['user_first_name'] %> <%= user_account[index]['user_last_name'] %></a
-                    >
-                    <% } %>
-                  <% } %>
+                <div
+                  class="dropdown"
+                  style="margin-left: 10px"
+                >
+                  <% for(var index = 0; index < user_account.length; index++){
+                  %> <% if(user_account[index]['id'] == user_id){ %>
+                  <a
+                    class="nav-link"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    ><%= user_account[index]['user_first_name'] %> <%=
+                    user_account[index]['user_last_name'] %></a
+                  >
+                  <% } %> <% } %>
                   <ul
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
-                    style="margin-left: -1px;"
+                    style="margin-left: -1px"
                   >
-                    
                     <li>
                       <a
                         class="dropdown-item"
@@ -111,15 +117,9 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
-                    <% for(var index = 0; index < user_account.length; index++){ %> <%
-                    if(user_account[index]['id'] == user_id){ %> <%
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
+                    <% for(var index = 0; index < user_account.length; index++){
+                    %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
                     <li>
                       <a
@@ -151,9 +151,966 @@
       </div>
 
       <!--Container-->
-      <div style="margin-top: 5%; margin-left: 5%">
-        <h1>Home Page</h1>
-        <h2>Logged</h2>
+      <div style="margin-top: 2%; margin-left: 5%;">
+        <div class="container text-left">
+          <% for(var index3 = 0; index3 < accounts[user_id].length; index3++){ %> <%
+          if(accounts[user_id][index3]['user_type'] != "Shelter"){ %>
+          <!-- Animal Adoption -->
+          <div
+            class="row"
+            style="height: auto; "
+          >
+            <h4>Adoption Notification</h4>
+            <div
+              class="col"
+              style="width: 50%; background-color: rgb(206, 203, 203);"
+              
+            >
+              <h5>Pending Forms</h5>
+              <% if(adoptionform.length == 0){ %>
+              <h6>No pending forms found!</h6>
+              <% }else{ %> <% for(var index = 0; index <
+              adoptionform.length;index++){ %> <% var date
+              =adoptionform[index]['timestamp'] %> <% var dateObject = new
+              Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+              var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+              = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+              <% var mins = dateObject.getMinutes(); %> <% var sec =
+              dateObject.getSeconds(); %>
+              <div class="list-group">
+                <a
+                  class="list-group-item list-group-item-action"
+                  style="margin-bottom: 10px; height: 120px"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <% for(var index2 = 0; index2 < petlists.length; index2++){
+                    %> <% if(adoptionform[index]['pet_id'] ==
+                    petlists[index2]['id']){ %>
+                    <h5 class="mb-1">
+                      Adoption Form for <%= petlists[index2]['pet_name'] %>
+                    </h5>
+                    <% } %> <% } %>
+                    <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                    
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="dateSorter"
+                    >
+                      <%= dateFromTS %>
+                    </th>
+                    ,
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="yearSorter"
+                    >
+                      <%= yearFromTS %>
+                    </th>
+                  </div>
+                  <div>
+                    <form
+                      method="POST"
+                      action="/viewadoptionforms"
+                    >
+                      <input
+                        type="text"
+                        name="notifid"
+                        style="display: none"
+                        value="<%= adoptionform[index]['id'] %>"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-link"
+                        style="
+                          margin-top: 5px;
+                          width: 100px;
+                          height: 50px;
+                          margin-left: -1ch;
+                        "
+                        value="View Form"
+                      />
+                    </form>
+                  </div>
+                </a>
+              </div>
+              <% } %> <% } %>
+            </div>
+            <div
+              class="col"
+              style="width: 50%; background-color: skyblue;"
+              
+            >
+              <h5>Scheduled for Interview Forms</h5>
+              <% if(scheduledform.length == 0){ %>
+              <h6>No scheduled forms found!</h6>
+              <% } %> <% for(var index = 0; index <
+              scheduledform.length;index++){ %> <% var date
+              =scheduledform[index]['timestamp'] %> <% var dateObject = new
+              Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+              var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+              = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+              <% var mins = dateObject.getMinutes(); %> <% var sec =
+              dateObject.getSeconds(); %>
+              <div class="list-group">
+                <a
+                  class="list-group-item list-group-item-action"
+                  style="margin-bottom: 10px; height: 120px"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <% for(var index2 = 0; index2 < petlists.length; index2++){
+                    %> <% if(scheduledform[index]['pet_id'] ==
+                    petlists[index2]['id']){ %>
+                    <h5 class="mb-1">
+                      Adoption Form for <%= petlists[index2]['pet_name'] %>
+                    </h5>
+                    <% } %> <% } %>
+                    <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                    
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="dateSorter"
+                    >
+                      <%= dateFromTS %>
+                    </th>
+                    ,
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="yearSorter"
+                    >
+                      <%= yearFromTS %>
+                    </th>
+                  </div>
+                  <div>
+                    <form
+                      method="POST"
+                      action="/viewadoptionforms"
+                    >
+                      <input
+                        type="text"
+                        name="notifid"
+                        style="display: none"
+                        value="<%= scheduledform[index]['id'] %>"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-link"
+                        value="View Form"
+                      />
+                    </form>
+                    <form
+                      action="/adoptsuccess"
+                      method="POST"
+                    >
+                      <input
+                        type="text"
+                        style="display: none"
+                        value="<%= scheduledform[index]['pet_id'] %>"
+                        name="petid"
+                      />
+                      <input
+                        type="text"
+                        style="display: none"
+                        value="<%= scheduledform[index]['form_id'] %>"
+                        name="session_id"
+                      />
+                      <input
+                        type="text"
+                        style="display: none"
+                        value="<%= scheduledform[index]['id'] %>"
+                        name="formid"
+                      />
+
+                      <div>
+                        <input
+                          class="btn btn-primary"
+                          type="submit"
+                          value="Approve"
+                          name="buttonin"
+                          style="background-color: #6d9dc5"
+                        />
+                        <input
+                          class="btn btn-primary"
+                          type="submit"
+                          value="Decline"
+                          name="buttonin"
+                          style="background-color: #6d9dc5"
+                        />
+                      </div>
+                    </form>
+                  </div>
+                </a>
+              </div>
+
+              <% } %>
+            </div>
+            <div
+              class="col"
+              style="width: 50%; background-color: rgba(127, 255, 212, 0.829);"
+            >
+              <h5>Approved Adoption Forms</h5>
+              <% if(approvedform.length == 0){ %>
+              <h6>No approved forms found!</h6>
+              <% } else { %> <% for(var index = 0; index <
+              approvedform.length;index++){ %> <% var date
+              =approvedform[index]['timestamp'] %> <% var dateObject = new
+              Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+              var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+              = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+              <% var mins = dateObject.getMinutes(); %> <% var sec =
+              dateObject.getSeconds(); %>
+              <div class="list-group">
+                <a
+                  class="list-group-item list-group-item-action"
+                  style="margin-bottom: 10px; height: 120px"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <% for(var index2 = 0; index2 < petlists.length; index2++){
+                    %> <% if(approvedform[index]['pet_id'] ==
+                    petlists[index2]['id']){ %>
+                    <h5 class="mb-1">
+                      Adoption Form for <%= petlists[index2]['pet_name'] %>
+                    </h5>
+                    <% } %> <% } %>
+                    <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                    
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="dateSorter"
+                    >
+                      <%= dateFromTS %>
+                    </th>
+                    ,
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="yearSorter"
+                    >
+                      <%= yearFromTS %>
+                    </th>
+                  </div>
+                  <div>
+                    <form
+                      method="POST"
+                      action="/viewadoptionforms"
+                    >
+                      <input
+                        type="text"
+                        name="notifid"
+                        style="display: none"
+                        value="<%= approvedform[index]['id'] %>"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-link"
+                        style="
+                          margin-top: 5px;
+                          width: 100px;
+                          height: 50px;
+                          margin-left: -1ch;
+                        "
+                        value="View Form"
+                      />
+                    </form>
+                  </div>
+                </a>
+              </div>
+              <% } %> <% } %>
+            </div>
+          </div>
+
+        
+          <div
+            class="row"
+            style="height: 250px; margin-top: 5%"
+          >
+            <!-- Blood Donation -->
+            <h4>Blood Donation Notification</h4>
+            <div class="col" style="background-color: rgb(206, 203, 203);">
+              <h5>Pending Blood Donation</h5>
+              <% if(pendingdonor['pending'] == undefined){ %> 
+                
+                <h6>No pending donors found!</h6>
+              <% }else{ %> 
+                <% for(var index = 0; index < pendingdonor['pending'].length; index++){ %>
+                  <% var date
+              =pendingdonor['pending'][index]['timestamp'] %> <% var dateObject = new
+              Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+              var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+              = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+              <% var mins = dateObject.getMinutes(); %> <% var sec =
+              dateObject.getSeconds(); %>
+                  <div class="list-group">
+                    <a class="list-group-item list-group-item-action">
+                      <div class="d-flex w-100 justify-content-between">
+                        <% for(var index2 = 0; index2 < petlists.length; index2++){
+                        %> <% if(pendingdonor['pending'][index]['patient_id'] ==
+                        petlists[index2]['id']){ %>
+                        <h5 class="mb-1">Blood donation to <%= petlists[index2]['pet_name'] %></h5>
+                        <% } %> <% } %>
+                        <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                    
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="dateSorter"
+                    >
+                      <%= dateFromTS %>
+                    </th>
+                    ,
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="yearSorter"
+                    >
+                      <%= yearFromTS %>
+                    </th>
+                      </div>
+                      <p class="mb-1">Conditions : <br> <%= pendingdonor['pending'][index]['transportation'] %> <br><%= pendingdonor['pending'][index]['vitamins'] %> <br><%= pendingdonor['pending'][index]['dogfood'] %> </p>
+                      
+                    <form action="/donorpetid" method="post">
+                      <input style="display: none;" name="id" value="<%= pendingdonor['pending'][index]['patient_id'] %>">
+                        <button type="submit" class="btn btn-primary" >View Pet Profile</button>  
+                    </form>
+                    </a>
+                  </div>
+              <% } %> <% } %>
+            </div>
+            <div class="col" style="background-color: skyblue;">
+              <h5>Scheduled for Blood Transfusion</h5>
+              <% if(pendingdonor['Scheduled for Donation'] == undefined){ %> 
+                <h6>No scheduled for donation found!</h6>
+              <% }else{ %> 
+                <% for(var index = 0; index < pendingdonor['Scheduled for Donation'].length; index++){ %>
+                  <% var date
+              =pendingdonor['Scheduled for Donation'][index]['timestamp'] %> <% var dateObject = new
+              Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+              var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+              = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+              <% var mins = dateObject.getMinutes(); %> <% var sec =
+              dateObject.getSeconds(); %>
+              <div class="list-group">
+                <a
+                  href="#"
+                  class="list-group-item list-group-item-action"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <% for(var index2 = 0; index2 < petlists.length; index2++){
+                      %> <% if(pendingdonor['Scheduled for Donation'][index]['patient_id'] ==
+                      petlists[index2]['id']){ %>
+                      <h5 class="mb-1">Scheduled donation to <%= petlists[index2]['pet_name'] %></h5>
+                      <% } %> <% } %>
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                    
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="dateSorter"
+                    >
+                      <%= dateFromTS %>
+                    </th>
+                    ,
+                    <th
+                      data-field="modified"
+                      data-sortable="true"
+                      data-sorter="yearSorter"
+                    >
+                      <%= yearFromTS %>
+                    </th>
+                  </div>
+                  <p class="mb-1">Conditions : <br> <%= pendingdonor['Scheduled for Donation'][index]['transportation'] %> <br><%= pendingdonor['Scheduled for Donation'][index]['vitamins'] %> <br><%= pendingdonor['Scheduled for Donation'][index]['dogfood'] %> </p>
+                  <form action="/donorpetid" method="post">
+                    <input style="display: none;" name="id" value="<%= pendingdonor['Scheduled for Donation'][index]['patient_id'] %>">
+                      <button type="submit" class="btn btn-primary" >View Pet Profile</button>  
+                  </form>   
+                </a>
+              </div>
+              <% } %>
+              <% } %>
+            </div>
+            <div class="col" style="background-color: rgba(127, 255, 212, 0.829);">
+              <h5>Approved Blood Donation</h5>
+              <div class="list-group">
+                <% if(pendingdonor['Approved'] == undefined){ %> 
+                  <h6>No approved donation found!</h6>
+                <% }else{ %> 
+                  <% for(var index = 0; index < pendingdonor['Approved'].length; index++){ %>
+                    <% var date
+                =pendingdonor['Approved'][index]['timestamp'] %> <% var dateObject = new
+                Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+                var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+                = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+                <% var mins = dateObject.getMinutes(); %> <% var sec =
+                dateObject.getSeconds(); %>
+                <div class="list-group">
+                  <a
+                    href="#"
+                    class="list-group-item list-group-item-action"
+                  >
+                    <div class="d-flex w-100 justify-content-between">
+                      <% for(var index2 = 0; index2 < petlists.length; index2++){
+                        %> <% if(pendingdonor['Approved'][index]['patient_id'] ==
+                        petlists[index2]['id']){ %>
+                        <h5 class="mb-1">Approved donation to <%= petlists[index2]['pet_name'] %></h5>
+                        <% } %> <% } %>
+                        <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                      
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="dateSorter"
+                      >
+                        <%= dateFromTS %>
+                      </th>
+                      ,
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="yearSorter"
+                      >
+                        <%= yearFromTS %>
+                      </th>
+                    </div>
+                    <p class="mb-1">Conditions : <br> <%= pendingdonor['Approved'][index]['transportation'] %> <br><%= pendingdonor['Approved'][index]['vitamins'] %> <br><%= pendingdonor['Approved'][index]['dogfood'] %> </p>
+                        
+                  </a>
+                </div>
+                <% } %>
+                <% } %>
+              </div>
+            </div>
+            <div>
+              
+            </div>
+            <div>
+              <div>
+                <!-- Shelter Donation -->
+                <div
+                  class="row"
+                  style="height: auto; margin-top: 5%;"
+                >
+                  <h4>Shelter Donation</h4>
+                  <div
+                    class="col"
+                    style="width: 50%; background-color: rgb(206, 203, 203)"
+                  >
+                  
+                  <% if(mydonation.length == 0){ %>
+                    <h6>No donations found!</h6>
+
+                  <% }else{ %>
+                    <% for(var index = 0; index < mydonation.length; index++){ %>
+                      <% var date =mydonation[index]['timestamp'] %> <% var dateObject = new
+                        Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+                        var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+                        = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+                        <% var mins = dateObject.getMinutes(); %> <% var sec =
+                        dateObject.getSeconds(); %>
+                          <div class="list-group">
+                            
+                            <a class="list-group-item list-group-item-action">
+                              <div class="d-flex w-100 justify-content-between">
+                                <% for(var index2 = 0; index2 < user_account.length; index2++){ %>
+                                  <% if(mydonation[index]['shelter_id'] == user_account[index2]['id']){ %>
+                                    <h5 class="mb-1">Donation to <%= user_account[index2]['user_first_name'] %> <%= user_account[index2]['user_last_name'] %></h5>
+                                  <% } %>
+                                <% } %>
+                                <th
+                                  data-field="modified"
+                                  data-sortable="true"
+                                  data-sorter="monthSorter"
+                                >
+                                <% if(monthFromTS == 1){ %>
+                                  January
+                                <% }if(monthFromTS == 2){ %>
+                                  February
+                                <% }if(monthFromTS == 3){ %>
+                                  March
+                                <% }if(monthFromTS == 4){ %>
+                                  April
+                                <% }if(monthFromTS == 5){ %>
+                                  May
+                                <% }if(monthFromTS == 6){ %>
+                                  June
+                                <% }if(monthFromTS == 7){ %>
+                                  July
+                                <% }if(monthFromTS == 8){ %>
+                                  August
+                                <% }if(monthFromTS == 9){ %>
+                                  September
+                                <% }if(monthFromTS == 10){ %>
+                                  October
+                                <% }if(monthFromTS == 11){ %>
+                                  November
+                                <% }if(monthFromTS == 12){ %>
+                                  December
+                                <% } %>
+                                </th>
+                              
+                                <th
+                                  data-field="modified"
+                                  data-sortable="true"
+                                  data-sorter="dateSorter"
+                                >
+                                  <%= dateFromTS %>
+                                </th>
+                                ,
+                                <th
+                                  data-field="modified"
+                                  data-sortable="true"
+                                  data-sorter="yearSorter"
+                                >
+                                  <%= yearFromTS %>
+                                </th>
+
+                              </div>
+                              <small><%= mydonation[index]['status'] %></small>
+                              <form
+                    method="POST"
+                    action="/viewdonation"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= mydonation[index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 100px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+
+                              
+                            </a>
+                          </div>
+                          <% } %>
+                  <% } %>
+                
+                
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }else{ %>
+            <div class="container text-left">
+              <div class="row">
+                <div class="col" style="background-color: rgb(206, 203, 203);">
+                  <h5>Pending Donations</h5>
+                  <% if(shelter['Pending'] != undefined){ %>
+                    <% for(var index = 0; index < shelter['Pending'].length; index++){ %>
+                      <% var date
+                =shelter['Pending'][index]['timestamp'] %> <% var dateObject = new
+                Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+                var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+                = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+                <% var mins = dateObject.getMinutes(); %> <% var sec =
+                dateObject.getSeconds(); %>
+                      <div class="list-group">
+                        <a class="list-group-item list-group-item-action">
+                          <div class="d-flex w-100 justify-content-between">
+                            <% for(var index2 = 0; index2 < user_account.length; index2++){ %>
+                              <% if(shelter['Pending'][index]['session_id'] == user_account[index2]['id']){ %>
+                                <h5 class="mb-1">Donation from <%= user_account[index2]['user_first_name'] %> <%= user_account[index2]['user_last_name'] %></h5>
+                              <% } %>
+                            <% } %>
+                            <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                      
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="dateSorter"
+                      >
+                        <%= dateFromTS %>
+                      </th>
+                      ,
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="yearSorter"
+                      >
+                        <%= yearFromTS %>
+                      </th>
+                      </div>
+                      <form action="/receiveddonation" method="post">
+                        <input
+                        style="display: none"
+                        name="id"
+                        value="<%= shelter['Pending'][index]['id'] %>"
+                      />
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Received"
+                        name="btnaction"
+                      >
+                        Received Donation
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Delete"
+                        name="btnaction"
+                      >
+                        Cancel
+                      </button>
+                    
+                      
+                      </form>
+                      <form
+                    method="POST"
+                    action="/viewdonation"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= shelter['Pending'][index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 100px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                        </a>
+                      </div>
+                      <% } %>
+                  <% }else{ %>
+                    <h6>No pending donations found!</h6>
+                  <% } %>
+                </div>
+                <div class="col" style="background-color: rgba(127, 255, 212, 0.829);">
+                  <h5>Accepted Donations</h5>
+                  <% if(shelter['Received'] != undefined){ %>
+                    <% for(var index = 0; index < shelter['Received'].length; index++){ %>
+                      <% var date
+                =shelter['Received'][index]['timestamp'] %> <% var dateObject = new
+                Date(date); %> <% var yearFromTS = dateObject.getFullYear(); %> <%
+                var monthFromTS = dateObject.getMonth() + 1; %> <% var dateFromTS
+                = dateObject.getDate(); %> <% var hrs = dateObject.getHours(); %>
+                <% var mins = dateObject.getMinutes(); %> <% var sec =
+                dateObject.getSeconds(); %>
+                      <div class="list-group">
+                        <a class="list-group-item list-group-item-action">
+                          <div class="d-flex w-100 justify-content-between">
+                            <% for(var index2 = 0; index2 < user_account.length; index2++){ %>
+                              <% if(shelter['Received'][index]['session_id'] == user_account[index2]['id']){ %>
+                                <h5 class="mb-1">Donation from <%= user_account[index2]['user_first_name'] %> <%= user_account[index2]['user_last_name'] %></h5>
+                              <% } %>
+                            <% } %>
+                            <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="monthSorter"
+                      >
+                      <% if(monthFromTS == 1){ %>
+                        January
+                      <% }if(monthFromTS == 2){ %>
+                        February
+                      <% }if(monthFromTS == 3){ %>
+                        March
+                      <% }if(monthFromTS == 4){ %>
+                        April
+                      <% }if(monthFromTS == 5){ %>
+                        May
+                      <% }if(monthFromTS == 6){ %>
+                        June
+                      <% }if(monthFromTS == 7){ %>
+                        July
+                      <% }if(monthFromTS == 8){ %>
+                        August
+                      <% }if(monthFromTS == 9){ %>
+                        September
+                      <% }if(monthFromTS == 10){ %>
+                        October
+                      <% }if(monthFromTS == 11){ %>
+                        November
+                      <% }if(monthFromTS == 12){ %>
+                        December
+                      <% } %>
+                      </th>
+                      
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="dateSorter"
+                      >
+                        <%= dateFromTS %>
+                      </th>
+                      ,
+                      <th
+                        data-field="modified"
+                        data-sortable="true"
+                        data-sorter="yearSorter"
+                      >
+                        <%= yearFromTS %>
+                      </th>
+                      </div>
+                      
+                      <form
+                    method="POST"
+                    action="/viewdonation"
+                  >
+                    <input
+                      type="text"
+                      name="notifid"
+                      style="display: none"
+                      value="<%= shelter['Received'][index]['id'] %>"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-link"
+                      style="
+                        margin-top: 5px;
+                        width: 100px;
+                        height: 50px;
+                        margin-left: -1ch;
+                      "
+                      value="View Form"
+                    />
+                  </form>
+                        </a>
+                      </div>
+                      <% } %>
+                  <% }else{ %>
+
+                    <h6>No accepted donations found!</h6>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+
+            
+          <% } %> <% } %> 
+        </div>
       </div>
     </div>
 

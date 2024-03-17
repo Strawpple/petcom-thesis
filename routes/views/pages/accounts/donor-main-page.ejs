@@ -106,13 +106,8 @@
                       >
                     </li> -->
 
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -2931,6 +2926,7 @@
                     class="form-control"
                     style="width: 100px;"
                     placeholder="1"
+                    pattern="[0-9]+"
                     required
                   />
                   <label
@@ -2965,6 +2961,7 @@
                     class="form-control"
                     style="width: 100px;"
                     placeholder="Kg/s"
+                    pattern="[0-9]+"
                     required
                   />
                   <label
@@ -2981,6 +2978,7 @@
                   name="petcontact"
                   class="form-control"
                   style="width: 460px;"
+                  pattern="[0-9]+"
                   required
                 />
                 <label

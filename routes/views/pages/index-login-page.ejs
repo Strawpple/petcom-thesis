@@ -61,6 +61,11 @@
                                 <%= message %>
                               </div>
                           <% } %>
+                          <% if(registration.length > 0){ %>
+                            <div class="alert alert-success" role="alert">
+                                <%= registration %>
+                              </div>
+                          <% } %>
                           
                         <form action="/loginform" method="POST">
 
@@ -111,5 +116,6 @@
          <%- include("partials/footer.ejs") %>
 
   </body>
+  
 
 </html>

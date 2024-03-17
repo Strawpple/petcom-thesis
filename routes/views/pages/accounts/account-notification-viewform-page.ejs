@@ -115,13 +115,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -151,7 +146,7 @@
       <!--End of NavBar-->
 
       <a
-        href="account-notification-page"
+        href="account-main-page"
         class="btn btn-primary"
         style="margin-left: 20%; margin-bottom: -1in"
       >

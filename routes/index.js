@@ -227,10 +227,12 @@ app.get("/index-registration-page", async function (req, res) {
   res.render("pages/index-registration-page", data);
 });
 app.get("/index-login-page", async (req, res) => {
+  const registration = req.flash("accountcreated");
   const message = req.flash("loginerror");
   let data = {
     url: req.url,
     message,
+    registration,
   };
   res.render("pages/index-login-page", data);
 });
@@ -244,6 +246,122 @@ app.get("/account-main-page", async (req, res) => {
   console.log(req.flash("loginsuccess"));
   var cookiedata = req.cookies.sessions;
   var users = [];
+
+  // Pending Forms
+  const pendingadoption = await dataadoption
+    .where("label", "==", "Adoption")
+    .where("form_status", "==", "Pending")
+    .where("form_id", "==", cookiedata)
+    .orderBy("timestamp", "desc")
+    .get();
+  let adoptionform = [];
+  pendingadoption.forEach(async (doc) => {
+    var vals = doc.data();
+    vals.id = doc.id;
+    adoptionform.push(vals);
+  });
+  // Schedule for Interview Forms
+  const scheduledadoption = await dataadoption
+    .where("label", "==", "Adoption")
+    .where("form_status", "==", "Schedule for Interview")
+    .where("form_id", "==", cookiedata)
+    .orderBy("timestamp", "desc")
+    .get();
+  let scheduledform = [];
+  scheduledadoption.forEach(async (doc) => {
+    var vals = doc.data();
+    vals.id = doc.id;
+    scheduledform.push(vals);
+  });
+
+  // Approved Forms
+  const approvedadoption = await dataadoption
+    .where("label", "==", "Adoption")
+    .where("form_status", "==", "Already Adopted")
+    .where("form_id", "==", cookiedata)
+    .orderBy("timestamp", "desc")
+    .get();
+  let approvedform = [];
+  approvedadoption.forEach(async (doc) => {
+    var vals = doc.data();
+    vals.id = doc.id;
+    approvedform.push(vals);
+  });
+
+  // console.log(approvedform)
+  // pet account list
+  const listofpets = await petlist.get();
+  let petlists = [];
+  listofpets.forEach(async (doc) => {
+    const vals = doc.data();
+    vals.id = doc.id;
+    petlists.push(vals);
+  });
+  // blood
+  const blooddonation = await donors_data
+    .where("session_id", "==", cookiedata)
+    .orderBy("timestamp", "desc")
+    .get();
+
+  let pendingdonor = {};
+  blooddonation.forEach(async (doc) => {
+    const val = doc.data();
+    const status = doc.data()["label"];
+    if (!pendingdonor[status]) {
+      pendingdonor[status] = [];
+    }
+    pendingdonor[status].push(val);
+  });
+
+  const useraccs = await useraccountcoll.get();
+  let accounts = {};
+  useraccs.forEach(async (doc) => {
+    const val = doc.data();
+    const id = doc.id;
+    if (!accounts[id]) {
+      accounts[id] = [];
+    }
+    accounts[id].push(val);
+  });
+
+  
+  const donation = await dataadoption
+    .where("label", "==", "Donation")
+    .where("session_id", "==", cookiedata)
+    .get();
+
+  let mydonation = [];
+
+  donation.forEach(async (doc) => {
+    const val = doc.data();
+    val.id = doc.id;
+    mydonation.push(val);
+  })
+
+  // console.log(mydonation.length)
+
+  const shelterdonation = await dataadoption
+    .where("shelter_id", "==", cookiedata)
+    .get();
+  let shelter = {};
+  shelterdonation.forEach(async (doc) => {
+    const val = doc.data();
+    val.id = doc.id;
+    const status = doc.data()["status"];
+    if (!shelter[status]) {
+      shelter[status] = [];
+    }
+    shelter[status].push(val);
+  });
+
+  // console.log(shelter['Pending'])
+
+  // for(var index = 0; index < shelter['Pending'].length; index++){
+
+  //   console.log(shelter['Pending'][index]['session_id'])
+  // }
+
+  // account list
   const listofaccount = await useraccountcoll.get();
   listofaccount.forEach(async (doc) => {
     const user = doc.data();
@@ -255,6 +373,15 @@ app.get("/account-main-page", async (req, res) => {
     url: req.url,
     user_id: cookiedata,
     user_account: users,
+    petlists,
+    accounts,
+    adoptionform,
+    scheduledform,
+    approvedform,
+    pendingdonor,
+    shelter,
+
+    mydonation,
   };
   res.render("pages/accounts/account-main-page", data);
 });
@@ -347,9 +474,8 @@ app.get("/account-notification-viewform-page", async (req, res) => {
   const account_notification = await useraccountcoll.get();
 
   const adopt_notification = await dataadoption
-  .where("label", "==", "Adoption")
-  .get();
-
+    .where("label", "==", "Adoption")
+    .get();
 
   const interview_sched = await interviewsched.get();
   const pet_account = await petlist.get();
@@ -384,7 +510,7 @@ app.get("/account-notification-viewform-page", async (req, res) => {
     pets.push(listofpets);
   });
 
-  console.log(pets)
+  console.log(pets);
 
   let check = [];
 
@@ -415,8 +541,6 @@ app.get("/account-notification-viewform-page", async (req, res) => {
   // }else{
   //   console.log("exist")
   // }
-
- 
 
   let data = {
     url: req.url,
@@ -637,7 +761,6 @@ app.get("/adoption-petslist-page", async function (req, res) {
   datapetlist = await Promise.all(getPetdetalUrls);
   // console.log(datapetlist);
 
-
   let data = {
     url: req.url,
     pets_id: datapetlist,
@@ -651,6 +774,8 @@ app.get("/account-reports-page", async (req, res) => {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
   const date = today.toDateString();
+
+  // console.log(today);
 
   var datashelterrecords = [];
   var users = [];
@@ -681,27 +806,32 @@ app.get("/account-reports-page", async (req, res) => {
 
   const ascdonor = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .orderBy("donor_type", "asc")
     .get();
   const descdonor = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .orderBy("donor_type", "desc")
     .get();
 
   const idSort = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .get();
 
   const as = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .orderBy("timestamp", "asc")
     .get();
   const des = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .orderBy("timestamp", "desc")
     .get();
@@ -772,6 +902,7 @@ app.get("/account-reports-page", async (req, res) => {
   const dashboard_data = await dataadoption
     .where("shelter_id", "==", cookiedata)
     .where("label", "==", "Donation")
+    .where("status", "==", "Received")
     .orderBy("timestamp", "desc")
     .get();
 
@@ -783,6 +914,8 @@ app.get("/account-reports-page", async (req, res) => {
     sorting.id = doc.id;
     dashboarddata.push(sorting);
   });
+
+  
 
 
   let dogfoodtype = {};
@@ -797,11 +930,13 @@ app.get("/account-reports-page", async (req, res) => {
   // Dogfood Inventory
   const dftype = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .get();
 
   const otherstype = await dataadoption
     .where("shelter_id", "==", cookiedata)
+    .where("status", "==", "Received")
     .where("label", "==", "Donation")
     .where("donor_label", "==", "Other Donation")
     .get();
@@ -884,6 +1019,7 @@ app.get("/account-reports-page", async (req, res) => {
   const fetchcash = await dataadoption
     .where("shelter_id", "==", cookiedata)
     .where("label", "==", "Donation")
+    .where("status", "==", "Received")
     .where("donor_type", "==", "Cash Donation")
     .get();
 
@@ -892,6 +1028,8 @@ app.get("/account-reports-page", async (req, res) => {
     fetchval.id = doc.id;
     cash.push(fetchval);
   });
+
+  // console.log(sort.length)
 
   let data = {
     url: req.url,
@@ -941,13 +1079,16 @@ app.get("/listapet-main-page", async (req, res) => {
 // Observe
 
 app.get("/petslist-filter-page", async (req, res) => {
-  const storagebucket = storage.bucket("gs://petcom-f839a.appspot.com");
-  const listofpetfodadoption = await petlist.get();
   var cookiedata = req.cookies.sessions;
+  const storagebucket = storage.bucket("gs://petcom-f839a.appspot.com");
+  const listofpetfodadoption = await petlist
+    .where("session_id", "==", cookiedata)
+    .get();
 
   const provinces = philippines.provinces;
 
   let datapetlist = [];
+  const pending = {};
   var users = [];
   const listofaccount = await useraccountcoll.get();
 
@@ -962,9 +1103,31 @@ app.get("/petslist-filter-page", async (req, res) => {
     users.push(user);
   });
 
+  listofpetfodadoption.forEach(async (doc) => {
+    const petData = doc.data();
+    const label = doc.data()["pet_status"];
+    if (!pending[label]) {
+      pending[label] = [];
+    }
+
+    pending[label].push(petData);
+  });
+
+  //
+  const donor = {};
+  listofpetfodadoption.forEach(async (doc) => {
+    const petData = doc.data();
+    const label = doc.data()["pet_label"];
+    if (!donor[label]) {
+      donor[label] = [];
+    }
+
+    donor[label].push(petData);
+  });
+
+
   listofpetfodadoption.docs.forEach(async (doc) => {
     const petData = doc.data();
-
     petData.id = doc.id;
     datapetlist.push(petData);
   });
@@ -992,7 +1155,32 @@ app.get("/petslist-filter-page", async (req, res) => {
   });
 
   datapetlist = await Promise.all(getPetdetalUrls);
-  // console.log(datapetlist);
+
+  // let getdonorPetdetalUrls = donor.map((petdetail) => {
+  //   return new Promise((resolve, reject) => {
+  //     //define imong date diri
+  //     var date = new Date();
+  //     date.setDate(date.getDate() + 1);
+
+  //     const config = {
+  //       action: "read",
+  //       expires: date,
+  //     };
+  //     if (petdetail.pet_image) {
+  //       const bucketfile = storagebucket.file(petdetail.pet_image);
+  //       bucketfile
+  //         .getSignedUrl(config)
+  //         .then((data) => resolve({ ...petdetail, pet_image: data[0] }))
+  //         .catch((err) => resolve(petdetail));
+  //     } else {
+  //       resolve(petdetail);
+  //     }
+  //   });
+  // });
+  // console.log(donor['Donor'])
+  // donor = await Promise.all(getdonorPetdetalUrls);
+
+
 
   let data = {
     url: req.url,
@@ -1000,6 +1188,9 @@ app.get("/petslist-filter-page", async (req, res) => {
     user_id: cookiedata,
     user_account: users,
     listofprovinces: provinces,
+
+    pending,
+    donor,
   };
   res.render("pages/accounts/petslist-filter-page", data);
 });
@@ -1013,9 +1204,7 @@ app.get("/donor-main-page", async function (req, res) {
   // console.log(provinces.length)
 
   const storagebucket = storage.bucket("gs://petcom-f839a.appspot.com");
-  const listofpets = await petlist
-  .orderBy("timestamp", "desc")
-  .get();
+  const listofpets = await petlist.orderBy("timestamp", "desc").get();
 
   let datapetlist = [];
   var users = [];
@@ -1027,26 +1216,23 @@ app.get("/donor-main-page", async function (req, res) {
     users.push(user);
   });
 
-  
   const listofdonors = await donors_data
-  .where("session_id", "==", cookiedata)
-  .orderBy("timestamp", "desc")
-  .get();
+    .where("session_id", "==", cookiedata)
+    .orderBy("timestamp", "desc")
+    .get();
 
   let donors = [];
   listofdonors.forEach(async (doc) => {
     const val = doc.data();
     val.id = doc.id;
     donors.push(val);
-  })
+  });
 
   // console.log(donors)
 
-  const listofpatient = await patient
-    .orderBy("timestamp", "desc")
-    .get();
+  const listofpatient = await patient.orderBy("timestamp", "desc").get();
 
-    // 
+  //
   // const fetchPatient = [];
   // listofpatient.forEach(async (doc) => {
   //   const patient = doc.data();
@@ -1069,18 +1255,16 @@ app.get("/donor-main-page", async function (req, res) {
   //   console.log(fetchPatient[index])
   // }
 
-  // 
+  //
 
   // console.log(listofpatient)
   let fetchallpatient = [];
   let fetchpatient = {};
-  
-
 
   listofpatient.forEach(async (doc) => {
     const patient = doc.data();
-    const city = doc.data()['vetcity'];
-    if(!fetchpatient[city]){
+    const city = doc.data()["vetcity"];
+    if (!fetchpatient[city]) {
       fetchpatient[city] = [];
     }
 
@@ -1116,7 +1300,6 @@ app.get("/donor-main-page", async function (req, res) {
   });
   fetchallpatient = await Promise.all(getPetpatientUrls);
 
-
   listofpets.docs.forEach(async (doc) => {
     const petData = doc.data();
 
@@ -1150,10 +1333,10 @@ app.get("/donor-main-page", async function (req, res) {
   // pet_label = session_id
   let fetchpets = [];
   const listofmypets = await petlist
-  .where("session_id", "==", cookiedata)
-  .where("pet_label", "==", "Donor")
-  .orderBy("timestamp", "desc")
-  .get();
+    .where("session_id", "==", cookiedata)
+    .where("pet_label", "==", "Donor")
+    .orderBy("timestamp", "desc")
+    .get();
 
   listofmypets.forEach(async (doc) => {
     const data = doc.data();
@@ -1168,8 +1351,6 @@ app.get("/donor-main-page", async function (req, res) {
 
   // res.send(fetchPatient);
 
-  
-
   let data = {
     url: req.url,
     pet_id: datapetlist,
@@ -1182,24 +1363,20 @@ app.get("/donor-main-page", async function (req, res) {
     //pets = donors
     fetchpets,
 
-
-    // 
+    //
     // fetchPatient,
     donors,
   };
   res.render("pages/accounts/donor-main-page", data);
 });
-app.get("/donor-form-page", async (req,res) => {
+app.get("/donor-form-page", async (req, res) => {
   const storagebucket = storage.bucket("gs://petcom-f839a.appspot.com");
   var cookiedata = req.cookies.sessions;
   var patientid = req.cookies.patient_id;
 
-
   let donors = [];
 
-  const listofdonors = await donors_data
-  .orderBy("timestamp", "desc")
-  .get();
+  const listofdonors = await donors_data.orderBy("timestamp", "desc").get();
 
   listofdonors.forEach(async (doc) => {
     const val = doc.data();
@@ -1213,9 +1390,8 @@ app.get("/donor-form-page", async (req,res) => {
   //   console.log(donors[index]['patient_id'] );
   // }
 
-
   var users = [];
-  
+
   const listofaccount = await useraccountcoll.get();
   listofaccount.forEach(async (doc) => {
     const user = doc.data();
@@ -1227,10 +1403,9 @@ app.get("/donor-form-page", async (req,res) => {
   let fetchallpatient = [];
   let fetchpet = [];
 
-
   const listofpets = await patient
-  .where("user_session","==", cookiedata)
-  .get();
+    .where("user_session", "==", cookiedata)
+    .get();
 
   listofpets.forEach(async (doc) => {
     const val = doc.data();
@@ -1239,16 +1414,12 @@ app.get("/donor-form-page", async (req,res) => {
   });
   // console.log(fetchpet.length)
 
-  
-
   // const fetchpatient = await patient
   //   .where("id","==",patientid)
   //   .orderBy("timestamp", "desc")
   //   .get();
 
-  const listofpatient = await petlist
-    .orderBy("timestamp", "desc")
-    .get();
+  const listofpatient = await petlist.orderBy("timestamp", "desc").get();
 
   // let idpatient = [];
 
@@ -1260,12 +1431,12 @@ app.get("/donor-form-page", async (req,res) => {
 
   //   console.log(idpatient)
 
-    // const val = doc.data();
-    // const dtype = doc.data()["donor_dogbrand"];
-    // if (!dogfoodtype[dtype]) {
-    //   dogfoodtype[dtype] = [];
-    // }
-    // dogfoodtype[dtype].push(val);
+  // const val = doc.data();
+  // const dtype = doc.data()["donor_dogbrand"];
+  // if (!dogfoodtype[dtype]) {
+  //   dogfoodtype[dtype] = [];
+  // }
+  // dogfoodtype[dtype].push(val);
 
   listofpatient.forEach(async (doc) => {
     const patient = doc.data();
@@ -1302,10 +1473,10 @@ app.get("/donor-form-page", async (req,res) => {
   // fetch pets
   let fetchpets = [];
   const listofmypets = await petlist
-  .where("session_id", "==", cookiedata)
-  .where("pet_label", "==", "Donor")
-  .orderBy("timestamp", "desc")
-  .get();
+    .where("session_id", "==", cookiedata)
+    .where("pet_label", "==", "Donor")
+    .orderBy("timestamp", "desc")
+    .get();
 
   listofmypets.forEach(async (doc) => {
     const data = doc.data();
@@ -1323,10 +1494,10 @@ app.get("/donor-form-page", async (req,res) => {
   });
 
   let data = {
-    url : req.url,
+    url: req.url,
     user_account: users,
     user_id: cookiedata,
-    pet_id : petaccount,
+    pet_id: petaccount,
     fetchpets,
 
     fetchallpatient,
@@ -1335,9 +1506,7 @@ app.get("/donor-form-page", async (req,res) => {
     // donors
     donors,
     fetchpet,
-
-
-  }
+  };
   res.render("pages/accounts/donor-form-page", data);
 });
 app.get("/shelter-main-page", async function (req, res) {
@@ -1475,17 +1644,16 @@ app.get("/pets-viewprofile-page", async function (req, res) {
   const listofpets = await petlist.get();
 
   const donorlist = await donors_data
-  .where("donor_id","==", petsession)
-  .where("label","==","Approved")
-  .get();
+    .where("donor_id", "==", petsession)
+    .where("label", "==", "Approved")
+    .get();
 
   var donor_list = [];
   donorlist.forEach(async (doc) => {
     const val = doc.data();
     val.id = doc.id;
     donor_list.push(val);
-  })
-
+  });
 
   // let otherlabel = {};
 
@@ -1501,19 +1669,18 @@ app.get("/pets-viewprofile-page", async function (req, res) {
   let fetchdonor = {};
 
   const fetchDonor = await donors_data
-  .where("patient_id","==",petsession)
-  .get();
+    .where("patient_id", "==", petsession)
+    .get();
 
   fetchDonor.forEach((doc) => {
     const val = doc.data();
     const label = doc.data()["label"];
-    val.id = doc.id
-    if(!fetchdonor[label]){
+    val.id = doc.id;
+    if (!fetchdonor[label]) {
       fetchdonor[label] = [];
     }
     fetchdonor[label].push(val);
   });
-
 
   // console.log(fetchdonor)
 
@@ -1671,6 +1838,7 @@ app.post("/registrationform", async (req, res) => {
         console.error("Error", error);
       });
     // console.log(req.body);
+    req.flash("accountcreated", "Account successfully created");
     res.redirect("/index-login-page");
   } catch {
     res.redirect("/Registrationform");
@@ -1716,6 +1884,8 @@ app.post("/petlistingform", upload.single("pet_image"), async (req, res) => {
     var newfilename = v4();
 
     var status = "For Adoption";
+    
+    console.log(req.file)
 
     var ext = file.originalname.substr(file.originalname.lastIndexOf(".") + 1);
     // console.log(ext);
@@ -1828,7 +1998,7 @@ app.post("/adoptsuccess", async (req, res) => {
   var session = req.body.session_id;
   var dateandtime = Date.now();
 
-  console.log(button2);
+  // console.log(button2);
 
   if (button2 == "Approve") {
     // listofpets.forEach((doc) => {
@@ -1842,6 +2012,7 @@ app.post("/adoptsuccess", async (req, res) => {
       .update({
         new_session_id: session,
         pet_label: statusupdate,
+        pet_status: statusupdate,
       })
       .then(function () {
         console.log("updated");
@@ -1850,7 +2021,6 @@ app.post("/adoptsuccess", async (req, res) => {
       .doc(form_id)
       .update({
         form_status: statusupdate,
-        label: statusupdate,
       })
       .then(function () {
         console.log("updated");
@@ -1928,6 +2098,7 @@ app.post("/donationform", async (req, res) => {
   var label = "Donation";
   var otherdonations = "Other Donation";
   // console.log(req.body);
+  var status = "Pending";
 
   if (
     brandofdogfood != "None of the Above Dogfood" &&
@@ -1935,8 +2106,7 @@ app.post("/donationform", async (req, res) => {
     typeofvitamin != "None of the Above Vitamins" &&
     typeofdewormer != "None of the Above Dewormer"
   ) {
-     db
-      .collection("adoptapet_data_record")
+    db.collection("adoptapet_data_record")
       .add({
         donor_type: typeofdonation,
         shelter_id: shelterid,
@@ -1962,6 +2132,7 @@ app.post("/donationform", async (req, res) => {
         donor_desc: desc,
         timestamp: dateandtime,
         label: label,
+        status,
       })
       .then(() => {
         console.log("donation successful");
@@ -1970,7 +2141,7 @@ app.post("/donationform", async (req, res) => {
         console.error("Error", error);
       });
 
-      return res.redirect("shelter-main-page");
+    return res.redirect("shelter-main-page");
   }
 
   db.collection("adoptapet_data_record")
@@ -2000,6 +2171,7 @@ app.post("/donationform", async (req, res) => {
       donor_desc: desc,
       timestamp: dateandtime,
       label: label,
+      status,
     })
     .then(() => {
       console.log("donation successful");
@@ -2029,7 +2201,6 @@ app.post("/petprofile", async (req, res) => {
   res.redirect("adoption-petslist-petprofile-page");
 });
 app.post("/adoptionform", async (req, res) => {
-
   var form_id = req.body.form_id;
   // Occuptaion
   var form_occuptaion = req.body.form_occupation;
@@ -2304,27 +2475,27 @@ app.post("/addcategory", async (req, res) => {
 
   const result = cat.find(findCateg);
 
-  // console.log(result);
+  console.log(!result);
 
-  if (result) {
-    req.flash("existingcategory", "Category Already Exist!");
-    return res.redirect("/account-profile-page");
-  }
+  // if (result) {
+  //   req.flash("existingcategory", "Category Already Exist!");
+  //   return res.redirect("/account-profile-page");
+  // }
 
-  db.collection("account_categories")
-    .add({
-      session_id: cookiedata,
-      category: inputcateg,
-    })
-    .then(() => {
-      console.log("category added");
-    })
-    .catch((error) => {
-      console.error("Error", error);
-    });
+  // db.collection("account_categories")
+  //   .add({
+  //     session_id: cookiedata,
+  //     category: inputcateg,
+  //   })
+  //   .then(() => {
+  //     console.log("category added");
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error", error);
+  //   });
 
-  req.flash("addedcategory", "Category Successfully Added!");
-  res.redirect("/account-profile-page");
+  // req.flash("addedcategory", "Category Successfully Added!");
+  // res.redirect("/account-profile-page");
 });
 
 app.post("/removecategory", async (req, res) => {
@@ -2541,35 +2712,34 @@ app.post("/updateStatus", async (req, res) => {
     });
   res.redirect("/pets-viewprofile-page");
 });
-app.post("/donorstatus", async (req,res) => {
+app.post("/donorstatus", async (req, res) => {
   var petId = req.cookies.viewpetprofile;
   // console.log(req.body)
-  var donorid = req.body.donorid; 
+  var donorid = req.body.donorid;
   var status = req.body.status;
   // console.log(status)
 
   db.collection("pet_patient_donor")
-  .doc(donorid)
-  .update({
-    label: status,
-  })
-  .then(function () {
-    console.log("pet patient updated");
-  });
+    .doc(donorid)
+    .update({
+      label: status,
+    })
+    .then(function () {
+      console.log("pet patient updated");
+    });
 
-  // 
+  //
   var petstatus = "In need of Blood Donation";
   db.collection("pet_account")
-  .doc(petId)
-  .update({
-    pet_status: petstatus,
-  })
-  .then(function () {
-    console.log("pet account updated");
-  });
-res.redirect("/pets-viewprofile-page");
-
-})
+    .doc(petId)
+    .update({
+      pet_status: status,
+    })
+    .then(function () {
+      console.log("pet account updated");
+    });
+  res.redirect("/pets-viewprofile-page");
+});
 app.post("/updatepetContact", async (req, res) => {
   var petId = req.cookies.viewpetprofile;
 
@@ -2661,6 +2831,7 @@ app.post("/postpet", upload.single("pet_image"), async (req, res) => {
     var cookie = req.cookies.sessions;
     var file = req.file;
 
+
     var petname = req.body.petname;
     var petage = req.body.petage;
     var petcontact = req.body.petcontact;
@@ -2673,7 +2844,6 @@ app.post("/postpet", upload.single("pet_image"), async (req, res) => {
     var crossmatch = req.body.crossmatch;
     var history = req.body.history;
 
-    
     var dateandtime = Date.now();
     var newfilename = v4();
 
@@ -2702,7 +2872,6 @@ app.post("/postpet", upload.single("pet_image"), async (req, res) => {
       pet_image: req.file.originalname,
       history,
       petlabel,
-
     };
     // console.log(vetaddress)
     // db.collection("pet_patient")
@@ -2719,23 +2888,23 @@ app.post("/postpet", upload.single("pet_image"), async (req, res) => {
     //     console.error("Error", error);
     //   });
 
-      var pet_image = req.file.originalname;
+    var pet_image = req.file.originalname;
 
     //   //  pet_account
-      db.collection("pet_account")
+    db.collection("pet_account")
       .add({
         pet_name: petname,
-        pet_age : petage,
-        pet_contact : petcontact,
-        vet_name : vetname,
+        pet_age: petage,
+        pet_contact: petcontact,
+        vet_name: vetname,
         vetaddress,
-        vet_city : vetcity,
-        pet_diagnosis : petdiagnosis,
-        pet_crossmatch : crossmatch,
-        pet_image : pet_image,
-        pet_label : petlabel,
-        timestamp : dateandtime,
-        session_id : cookie,
+        vet_city: vetcity,
+        pet_diagnosis: petdiagnosis,
+        pet_crossmatch: crossmatch,
+        pet_image: pet_image,
+        pet_label: petlabel,
+        timestamp: dateandtime,
+        session_id: cookie,
         pet_status,
         status,
         petbreed,
@@ -2748,28 +2917,27 @@ app.post("/postpet", upload.single("pet_image"), async (req, res) => {
       .catch((error) => {
         console.error("Error", error);
       });
-      
+
     res.redirect("donor-main-page");
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Failed to post" });
   }
-
 });
 
-app.post("/donorpetid", async (req,res) => {
+app.post("/donorpetid", async (req, res) => {
   var id = req.body.id;
   res.set("Set-Cookie", `patient_id=${id}`);
   // console.log(req.body)
   res.redirect("donor-form-page");
 });
 
-app.post("/donorform", async (req,res) =>{
+app.post("/donorform", async (req, res) => {
   var donor_id = req.body.petname;
   var currentweight = req.body.currentweight;
   var contact = req.body.contact;
   var transportation = req.body.Transportation;
-  var dogfood = req.body.DogFood
+  var dogfood = req.body.DogFood;
   var vitamins = req.body.Vitamins;
   var dateandtime = Date.now();
   var date = req.body.date;
@@ -2786,32 +2954,30 @@ app.post("/donorform", async (req,res) =>{
   // console.log(id)
 
   db.collection("pet_patient_donor")
-      .add({
-        donor_id,
-        currentweight,
-        contact,
-        transportation,
-        dogfood,
-        vitamins,
-        patient_id : id,
-        timestamp : dateandtime,
-        label,
-        session_id : session,
-        available_time : con,
-
-      })
-      .then(() => {
-        console.log("post successful");
-      })
-      .catch((error) => {
-        console.error("Error", error);
-      });
-    
+    .add({
+      donor_id,
+      currentweight,
+      contact,
+      transportation,
+      dogfood,
+      vitamins,
+      patient_id: id,
+      timestamp: dateandtime,
+      label,
+      session_id: session,
+      available_time: con,
+    })
+    .then(() => {
+      console.log("post successful");
+    })
+    .catch((error) => {
+      console.error("Error", error);
+    });
 
   res.redirect("donor-form-page");
 });
 
-app.post("/approvedonor", async (req,res) =>{
+app.post("/approvedonor", async (req, res) => {
   var cookie = req.cookies.session;
   // console.log(cookie)
   var val = req.body.donorid;
@@ -2819,27 +2985,54 @@ app.post("/approvedonor", async (req,res) =>{
 
   var petlabel = "Scheduled for Donation";
   var updlabel = "Approved";
-  
-  db.collection("pet_patient_donor")
-  .doc(val)
-  .update({
-    label : petlabel,
-  })
-  .then(function () {
-    console.log("updated");
-  });
 
+  db.collection("pet_patient_donor")
+    .doc(val)
+    .update({
+      label: petlabel,
+    })
+    .then(function () {
+      console.log("updated");
+    });
 
   // petaccount
   db.collection("pet_account")
-  .doc(patientid )
-  .update({
-    pet_status : petlabel,
-  })
-  .then(function () {
-    console.log("updated");
-  });
+    .doc(patientid)
+    .update({
+      pet_status: petlabel,
+    })
+    .then(function () {
+      console.log("updated");
+    });
 
-res.redirect("/donor-main-page");
+  res.redirect("/donor-main-page");
+});
 
-})
+app.post("/receiveddonation", async (req, res) => {
+  // console.log(req.body)
+  var btn = req.body.btnaction;
+  var id = req.body.id;
+  // console.log(btn)
+  var status = "Received";
+  var deletestatus = "No update";
+  if ((btn = "Received")) {
+    db.collection("adoptapet_data_record")
+      .doc(id)
+      .update({
+        status,
+      })
+      .then(function () {
+        console.log("received donation");
+      });
+  } else {
+    db.collection("adoptapet_data_record")
+      .doc(id)
+      .update({
+        deletestatus,
+      })
+      .then(function () {
+        console.log("delete donation");
+      });
+  }
+  res.redirect("/account-main-page");
+});

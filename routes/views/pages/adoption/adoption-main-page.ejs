@@ -102,13 +102,8 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        href="account-notification-page"
-                        >Adoption Records</a
-                      >
-                    </li>
+                    
+                    <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){
                     %> <% if(user_account[index]['id'] == user_id){ %> <%
                     if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -173,10 +168,10 @@
               class="d-block w-100"
               alt="..."
             />
-            <div class="carousel-caption d-none d-md-block">
-              <h5>Name: <%= pets_id[index]['pet_name'] %></h5>
+            <!-- <div class="carousel-caption d-none d-md-block">
+              <h5 style="color: rgb(44, 15, 15); font: 2em bold;">Name: <%= pets_id[index]['pet_name'] %></h5>
               <p><%= pets_id[index]['pet_description'] %></p>
-            </div>
+            </div> -->
           </div>
           <% } %><% } %><% } %>
         </div>

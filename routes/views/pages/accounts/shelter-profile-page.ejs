@@ -111,7 +111,7 @@
                         >Messages</a
                       >
                     </li> -->
-                    <li><a class="dropdown-item" href="account-notification-page">Adoption Records</a></li>
+                          <!-- <li><a class="dropdown-item" href="account-notification-page">Notifications</a></li> -->
                     <% for(var index = 0; index < user_account.length; index++){ %>
                       <% if(user_account[index]['id'] == user_id){ %>
                         <% if(user_account[index]['user_type'] == "Shelter"){ %>
@@ -428,7 +428,7 @@
                             >How many Kilos
                           </label><br>
                           <input
-                            type="text"
+                          type="number"
                             id="kiloqty"
                             name="add_kiloqty"
                             style="width: 70px"
@@ -445,7 +445,7 @@
                             >How many Sacks
                           </label><br>
                           <input
-                            type="text"
+                            type="number"
                             id="sackqty"
                             name="add_sackqty"
                             style="width: 50px"
@@ -532,7 +532,7 @@
                             >How many Kilos
                           </label><br>
                           <input
-                            type="text"
+                          type="number"
                             id="add_kiloqty"
                             name="add_catkiloqty"
                             style="width: 70px"
@@ -549,7 +549,7 @@
                             >How many Sacks
                           </label><br>
                           <input
-                            type="text"
+                          type="number"
                             id="sackqty"
                             name="add_catsackqty"
                             style="width: 50px"
@@ -572,11 +572,13 @@
                         style="margin-top: 20px"
                         >Amount 
                       </label><br>
+                      PHP
                       <input
-                        type="text"
+                      type="number"
                         id="amount"
                         name="add_amount"
                         style="width: 80px"
+                        placeholder="100"
                       />
 
                       <!-- <button 
@@ -649,7 +651,8 @@
                           style="margin-top: 20px"
                           >Number of Pieces
                         </label><br>
-                        <input type="text" 
+                        <input 
+                        type="number"
                           id="vitaqty"
                           name="vitaqty"
                           style="width: 100px">
@@ -713,7 +716,8 @@
                           style="margin-top: 20px"
                           >Number of Pieces
                         </label><br>
-                        <input type="text" 
+                        <input 
+                        type="number"
                           id="dewormerqty"
                           name="dewormerqty"
                           style="width: 200px">
@@ -764,7 +768,8 @@
                           style="margin-top: 20px"
                           >Number of Pieces
                       </label><br>
-                      <input type="text" 
+                      <input 
+                      type="number"
                         id="vaccineqty"
                         name="vaccineqty"
                         style="width: 200px">
